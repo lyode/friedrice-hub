@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+<div class="form-group">
+                    <label class="form-label">Branch *</label>
+                    <input type="text" class="form-input" id="memberBranch" readonly style="background: #f9fafb; color: #6b7280;">
+                </div><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,6 +22,140 @@
             min-height: 100vh;
         }
         
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 320px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .login-subtitle {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .branch-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        .branch-btn {
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+        
+        .branch-btn:hover {
+            border-color: #f97316;
+            background: #fff7ed;
+        }
+        
+        .branch-btn.selected {
+            border-color: #f97316;
+            background: #fff7ed;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        
+        .branch-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        
+        .branch-location {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .branch-status {
+            font-size: 10px;
+            color: #059669;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        
+        .staff-input {
+            margin: 16px 0;
+        }
+        
+        .staff-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+        
+        .staff-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .staff-field:focus {
+            outline: none;
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #f97316;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        .login-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+        
+        .main-app {
+            display: none;
+        }
+        
+        .main-app.active {
+            display: block;
+        }
+        
         .header {
             background: linear-gradient(135deg, #f97316, #ea580c);
             color: white;
@@ -35,7 +172,26 @@
         .header p {
             font-size: 12px;
             opacity: 0.9;
+            margin-bottom: 4px;
+        }
+        
+        .branch-info {
+            font-size: 11px;
+            opacity: 0.8;
             margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
         }
         
         .stats-grid {
@@ -157,6 +313,14 @@
             cursor: not-allowed;
         }
         
+        .branch-display {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            margin-bottom: 8px;
+        }
+        
         .member-card {
             background: white;
             border-radius: 8px;
@@ -181,6 +345,15 @@
         .member-id {
             font-size: 12px;
             color: #6b7280;
+        }
+        
+        .member-branch {
+            font-size: 10px;
+            color: #059669;
+            background: #ecfdf5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 2px;
         }
         
         .status-badge {
@@ -317,30 +490,82 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <h1>🍚 Fried Rice Shop</h1>
-        <p>Membership Management</p>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="totalMembers">3</div>
-                <div class="stat-label">Total</div>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-card">
+            <div class="login-header">
+                <div style="font-size: 48px; margin-bottom: 16px;">🍚</div>
+                <h1 class="login-title">Fried Rice Shop</h1>
+                <p class="login-subtitle">Select your branch to continue</p>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="activeMembers">2</div>
-                <div class="stat-label">Active</div>
+            
+            <div class="branch-grid">
+                <div class="branch-btn" onclick="selectBranch('shah-alam')" data-branch="shah-alam">
+                    <div class="branch-name">🏢 Shah Alam Central</div>
+                    <div class="branch-location">No. 45, Jalan Tengku Ampuan Zabedah</div>
+                    <div class="branch-status">● Online</div>
+                </div>
+                
+                <div class="branch-btn" onclick="selectBranch('pj-ss2')" data-branch="pj-ss2">
+                    <div class="branch-name">🏬 PJ SS2 Branch</div>
+                    <div class="branch-location">Lot 2-15, SS2 Shopping Center</div>
+                    <div class="branch-status">● Online</div>
+                </div>
+                
+                <div class="branch-btn" onclick="selectBranch('subang')" data-branch="subang">
+                    <div class="branch-name">🏪 Subang Parade</div>
+                    <div class="branch-location">Level 2, Subang Parade Mall</div>
+                    <div class="branch-status">● Online</div>
+                </div>
+                
+                <div class="branch-btn" onclick="selectBranch('klcc')" data-branch="klcc">
+                    <div class="branch-name">🌟 KLCC Branch</div>
+                    <div class="branch-location">Suria KLCC, Level 4</div>
+                    <div class="branch-status">● Online</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalRevenue">RM980</div>
-                <div class="stat-label">Revenue</div>
+            
+            <div class="staff-input">
+                <label class="staff-label">Staff Name</label>
+                <input type="text" class="staff-field" id="staffName" placeholder="Enter your name">
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="expiringCount">1</div>
-                <div class="stat-label">Expiring</div>
-            </div>
+            
+            <button class="login-btn" onclick="login()" id="loginBtn" disabled>
+                Start Managing Members
+            </button>
         </div>
     </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="main-app">
+        <!-- Header -->
+        <div class="header">
+            <h1>🍚 Fried Rice Shop</h1>
+            <p>Membership Management</p>
+            <div class="branch-info">
+                <span id="currentBranch">Branch: Loading...</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalMembers">3</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="activeMembers">2</div>
+                    <div class="stat-label">Active</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalRevenue">RM980</div>
+                    <div class="stat-label">Revenue</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="expiringCount">1</div>
+                    <div class="stat-label">Expiring</div>
+                </div>
+            </div>
+        </div>
 
     <!-- Tabs -->
     <div class="tabs">
@@ -423,6 +648,7 @@
                     <div>
                         <div class="member-name">Sarah Chen</div>
                         <div class="member-id">M001</div>
+                        <div class="member-branch">Shah Alam Central</div>
                     </div>
                     <span class="status-badge status-active">Active</span>
                 </div>
@@ -448,6 +674,7 @@
                     <div>
                         <div class="member-name">Ahmad Rahman</div>
                         <div class="member-id">M002</div>
+                        <div class="member-branch">PJ SS2 Branch</div>
                     </div>
                     <span class="status-badge status-expiring">Expiring Soon</span>
                 </div>
@@ -473,6 +700,7 @@
                     <div>
                         <div class="member-name">Priya Sharma</div>
                         <div class="member-id">M003</div>
+                        <div class="member-branch">Subang Parade</div>
                     </div>
                     <span class="status-badge status-active">Active</span>
                 </div>
@@ -619,9 +847,86 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
 
     <script>
+        var selectedBranch = null;
+        var currentStaff = null;
+        var branchNames = {
+            'shah-alam': 'Shah Alam Central',
+            'pj-ss2': 'PJ SS2 Branch',
+            'subang': 'Subang Parade',
+            'klcc': 'KLCC Branch'
+        };
+
+        function selectBranch(branchId) {
+            // Remove previous selection
+            var branches = document.querySelectorAll('.branch-btn');
+            branches.forEach(function(btn) {
+                btn.classList.remove('selected');
+            });
+            
+            // Select new branch
+            var selectedBtn = document.querySelector('[data-branch="' + branchId + '"]');
+            selectedBtn.classList.add('selected');
+            selectedBranch = branchId;
+            
+            // Enable login button if staff name is also filled
+            checkLoginReady();
+        }
+
+        function checkLoginReady() {
+            var staffName = document.getElementById('staffName').value.trim();
+            var loginBtn = document.getElementById('loginBtn');
+            
+            if (selectedBranch && staffName) {
+                loginBtn.disabled = false;
+            } else {
+                loginBtn.disabled = true;
+            }
+        }
+
+        function login() {
+            var staffName = document.getElementById('staffName').value.trim();
+            if (selectedBranch && staffName) {
+                currentStaff = staffName;
+                
+                // Update branch info in header
+                document.getElementById('currentBranch').textContent = branchNames[selectedBranch] + ' - ' + staffName;
+                
+                // Update member branch field
+                document.getElementById('memberBranch').value = branchNames[selectedBranch];
+                
+                // Hide login screen and show main app
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').classList.add('active');
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Reset login form
+                selectedBranch = null;
+                currentStaff = null;
+                document.getElementById('staffName').value = '';
+                
+                var branches = document.querySelectorAll('.branch-btn');
+                branches.forEach(function(btn) {
+                    btn.classList.remove('selected');
+                });
+                
+                // Show login screen and hide main app
+                document.getElementById('loginScreen').style.display = 'flex';
+                document.getElementById('mainApp').classList.remove('active');
+                
+                checkLoginReady();
+            }
+        }
+
+        // Add event listener for staff name input
+        document.getElementById('staffName').addEventListener('input', checkLoginReady);
+
         function showTab(tabName) {
             // Hide all sections
             var sections = document.querySelectorAll('.section');
@@ -645,11 +950,12 @@
         function addMember() {
             var name = document.getElementById('memberName').value;
             var phone = document.getElementById('memberPhone').value;
+            var branch = document.getElementById('memberBranch').value;
             var durationSelect = document.getElementById('memberDuration');
             var duration = durationSelect.value;
             var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
             
-            if (name && phone) {
+            if (name && phone && branch) {
                 // Clear form
                 document.getElementById('memberName').value = '';
                 document.getElementById('memberPhone').value = '';
@@ -657,7 +963,7 @@
                 updatePriceDisplay();
                 
                 // Show success message
-                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\n\nThank you for joining our Fried Rice Club! 🍚');
+                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branch + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nStaff: ' + currentStaff + '\n\nThank you for joining our Fried Rice Club! 🍚');
                 
                 // Update stats (simple increment)
                 var totalElement = document.getElementById('totalMembers');
@@ -673,7 +979,7 @@
                 activeElement.textContent = active;
                 revenueElement.textContent = 'RM' + newRevenue;
             } else {
-                alert('❌ Please fill in Name and Phone fields');
+                alert('❌ Please fill in all required fields');
             }
         }
 
