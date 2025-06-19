@@ -380,24 +380,36 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Duration</label>
-                    <select class="form-input" id="memberDuration">
-                        <option value="1">1 Month</option>
-                        <option value="3">3 Months</option>
-                        <option value="6">6 Months</option>
-                        <option value="12" selected>12 Months</option>
+                    <label class="form-label">Membership Plan *</label>
+                    <select class="form-input" id="memberDuration" style="padding: 8px 12px; font-size: 13px;">
+                        <option value="1" data-price="30">1 Month - RM30</option>
+                        <option value="3" data-price="80">3 Months - RM80 (Save RM10)</option>
+                        <option value="6" data-price="150">6 Months - RM150 (Save RM30)</option>
+                        <option value="12" data-price="250" selected>12 Months - RM250 (Save RM110) ⭐ Popular</option>
+                        <option value="18" data-price="375">18 Months - RM375 (Save RM165)</option>
+                        <option value="24" data-price="480">24 Months - RM480 (Save RM240)</option>
                     </select>
+                    <div style="font-size: 11px; color: #6b7280; margin-top: 4px; display: flex; justify-content: space-between;">
+                        <span>💡 Longer plans = Better savings</span>
+                        <span id="priceDisplay" style="font-weight: bold; color: #f97316;">RM250</span>
+                    </div>
                 </div>
 
-                <button class="btn btn-primary" onclick="addMember()">Add Member</button>
+                <button class="btn btn-primary" onclick="addMember()" id="addMemberBtn">Add Member - RM250</button>
             </div>
 
             <div class="info-box">
-                <div class="info-title">🎁 Member Benefits</div>
+                <div class="info-title">💰 Membership Pricing</div>
                 <div class="info-list">
+                    <strong>Best Value Plans:</strong><br>
+                    • 12 months: RM250 (Save RM110)<br>
+                    • 18 months: RM375 (Save RM165)<br>
+                    • 24 months: RM480 (Save RM240)<br><br>
+                    <strong>Member Benefits:</strong><br>
                     • 10% discount on all dishes<br>
-                    • Earn points with every visit<br>
-                    • Birthday special offers
+                    • Earn 1 point per RM1 spent<br>
+                    • Birthday special + free meal<br>
+                    • Priority seating during peak hours
                 </div>
             </div>
         </div>
@@ -633,29 +645,49 @@
         function addMember() {
             var name = document.getElementById('memberName').value;
             var phone = document.getElementById('memberPhone').value;
-            var duration = document.getElementById('memberDuration').value;
+            var durationSelect = document.getElementById('memberDuration');
+            var duration = durationSelect.value;
+            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
             
             if (name && phone) {
                 // Clear form
                 document.getElementById('memberName').value = '';
                 document.getElementById('memberPhone').value = '';
                 document.getElementById('memberDuration').value = '12';
+                updatePriceDisplay();
                 
                 // Show success message
-                alert('Member added successfully!\nName: ' + name + '\nPhone: ' + phone + '\nDuration: ' + duration + ' months');
+                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\n\nThank you for joining our Fried Rice Club! 🍚');
                 
                 // Update stats (simple increment)
                 var totalElement = document.getElementById('totalMembers');
                 var activeElement = document.getElementById('activeMembers');
+                var revenueElement = document.getElementById('totalRevenue');
+                
                 var total = parseInt(totalElement.textContent) + 1;
                 var active = parseInt(activeElement.textContent) + 1;
+                var currentRevenue = parseInt(revenueElement.textContent.replace('RM', ''));
+                var newRevenue = currentRevenue + parseInt(price);
                 
                 totalElement.textContent = total;
                 activeElement.textContent = active;
+                revenueElement.textContent = 'RM' + newRevenue;
             } else {
-                alert('Please fill in Name and Phone fields');
+                alert('❌ Please fill in Name and Phone fields');
             }
         }
+
+        function updatePriceDisplay() {
+            var durationSelect = document.getElementById('memberDuration');
+            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
+            document.getElementById('priceDisplay').textContent = 'RM' + price;
+            document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
+        }
+
+        // Update price when duration changes
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
+        });
     </script>
 </body>
 </html>
