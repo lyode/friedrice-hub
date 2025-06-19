@@ -362,6 +362,32 @@
             margin-left: 8px;
         }
         
+        .due-date {
+            font-size: 11px;
+            margin-top: 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .due-date.expires-soon {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fbbf24;
+        }
+        
+        .due-date.expires-later {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .due-date.expired {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+        }
+        
         .info-box {
             background: #fdf2f8;
             border: 1px solid #f9a8d4;
@@ -400,8 +426,8 @@
                 <div class="stat-label">Active</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="totalBranches">2</div>
-                <div class="stat-label">Branches</div>
+                <div class="stat-number" id="expiringCount">1</div>
+                <div class="stat-label">Expiring</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="totalRevenue">RM980</div>
@@ -610,7 +636,7 @@
                 </div>
             </div>
             
-            <div class="member-card" id="member-1" data-branch="main">
+            <div class="member-card" id="member-1" data-branch="main" data-due-date="2025-12-19">
                 <div class="member-header">
                     <div>
                         <div class="member-name">Sarah Chen</div>
@@ -622,6 +648,9 @@
                     </div>
                 </div>
                 <div class="member-phone">📞 +60123456789</div>
+                <div class="due-date expires-later">
+                    📅 Expires: Dec 19, 2025 (6 months left)
+                </div>
                 <div class="stats-row">
                     <div class="stat">
                         <div class="stat-value">⭐ 450</div>
@@ -641,6 +670,7 @@
                     <input type="text" class="edit-input" id="edit-name-1" value="Sarah Chen" placeholder="Name">
                     <input type="tel" class="edit-input" id="edit-phone-1" value="+60123456789" placeholder="Phone">
                     <input type="number" class="edit-input" id="edit-points-1" value="450" placeholder="Points">
+                    <input type="date" class="edit-input" id="edit-due-date-1" value="2025-12-19">
                     <select class="edit-input" id="edit-branch-1">
                         <option value="main" selected>🏪 Main Branch</option>
                         <option value="kl">🏢 KL Branch</option>
@@ -652,7 +682,7 @@
                 </div>
             </div>
 
-            <div class="member-card" id="member-2" data-branch="main">
+            <div class="member-card" id="member-2" data-branch="main" data-due-date="2025-07-04">
                 <div class="member-header">
                     <div>
                         <div class="member-name">Ahmad Rahman</div>
@@ -664,6 +694,9 @@
                     </div>
                 </div>
                 <div class="member-phone">📞 +60198765432</div>
+                <div class="due-date expires-soon">
+                    ⚠️ Expires: Jul 4, 2025 (15 days left)
+                </div>
                 <div class="stats-row">
                     <div class="stat">
                         <div class="stat-value">⭐ 280</div>
@@ -683,6 +716,7 @@
                     <input type="text" class="edit-input" id="edit-name-2" value="Ahmad Rahman" placeholder="Name">
                     <input type="tel" class="edit-input" id="edit-phone-2" value="+60198765432" placeholder="Phone">
                     <input type="number" class="edit-input" id="edit-points-2" value="280" placeholder="Points">
+                    <input type="date" class="edit-input" id="edit-due-date-2" value="2025-07-04">
                     <select class="edit-input" id="edit-branch-2">
                         <option value="main" selected>🏪 Main Branch</option>
                         <option value="kl">🏢 KL Branch</option>
@@ -694,7 +728,7 @@
                 </div>
             </div>
 
-            <div class="member-card" id="member-3" data-branch="kl">
+            <div class="member-card" id="member-3" data-branch="kl" data-due-date="2026-01-15">
                 <div class="member-header">
                     <div>
                         <div class="member-name">Priya Sharma</div>
@@ -706,6 +740,9 @@
                     </div>
                 </div>
                 <div class="member-phone">📞 +60167890123</div>
+                <div class="due-date expires-later">
+                    📅 Expires: Jan 15, 2026 (7 months left)
+                </div>
                 <div class="stats-row">
                     <div class="stat">
                         <div class="stat-value">⭐ 150</div>
@@ -725,6 +762,7 @@
                     <input type="text" class="edit-input" id="edit-name-3" value="Priya Sharma" placeholder="Name">
                     <input type="tel" class="edit-input" id="edit-phone-3" value="+60167890123" placeholder="Phone">
                     <input type="number" class="edit-input" id="edit-points-3" value="150" placeholder="Points">
+                    <input type="date" class="edit-input" id="edit-due-date-3" value="2026-01-15">
                     <select class="edit-input" id="edit-branch-3">
                         <option value="main">🏪 Main Branch</option>
                         <option value="kl" selected>🏢 KL Branch</option>
@@ -892,10 +930,21 @@
             var branch = branchSelect.value;
             var branchName = branchSelect.options[branchSelect.selectedIndex].text;
             var durationSelect = document.getElementById('memberDuration');
-            var duration = durationSelect.value;
+            var duration = parseInt(durationSelect.value);
             var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
             
             if (name && phone) {
+                // Calculate due date based on selected duration
+                var today = new Date();
+                var dueDate = new Date(today);
+                dueDate.setMonth(dueDate.getMonth() + duration);
+                var dueDateString = dueDate.toISOString().split('T')[0];
+                var dueDateDisplay = dueDate.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                
                 // Clear form
                 document.getElementById('memberName').value = '';
                 document.getElementById('memberPhone').value = '';
@@ -904,7 +953,7 @@
                 updatePriceDisplay();
                 
                 // Show success message
-                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\n\nWelcome to our Fried Rice Club! 🍚');
+                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nExpires: ' + dueDateDisplay + '\n\nWelcome to our Fried Rice Club! 🍚');
                 
                 // Update stats (simple increment)
                 var totalElement = document.getElementById('totalMembers');
@@ -1001,9 +1050,10 @@
             var newName = document.getElementById('edit-name-' + memberNumber).value;
             var newPhone = document.getElementById('edit-phone-' + memberNumber).value;
             var newPoints = document.getElementById('edit-points-' + memberNumber).value;
+            var newDueDate = document.getElementById('edit-due-date-' + memberNumber).value;
             var newBranch = document.getElementById('edit-branch-' + memberNumber).value;
             
-            if (newName && newPhone && newPoints) {
+            if (newName && newPhone && newPoints && newDueDate) {
                 // Update the display
                 var memberCard = document.getElementById(memberId);
                 memberCard.querySelector('.member-name').textContent = newName;
@@ -1014,12 +1064,43 @@
                 var branchIcon = newBranch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
                 memberCard.querySelector('.member-id').textContent = memberCard.querySelector('.member-id').textContent.split(' • ')[0] + ' • ' + branchIcon;
                 memberCard.setAttribute('data-branch', newBranch);
+                memberCard.setAttribute('data-due-date', newDueDate);
+                
+                // Update due date display
+                var dueDate = new Date(newDueDate);
+                var today = new Date();
+                var timeDiff = dueDate.getTime() - today.getTime();
+                var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                var dueDateDisplay = dueDate.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                
+                var dueDateElement = memberCard.querySelector('.due-date');
+                var timeLeftText = '';
+                var className = '';
+                
+                if (daysDiff < 0) {
+                    timeLeftText = '❌ Expired ' + Math.abs(daysDiff) + ' days ago';
+                    className = 'expired';
+                } else if (daysDiff <= 30) {
+                    timeLeftText = '⚠️ Expires: ' + dueDateDisplay + ' (' + daysDiff + ' days left)';
+                    className = 'expires-soon';
+                } else {
+                    var monthsLeft = Math.floor(daysDiff / 30);
+                    timeLeftText = '📅 Expires: ' + dueDateDisplay + ' (' + monthsLeft + ' months left)';
+                    className = 'expires-later';
+                }
+                
+                dueDateElement.textContent = timeLeftText;
+                dueDateElement.className = 'due-date ' + className;
                 
                 // Hide edit form
                 document.getElementById('edit-' + memberId).classList.remove('active');
                 
                 // Show success message
-                alert('✅ Member updated successfully!\n\nName: ' + newName + '\nPhone: ' + newPhone + '\nPoints: ' + newPoints + '\nBranch: ' + branchIcon);
+                alert('✅ Member updated successfully!\n\nName: ' + newName + '\nPhone: ' + newPhone + '\nPoints: ' + newPoints + '\nBranch: ' + branchIcon + '\nExpires: ' + dueDateDisplay);
             } else {
                 alert('❌ Please fill in all fields');
             }
@@ -1033,11 +1114,13 @@
             var originalPhone = memberCard.querySelector('.member-phone').textContent.replace('📞 ', '');
             var originalPoints = memberCard.querySelector('.stat-value').textContent.replace('⭐ ', '');
             var originalBranch = memberCard.getAttribute('data-branch');
+            var originalDueDate = memberCard.getAttribute('data-due-date');
             
             document.getElementById('edit-name-' + memberNumber).value = originalName;
             document.getElementById('edit-phone-' + memberNumber).value = originalPhone;
             document.getElementById('edit-points-' + memberNumber).value = originalPoints;
             document.getElementById('edit-branch-' + memberNumber).value = originalBranch;
+            document.getElementById('edit-due-date-' + memberNumber).value = originalDueDate;
             
             // Hide edit form
             document.getElementById('edit-' + memberId).classList.remove('active');
