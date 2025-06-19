@@ -1000,50 +1000,41 @@
         }
 
         function addMember() {
-            var name = document.getElementById('memberName').value;
-            var phone = document.getElementById('memberPhone').value;
-            var branchSelect = document.getElementById('memberBranch');
-            var branch = branchSelect.value;
-            var branchName = branchSelect.options[branchSelect.selectedIndex].text;
-            var durationSelect = document.getElementById('memberDuration');
-            var duration = parseInt(durationSelect.value);
-            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
-            
-            if (name && phone) {
-                // Calculate due date based on selected duration
-                var today = new Date();
-                var dueDate = new Date(today);
-                dueDate.setMonth(dueDate.getMonth() + duration);
-                var dueDateDisplay = dueDate.toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
-                });
-                
-                // Clear form
-                document.getElementById('memberName').value = '';
-                document.getElementById('memberPhone').value = '';
-                document.getElementById('memberBranch').value = 'main';
-                document.getElementById('memberDuration').value = '12';
-                updatePriceDisplay();
-                
-                // Show success message
-                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nExpires: ' + dueDateDisplay + '\n\nWelcome to our Fried Rice Club! 🍚');
-                
-                // Update stats (simple increment)
-                var totalElement = document.getElementById('totalMembers');
-                var activeElement = document.getElementById('activeMembers');
-                var revenueElement = document.getElementById('totalRevenue');
-                
-                var total = parseInt(totalElement.textContent) + 1;
-                var active = parseInt(activeElement.textContent) + 1;
-                var currentRevenue = parseInt(revenueElement.textContent.replace('RM', ''));
-                var newRevenue = currentRevenue + parseInt(price);
-                
-                totalElement.textContent = total;
-                activeElement.textContent = active;
-                revenueElement.textContent = 'RM' + newRevenue;
-            } else {
+    // ... keep existing code until stats update ...
+    
+    // Create member object
+    var newMember = {
+        id: 'member-' + Date.now(),
+        name: name,
+        phone: phone,
+        branch: branch,
+        branchName: branchName,
+        duration: duration,
+        price: price,
+        dueDate: dueDateString,
+        points: 0,
+        visits: 0,
+        spent: parseInt(price),
+        dateAdded: new Date().toISOString()
+    };
+    
+    // Save to localStorage
+    var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
+    members.push(newMember);
+    localStorage.setItem('friedRiceMembers', JSON.stringify(members));
+    
+    // Update stats
+    var totalElement = document.getElementById('totalMembers');
+    var activeElement = document.getElementById('activeMembers');
+    var revenueElement = document.getElementById('totalRevenue');
+    
+    totalElement.textContent = members.length;
+    activeElement.textContent = members.filter(m => new Date(m.dueDate) > new Date()).length;
+    revenueElement.textContent = 'RM' + members.reduce((sum, m) => sum + m.spent, 0);
+    
+    // Add member card to display
+    addMemberToDisplay(newMember);
+}           } else {
                 alert('❌ Please fill in Name and Phone fields');
             }
         }
