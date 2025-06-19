@@ -3,22 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#ec4899">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Fried Rice Shop">
-    <meta name="description" content="Membership Management System for Fried Rice Shop">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZyaWVkIFJpY2UgU2hvcCAtIE1lbWJlcnNoaXAiLAogICJzaG9ydF9uYW1lIjogIkZyaWVkUmljZSIsCiAgImRlc2NyaXB0aW9uIjogIk1lbWJlcnNoaXAgTWFuYWdlbWVudCBTeXN0ZW0iLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZkZjJmOCIsCiAgInRoZW1lX2NvbG9yIjogIiNlYzQ4OTkiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yldsb2N6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXhOREFpSUdobGFXZG9kRDBpTVRRd0lpQjJhV1YzUW05NFBTSXdJREFnTVRRMElERTBOQ0lnWm1sc2JEMGlJbVZqTkRnNU9Ta2lQaUE4ZEdWNGRDQjRQU0kzTWlJZ2VUMGlOekFpSUdadmJuUXRjMmw2WlQwaU16UWlJR1pwYkd3OUluZG9hWFJsSWo3d242SmhQQzkwWlhoMFBnNDhMM04yWno0PSIsCiAgICAgICJzaXplcyI6ICIxNDR4MTQ0IiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICB9LAogICJsYW5nIjogImVuIgp9">
-    
-    <!-- Apple Touch Icons -->
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiB2aWV3Qm94PSIwIDAgMTQ0IDE0NCIgZmlsbD0iI2VjNDg5OSI+IDx0ZXh0IHg9IjcyIiB5PSI3MCIgZm9udC1zaXplPSIzNCIgZmlsbD0id2hpdGUiPvCfjaE8L3RleHQ+PC9zdmc+">
-    
     <title>Fried Rice Shop - Mobile</title>
-    <!-- Rest of your existing styles stay the same -->        }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -1014,7 +1005,6 @@
                 var today = new Date();
                 var dueDate = new Date(today);
                 dueDate.setMonth(dueDate.getMonth() + duration);
-                var dueDateString = dueDate.toISOString().split('T')[0];
                 var dueDateDisplay = dueDate.toLocaleDateString('en-US', { 
                     year: 'numeric', 
                     month: 'short', 
@@ -1068,11 +1058,6 @@
                 newOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
                 memberBranchSelect.appendChild(newOption);
                 
-                // Update branch count
-                var branchCountElement = document.getElementById('totalBranches');
-                var currentCount = parseInt(branchCountElement.textContent);
-                branchCountElement.textContent = currentCount + 1;
-                
                 // Show success message
                 alert('✅ Branch added successfully!\n\nBranch: ' + branchName + '\nLocation: ' + branchLocation + '\nManager: ' + branchManager + '\n\nReady to accept new members! 🏪');
             } else {
@@ -1101,54 +1086,9 @@
         }
 
         // Update price when duration changes
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
-    
-    // Register Service Worker for PWA (Simple version)
-    if ('serviceWorker' in navigator) {
-        // Create a simple service worker inline
-        const swCode = `
-            self.addEventListener('install', function(event) {
-                event.waitUntil(self.skipWaiting());
-            });
-            
-            self.addEventListener('fetch', function(event) {
-                event.respondWith(fetch(event.request));
-            });
-        `;
-        
-        const blob = new Blob([swCode], { type: 'application/javascript' });
-        const swUrl = URL.createObjectURL(blob);
-        
-        navigator.serviceWorker.register(swUrl)
-        .then(function(registration) {
-            console.log('PWA: Service Worker registered');
-        })
-        .catch(function(error) {
-            console.log('PWA: Service Worker registration failed');
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
         });
-    }
-    
-    // Show install prompt for PWA
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', function(e) {
-        e.preventDefault();
-        deferredPrompt = e;
-        
-        // Show install button after 3 seconds
-        setTimeout(function() {
-            if (confirm('📱 Install Fried Rice Shop as a mobile app?\n\nThis will add it to your home screen for quick access like a native app!')) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(function(choiceResult) {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('PWA: App installed');
-                    }
-                    deferredPrompt = null;
-                });
-            }
-        }, 3000);
-    });
-});
 
         function toggleEdit(memberId) {
             var editForm = document.getElementById('edit-' + memberId);
@@ -1298,9 +1238,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 branchCard.querySelector('.member-id').textContent = newLocation;
                 branchCard.querySelector('.member-phone').textContent = '👤 Manager: ' + newManager;
                 
-                // Update branch dropdown options in member forms
-                updateBranchDropdowns();
-                
                 // Hide edit form
                 document.getElementById('edit-' + branchId).classList.remove('active');
                 
@@ -1354,11 +1291,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Show success message
                 alert('✅ Branch "' + branchName + '" has been deleted successfully.\n\nBranch data has been removed from the system.');
             }
-        }
-
-        function updateBranchDropdowns() {
-            // This function would update all branch dropdowns when branch names change
-            // For now, it's a placeholder for future enhancement
         }
     </script>
 </body>
