@@ -294,6 +294,74 @@
             margin-top: 8px;
         }
         
+        .edit-form {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: #fdf2f8;
+            border-radius: 6px;
+            border: 1px solid #f9a8d4;
+        }
+        
+        .edit-form.active {
+            display: block;
+        }
+        
+        .edit-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .edit-input:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.1);
+        }
+        
+        .edit-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .btn-save {
+            background: #10b981;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .btn-cancel {
+            background: #6b7280;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .edit-toggle {
+            background: #ec4899;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+        
         .info-box {
             background: #fdf2f8;
             border: 1px solid #f9a8d4;
@@ -418,13 +486,16 @@
         <div id="list" class="section">
             <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">All Members (3)</h2>
             
-            <div class="member-card">
+            <div class="member-card" id="member-1">
                 <div class="member-header">
                     <div>
                         <div class="member-name">Sarah Chen</div>
                         <div class="member-id">M001</div>
                     </div>
-                    <span class="status-badge status-active">Active</span>
+                    <div style="display: flex; align-items: center;">
+                        <span class="status-badge status-active">Active</span>
+                        <button class="edit-toggle" onclick="toggleEdit('member-1')">✏️ Edit</button>
+                    </div>
                 </div>
                 <div class="member-phone">📞 +60123456789</div>
                 <div class="stats-row">
@@ -441,15 +512,28 @@
                         <div class="stat-label-small">Spent</div>
                     </div>
                 </div>
+                
+                <div class="edit-form" id="edit-member-1">
+                    <input type="text" class="edit-input" id="edit-name-1" value="Sarah Chen" placeholder="Name">
+                    <input type="tel" class="edit-input" id="edit-phone-1" value="+60123456789" placeholder="Phone">
+                    <input type="number" class="edit-input" id="edit-points-1" value="450" placeholder="Points">
+                    <div class="edit-buttons">
+                        <button class="btn-save" onclick="saveMember('member-1')">💾 Save</button>
+                        <button class="btn-cancel" onclick="cancelEdit('member-1')">❌ Cancel</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="member-card">
+            <div class="member-card" id="member-2">
                 <div class="member-header">
                     <div>
                         <div class="member-name">Ahmad Rahman</div>
                         <div class="member-id">M002</div>
                     </div>
-                    <span class="status-badge status-expiring">Expiring Soon</span>
+                    <div style="display: flex; align-items: center;">
+                        <span class="status-badge status-expiring">Expiring Soon</span>
+                        <button class="edit-toggle" onclick="toggleEdit('member-2')">✏️ Edit</button>
+                    </div>
                 </div>
                 <div class="member-phone">📞 +60198765432</div>
                 <div class="stats-row">
@@ -466,15 +550,28 @@
                         <div class="stat-label-small">Spent</div>
                     </div>
                 </div>
+                
+                <div class="edit-form" id="edit-member-2">
+                    <input type="text" class="edit-input" id="edit-name-2" value="Ahmad Rahman" placeholder="Name">
+                    <input type="tel" class="edit-input" id="edit-phone-2" value="+60198765432" placeholder="Phone">
+                    <input type="number" class="edit-input" id="edit-points-2" value="280" placeholder="Points">
+                    <div class="edit-buttons">
+                        <button class="btn-save" onclick="saveMember('member-2')">💾 Save</button>
+                        <button class="btn-cancel" onclick="cancelEdit('member-2')">❌ Cancel</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="member-card">
+            <div class="member-card" id="member-3">
                 <div class="member-header">
                     <div>
                         <div class="member-name">Priya Sharma</div>
                         <div class="member-id">M003</div>
                     </div>
-                    <span class="status-badge status-active">Active</span>
+                    <div style="display: flex; align-items: center;">
+                        <span class="status-badge status-active">Active</span>
+                        <button class="edit-toggle" onclick="toggleEdit('member-3')">✏️ Edit</button>
+                    </div>
                 </div>
                 <div class="member-phone">📞 +60167890123</div>
                 <div class="stats-row">
@@ -489,6 +586,16 @@
                     <div class="stat">
                         <div class="stat-value">RM180</div>
                         <div class="stat-label-small">Spent</div>
+                    </div>
+                </div>
+                
+                <div class="edit-form" id="edit-member-3">
+                    <input type="text" class="edit-input" id="edit-name-3" value="Priya Sharma" placeholder="Name">
+                    <input type="tel" class="edit-input" id="edit-phone-3" value="+60167890123" placeholder="Phone">
+                    <input type="number" class="edit-input" id="edit-points-3" value="150" placeholder="Points">
+                    <div class="edit-buttons">
+                        <button class="btn-save" onclick="saveMember('member-3')">💾 Save</button>
+                        <button class="btn-cancel" onclick="cancelEdit('member-3')">❌ Cancel</button>
                     </div>
                 </div>
             </div>
@@ -688,6 +795,61 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
         });
+
+        function toggleEdit(memberId) {
+            var editForm = document.getElementById('edit-' + memberId);
+            var isActive = editForm.classList.contains('active');
+            
+            // Close all other edit forms first
+            var allEditForms = document.querySelectorAll('.edit-form');
+            allEditForms.forEach(function(form) {
+                form.classList.remove('active');
+            });
+            
+            // Toggle current form
+            if (!isActive) {
+                editForm.classList.add('active');
+            }
+        }
+
+        function saveMember(memberId) {
+            var memberNumber = memberId.split('-')[1];
+            var newName = document.getElementById('edit-name-' + memberNumber).value;
+            var newPhone = document.getElementById('edit-phone-' + memberNumber).value;
+            var newPoints = document.getElementById('edit-points-' + memberNumber).value;
+            
+            if (newName && newPhone && newPoints) {
+                // Update the display
+                var memberCard = document.getElementById(memberId);
+                memberCard.querySelector('.member-name').textContent = newName;
+                memberCard.querySelector('.member-phone').textContent = '📞 ' + newPhone;
+                memberCard.querySelector('.stat-value').textContent = '⭐ ' + newPoints;
+                
+                // Hide edit form
+                document.getElementById('edit-' + memberId).classList.remove('active');
+                
+                // Show success message
+                alert('✅ Member updated successfully!\n\nName: ' + newName + '\nPhone: ' + newPhone + '\nPoints: ' + newPoints);
+            } else {
+                alert('❌ Please fill in all fields');
+            }
+        }
+
+        function cancelEdit(memberId) {
+            // Reset form values to original
+            var memberNumber = memberId.split('-')[1];
+            var memberCard = document.getElementById(memberId);
+            var originalName = memberCard.querySelector('.member-name').textContent;
+            var originalPhone = memberCard.querySelector('.member-phone').textContent.replace('📞 ', '');
+            var originalPoints = memberCard.querySelector('.stat-value').textContent.replace('⭐ ', '');
+            
+            document.getElementById('edit-name-' + memberNumber).value = originalName;
+            document.getElementById('edit-phone-' + memberNumber).value = originalPhone;
+            document.getElementById('edit-points-' + memberNumber).value = originalPoints;
+            
+            // Hide edit form
+            document.getElementById('edit-' + memberId).classList.remove('active');
+        }
     </script>
 </body>
 </html>
