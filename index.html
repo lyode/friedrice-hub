@@ -19,131 +19,6 @@
             min-height: 100vh;
         }
         
-        .login-container {
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .login-card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 16px;
-        }
-        
-        .login-header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        
-        .login-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-        
-        .login-subtitle {
-            font-size: 14px;
-            color: #6b7280;
-        }
-        
-        .login-tabs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .login-tab {
-            padding: 12px;
-            border: 1px solid #e5e7eb;
-            background: #f9fafb;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 14px;
-            color: #6b7280;
-            transition: all 0.2s;
-        }
-        
-        .login-tab.active {
-            background: #ec4899;
-            color: white;
-            border-color: #ec4899;
-        }
-        
-        .login-form {
-            display: none;
-        }
-        
-        .login-form.active {
-            display: block;
-        }
-        
-        .access-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 500;
-            margin-top: 8px;
-        }
-        
-        .access-master {
-            background: #f3e8ff;
-            color: #7c3aed;
-        }
-        
-        .access-staff {
-            background: #dbeafe;
-            color: #2563eb;
-        }
-        
-        .user-info {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            font-size: 12px;
-        }
-        
-        .user-name {
-            font-weight: 500;
-            color: #166534;
-        }
-        
-        .user-role {
-            color: #15803d;
-        }
-        
-        .logout-btn {
-            background: #6b7280;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-            float: right;
-        }
-        
-        .restricted-message {
-            background: #fef3c7;
-            border: 1px solid #fbbf24;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 16px;
-            text-align: center;
-            font-size: 14px;
-            color: #92400e;
-        }
-        
         .header {
             background: linear-gradient(135deg, #ec4899, #db2777);
             color: white;
@@ -570,95 +445,6 @@
     </style>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-container">
-        <div class="login-card">
-            <div class="login-header">
-                <div class="login-title">🍚 Fried Rice Shop</div>
-                <div class="login-subtitle">Membership Management System</div>
-            </div>
-            
-            <div class="login-tabs">
-                <div class="login-tab active" onclick="showLoginTab('master')">
-                    👑 Master Login
-                    <div class="access-badge access-master">Full Access</div>
-                </div>
-                <div class="login-tab" onclick="showLoginTab('staff')">
-                    👤 Staff Login
-                    <div class="access-badge access-staff">Branch Access</div>
-                </div>
-            </div>
-            
-            <!-- Master Login Form -->
-            <div id="masterLogin" class="login-form active">
-                <div class="form-group">
-                    <label class="form-label">Master Username</label>
-                    <input type="text" class="form-input" id="masterUsername" placeholder="Create your username">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Master Password</label>
-                    <input type="password" class="form-input" id="masterPassword" placeholder="Create your password">
-                </div>
-                <button class="btn btn-primary" onclick="masterLogin()">👑 Access Master Panel</button>
-                
-                <div style="margin-top: 16px; padding: 12px; background: #f3e8ff; border-radius: 6px; font-size: 12px; color: #7c3aed;">
-                    <strong>Master Access includes:</strong><br>
-                    • Full system control<br>
-                    • All branches management<br>
-                    • Add/edit/delete branches<br>
-                    • View all members & analytics<br>
-                    • Staff account management
-                </div>
-            </div>
-            
-            <!-- Staff Login Form -->
-            <div id="staffLogin" class="login-form">
-                <div class="form-group">
-                    <label class="form-label">Staff Name</label>
-                    <input type="text" class="form-input" id="staffName" placeholder="Your name">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Select Your Branch</label>
-                    <select class="form-input" id="staffBranch">
-                        <option value="main">🏪 Main Branch (Shah Alam)</option>
-                        <option value="kl">🏢 KL Branch (Kuala Lumpur)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Staff Password</label>
-                    <input type="password" class="form-input" id="staffPassword" placeholder="Branch password">
-                </div>
-                <button class="btn btn-primary" onclick="staffLogin()">👤 Access Branch Panel</button>
-                
-                <div style="margin-top: 16px; padding: 12px; background: #dbeafe; border-radius: 6px; font-size: 12px; color: #2563eb;">
-                    <strong>Staff Access includes:</strong><br>
-                    • Add new members to your branch<br>
-                    • View your branch members<br>
-                    • Edit member information<br>
-                    • View branch analytics<br>
-                    • Membership renewals
-                </div>
-            </div>
-        </div>
-        
-        <div class="login-card">
-            <div style="text-align: center; font-size: 12px; color: #6b7280;">
-                <strong>Demo Credentials:</strong><br>
-                Master: Any username/password<br>
-                Staff: Any name + password "staff123"
-            </div>
-        </div>
-    </div>
-
-    <!-- Main App (Hidden until login) -->
-    <div id="mainApp" style="display: none;">
-        <!-- User Info Bar -->
-        <div class="user-info">
-            <span class="user-name" id="currentUser">Master Admin</span> • 
-            <span class="user-role" id="currentRole">Full Access</span>
-            <button class="logout-btn" onclick="logout()">Logout</button>
-        </div>
-
     <!-- Header -->
     <div class="header">
         <h1>🍚 Fried Rice Shop</h1>
@@ -685,12 +471,12 @@
     </div>
 
     <!-- Tabs -->
-    <div class="tabs" id="mainTabs">
+    <div class="tabs">
         <button class="tab active" onclick="showTab('add')">
             <div class="tab-icon">➕</div>
             <div>Add</div>
         </button>
-        <button class="tab" id="branchesTab" onclick="showTab('branches')">
+        <button class="tab" onclick="showTab('branches')">
             <div class="tab-icon">🏪</div>
             <div>Branches</div>
         </button>
@@ -773,135 +559,128 @@
 
         <!-- Branches Section -->
         <div id="branches" class="section">
-            <div id="branchesContent">
-                <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Branch Management</h2>
+            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Branch Management</h2>
+            
+            <!-- Add New Branch -->
+            <div class="card">
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Add New Branch</h3>
                 
-                <!-- Add New Branch -->
-                <div class="card">
-                    <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Add New Branch</h3>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Branch Name *</label>
-                        <input type="text" class="form-input" id="branchName" placeholder="e.g., KL Central, Subang Jaya">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Location *</label>
-                        <input type="text" class="form-input" id="branchLocation" placeholder="e.g., Kuala Lumpur, Selangor">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Manager Name</label>
-                        <input type="text" class="form-input" id="branchManager" placeholder="Branch manager name (optional)">
-                    </div>
-
-                    <button class="btn btn-primary" onclick="addBranch()">🏪 Add Branch</button>
+                <div class="form-group">
+                    <label class="form-label">Branch Name *</label>
+                    <input type="text" class="form-input" id="branchName" placeholder="e.g., KL Central, Subang Jaya">
                 </div>
 
-                <!-- Branch List -->
-                <div class="card">
-                    <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Active Branches (2)</h3>
-                    
-                    <div class="member-card" id="branch-main" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
-                        <div class="member-header">
-                            <div>
-                                <div class="member-name">🏪 Main Branch</div>
-                                <div class="member-id">Shah Alam, Selangor</div>
-                            </div>
-                            <span class="status-badge status-active">Active</span>
+                <div class="form-group">
+                    <label class="form-label">Location *</label>
+                    <input type="text" class="form-input" id="branchLocation" placeholder="e.g., Kuala Lumpur, Selangor">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Manager Name</label>
+                    <input type="text" class="form-input" id="branchManager" placeholder="Branch manager name (optional)">
+                </div>
+
+                <button class="btn btn-primary" onclick="addBranch()">🏪 Add Branch</button>
+            </div>
+
+            <!-- Branch List -->
+            <div class="card">
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Active Branches (2)</h3>
+                
+                <div class="member-card" id="branch-main" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">🏪 Main Branch</div>
+                            <div class="member-id">Shah Alam, Selangor</div>
                         </div>
-                        <div class="member-phone">👤 Manager: Sarah Lee</div>
-                        <div class="stats-row">
-                            <div class="stat">
-                                <div class="stat-value">2</div>
-                                <div class="stat-label-small">Members</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">RM800</div>
-                                <div class="stat-label-small">Revenue</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">85%</div>
-                                <div class="stat-label-small">Active Rate</div>
-                            </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    <div class="member-phone">👤 Manager: Sarah Lee</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">2</div>
+                            <div class="stat-label-small">Members</div>
                         </div>
-                        
-                        <div class="branch-actions">
-                            <button class="btn-small btn-blue" onclick="editBranch('branch-main')">✏️ Edit</button>
-                            <button class="btn-small btn-delete" onclick="deleteBranch('branch-main', 'Main Branch')">🗑️ Delete</button>
+                        <div class="stat">
+                            <div class="stat-value">RM800</div>
+                            <div class="stat-label-small">Revenue</div>
                         </div>
-                        
-                        <div class="branch-edit-form" id="edit-branch-main">
-                            <input type="text" class="edit-input" id="edit-branch-name-main" value="Main Branch" placeholder="Branch Name">
-                            <input type="text" class="edit-input" id="edit-branch-location-main" value="Shah Alam, Selangor" placeholder="Location">
-                            <input type="text" class="edit-input" id="edit-branch-manager-main" value="Sarah Lee" placeholder="Manager">
-                            <div class="edit-buttons">
-                                <button class="btn-save" onclick="saveBranch('branch-main')">💾 Save</button>
-                                <button class="btn-cancel" onclick="cancelBranchEdit('branch-main')">❌ Cancel</button>
-                            </div>
+                        <div class="stat">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label-small">Active Rate</div>
                         </div>
                     </div>
-
-                    <div class="member-card" id="branch-kl" style="background: #fffbeb; border: 1px solid #fed7aa;">
-                        <div class="member-header">
-                            <div>
-                                <div class="member-name">🏢 KL Branch</div>
-                                <div class="member-id">Kuala Lumpur</div>
-                            </div>
-                            <span class="status-badge" style="background: #fef3c7; color: #92400e;">Coming Soon</span>
-                        </div>
-                        <div class="member-phone">👤 Manager: Ahmad Rahman</div>
-                        <div class="stats-row">
-                            <div class="stat">
-                                <div class="stat-value">1</div>
-                                <div class="stat-label-small">Members</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">RM180</div>
-                                <div class="stat-label-small">Revenue</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">100%</div>
-                                <div class="stat-label-small">Active Rate</div>
-                            </div>
-                        </div>
-                        
-                        <div class="branch-actions">
-                            <button class="btn-small btn-blue" onclick="editBranch('branch-kl')">✏️ Edit</button>
-                            <button class="btn-small btn-delete" onclick="deleteBranch('branch-kl', 'KL Branch')">🗑️ Delete</button>
-                        </div>
-                        
-                        <div class="branch-edit-form" id="edit-branch-kl">
-                            <input type="text" class="edit-input" id="edit-branch-name-kl" value="KL Branch" placeholder="Branch Name">
-                            <input type="text" class="edit-input" id="edit-branch-location-kl" value="Kuala Lumpur" placeholder="Location">
-                            <input type="text" class="edit-input" id="edit-branch-manager-kl" value="Ahmad Rahman" placeholder="Manager">
-                            <div class="edit-buttons">
-                                <button class="btn-save" onclick="saveBranch('branch-kl')">💾 Save</button>
-                                <button class="btn-cancel" onclick="cancelBranchEdit('branch-kl')">❌ Cancel</button>
-                            </div>
+                    
+                    <div class="branch-actions">
+                        <button class="btn-small btn-blue" onclick="editBranch('branch-main')">✏️ Edit</button>
+                        <button class="btn-small btn-delete" onclick="deleteBranch('branch-main', 'Main Branch')">🗑️ Delete</button>
+                    </div>
+                    
+                    <div class="branch-edit-form" id="edit-branch-main">
+                        <input type="text" class="edit-input" id="edit-branch-name-main" value="Main Branch" placeholder="Branch Name">
+                        <input type="text" class="edit-input" id="edit-branch-location-main" value="Shah Alam, Selangor" placeholder="Location">
+                        <input type="text" class="edit-input" id="edit-branch-manager-main" value="Sarah Lee" placeholder="Manager">
+                        <div class="edit-buttons">
+                            <button class="btn-save" onclick="saveBranch('branch-main')">💾 Save</button>
+                            <button class="btn-cancel" onclick="cancelBranchEdit('branch-main')">❌ Cancel</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="info-box">
-                    <div class="info-title">🏪 Branch Expansion Tips</div>
-                    <div class="info-list">
-                        <strong>Before Opening:</strong><br>
-                        • Secure location and permits<br>
-                        • Train staff on membership system<br>
-                        • Set up POS integration<br><br>
-                        <strong>Launch Strategy:</strong><br>
-                        • Offer opening promotions<br>
-                        • Transfer nearby existing members<br>
-                        • Local marketing campaigns<br>
-                        • Staff training on customer service
+                <div class="member-card" id="branch-kl" style="background: #fffbeb; border: 1px solid #fed7aa;">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">🏢 KL Branch</div>
+                            <div class="member-id">Kuala Lumpur</div>
+                        </div>
+                        <span class="status-badge" style="background: #fef3c7; color: #92400e;">Coming Soon</span>
+                    </div>
+                    <div class="member-phone">👤 Manager: Ahmad Rahman</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">1</div>
+                            <div class="stat-label-small">Members</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM180</div>
+                            <div class="stat-label-small">Revenue</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label-small">Active Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="branch-actions">
+                        <button class="btn-small btn-blue" onclick="editBranch('branch-kl')">✏️ Edit</button>
+                        <button class="btn-small btn-delete" onclick="deleteBranch('branch-kl', 'KL Branch')">🗑️ Delete</button>
+                    </div>
+                    
+                    <div class="branch-edit-form" id="edit-branch-kl">
+                        <input type="text" class="edit-input" id="edit-branch-name-kl" value="KL Branch" placeholder="Branch Name">
+                        <input type="text" class="edit-input" id="edit-branch-location-kl" value="Kuala Lumpur" placeholder="Location">
+                        <input type="text" class="edit-input" id="edit-branch-manager-kl" value="Ahmad Rahman" placeholder="Manager">
+                        <div class="edit-buttons">
+                            <button class="btn-save" onclick="saveBranch('branch-kl')">💾 Save</button>
+                            <button class="btn-cancel" onclick="cancelBranchEdit('branch-kl')">❌ Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <div id="branchesRestricted" class="restricted-message" style="display: none;">
-                🔒 Branch Management is only available for Master Admin users.<br>
-                Staff users can only add members to their assigned branch.
+
+            <div class="info-box">
+                <div class="info-title">🏪 Branch Expansion Tips</div>
+                <div class="info-list">
+                    <strong>Before Opening:</strong><br>
+                    • Secure location and permits<br>
+                    • Train staff on membership system<br>
+                    • Set up POS integration<br><br>
+                    <strong>Launch Strategy:</strong><br>
+                    • Offer opening promotions<br>
+                    • Transfer nearby existing members<br>
+                    • Local marketing campaigns<br>
+                    • Staff training on customer service
+                </div>
             </div>
         </div>
 
@@ -1189,7 +968,8 @@
             </div>
         </div>
     </div>
-</body>
+
+    <script>
         function showTab(tabName) {
             // Hide all sections
             var sections = document.querySelectorAll('.section');
@@ -1220,12 +1000,6 @@
             var duration = parseInt(durationSelect.value);
             var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
             
-            // Check if staff user is trying to add to different branch
-            if (userRole === 'staff' && branch !== userBranch) {
-                alert('❌ Staff users can only add members to their assigned branch.');
-                return;
-            }
-            
             if (name && phone) {
                 // Calculate due date based on selected duration
                 var today = new Date();
@@ -1241,20 +1015,12 @@
                 // Clear form
                 document.getElementById('memberName').value = '';
                 document.getElementById('memberPhone').value = '';
-                if (userRole === 'master') {
-                    document.getElementById('memberBranch').value = 'main';
-                } // Staff users keep their branch selected
+                document.getElementById('memberBranch').value = 'main';
                 document.getElementById('memberDuration').value = '12';
                 updatePriceDisplay();
                 
                 // Show success message
-                var successMessage = '✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nExpires: ' + dueDateDisplay;
-                
-                if (userRole === 'staff') {
-                    successMessage += '\n\nAdded by: ' + currentUser + ' (Staff)';
-                }
-                
-                alert(successMessage + '\n\nWelcome to our Fried Rice Club! 🍚');
+                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nExpires: ' + dueDateDisplay + '\n\nWelcome to our Fried Rice Club! 🍚');
                 
                 // Update stats (simple increment)
                 var totalElement = document.getElementById('totalMembers');
@@ -1275,12 +1041,6 @@
         }
 
         function addBranch() {
-            // Only master can add branches
-            if (userRole !== 'master') {
-                alert('❌ Only Master Admin can add new branches.');
-                return;
-            }
-            
             var branchName = document.getElementById('branchName').value;
             var branchLocation = document.getElementById('branchLocation').value;
             var branchManager = document.getElementById('branchManager').value || 'TBD';
@@ -1298,6 +1058,11 @@
                 newOption.value = branchId;
                 newOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
                 memberBranchSelect.appendChild(newOption);
+                
+                // Update branch count
+                var branchCountElement = document.getElementById('totalBranches');
+                var currentCount = parseInt(branchCountElement.textContent);
+                branchCountElement.textContent = currentCount + 1;
                 
                 // Show success message
                 alert('✅ Branch added successfully!\n\nBranch: ' + branchName + '\nLocation: ' + branchLocation + '\nManager: ' + branchManager + '\n\nReady to accept new members! 🏪');
@@ -1509,12 +1274,6 @@
         }
 
         function deleteBranch(branchId, branchName) {
-            // Only master can delete branches
-            if (userRole !== 'master') {
-                alert('❌ Only Master Admin can delete branches.');
-                return;
-            }
-            
             // Check if branch has members
             var branchCode = branchId.split('-')[1];
             var membersInBranch = document.querySelectorAll('.member-card[data-branch="' + branchCode + '"]');
