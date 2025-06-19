@@ -1104,9 +1104,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
     
-    // Register Service Worker for PWA
+    // Register Service Worker for PWA (Simple version)
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgZnVuY3Rpb24oZXZlbnQpIHsKICBldmVudC53YWl0VW50aWwoc2VsZi5za2lwV2FpdGluZygpKTsKfSk7CgpzZWxmLmFkZEV2ZW50TGlzdGVuZXIoJ2ZldGNoJywgZnVuY3Rpb24oZXZlbnQpIHsKICBldmVudC5yZXNwb25kV2l0aChmZXRjaChldmVudC5yZXF1ZXN0KSk7Cn0pOw==')
+        // Create a simple service worker inline
+        const swCode = `
+            self.addEventListener('install', function(event) {
+                event.waitUntil(self.skipWaiting());
+            });
+            
+            self.addEventListener('fetch', function(event) {
+                event.respondWith(fetch(event.request));
+            });
+        `;
+        
+        const blob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+        
+        navigator.serviceWorker.register(swUrl)
         .then(function(registration) {
             console.log('PWA: Service Worker registered');
         })
@@ -1117,15 +1131,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Show install prompt for PWA
     let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
+    window.addEventListener('beforeinstallprompt', function(e) {
         e.preventDefault();
         deferredPrompt = e;
         
         // Show install button after 3 seconds
-        setTimeout(() => {
+        setTimeout(function() {
             if (confirm('📱 Install Fried Rice Shop as a mobile app?\n\nThis will add it to your home screen for quick access like a native app!')) {
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
+                deferredPrompt.userChoice.then(function(choiceResult) {
                     if (choiceResult.outcome === 'accepted') {
                         console.log('PWA: App installed');
                     }
