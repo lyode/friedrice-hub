@@ -1094,11 +1094,35 @@
             document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
         }
 
-        // Update price when duration changes
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
+   // Update price when duration changes
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
+    
+    // Register service worker for PWA (Simple & Safe)
+    if ('serviceWorker' in navigator) {
+        var swCode = 'self.addEventListener("install", function(e) { e.waitUntil(self.skipWaiting()); }); self.addEventListener("fetch", function(e) { e.respondWith(fetch(e.request)); });';
+        var blob = new Blob([swCode], {type: 'application/javascript'});
+        var swUrl = URL.createObjectURL(blob);
+        
+        navigator.serviceWorker.register(swUrl).then(function() {
+            console.log('PWA: Service Worker registered successfully');
+        }).catch(function() {
+            console.log('PWA: Service Worker registration failed');
         });
-
+    }
+    
+    // Show install prompt after 5 seconds
+    setTimeout(function() {
+        if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+            console.log('PWA: Already installed');
+        } else {
+            var shouldInstall = confirm('📱 Install Fried Rice Shop as an app?\n\nAdd to your home screen for quick access like a native app!');
+            if (shouldInstall) {
+                alert('👆 Look for the install button in your browser or use:\n\niPhone: Share → Add to Home Screen\nAndroid: Menu → Install App\nDesktop: Install icon in address bar');
+            }
+        }
+    }, 5000);
+});
         function toggleEdit(memberId) {
             var editForm = document.getElementById('edit-' + memberId);
             var isActive = editForm.classList.contains('active');
