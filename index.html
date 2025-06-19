@@ -1,6 +1,16 @@
 <div class="form-group">
                     <label class="form-label">Branch *</label>
-                    <input type="text" class="form-input" id="memberBranch" readonly style="background: #f9fafb; color: #6b7280;">
+                    <select class="form-input" id="memberBranch" style="background: white;">
+                        <option value="">Select Branch</option>
+                        <option value="Shah Alam Central">🏢 Shah Alam Central</option>
+                        <option value="PJ SS2 Branch">🏬 PJ SS2 Branch</option>
+                        <option value="Subang Parade">🏪 Subang Parade</option>
+                        <option value="KLCC Branch">🌟 KLCC Branch</option>
+                        <option value="Sunway Pyramid">🛍️ Sunway Pyramid</option>
+                        <option value="One Utama">🏬 One Utama</option>
+                        <option value="Mid Valley">🏢 Mid Valley</option>
+                        <option value="Pavilion KL">🌟 Pavilion KL</option>
+                    </select>
                 </div><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -663,10 +673,20 @@
             </div>
 
             <div class="info-box">
-                <div class="info-title">💰 Membership Pricing</div>
+                <div class="info-title">🏢 Available Branches</div>
                 <div class="info-list">
-                    <strong>Best Value Plans:</strong><br>
-                    • 12 months: RM250 (Save RM110)<br>
+                    <strong>Main Branches:</strong><br>
+                    • Shah Alam Central - Jalan Tengku Ampuan Zabedah<br>
+                    • PJ SS2 Branch - SS2 Shopping Center<br>
+                    • Subang Parade - Level 2, Mall<br>
+                    • KLCC Branch - Suria KLCC, Level 4<br><br>
+                    <strong>New Branches:</strong><br>
+                    • Sunway Pyramid - LG2 Floor<br>
+                    • One Utama - New Wing, Level 3<br>
+                    • Mid Valley - Level 3, Megamall<br>
+                    • Pavilion KL - Level 6, Elite Floor<br><br>
+                    <strong>💰 Membership Pricing:</strong><br>
+                    • 12 months: RM250 (Save RM110) ⭐ Popular<br>
                     • 18 months: RM375 (Save RM165)<br>
                     • 24 months: RM480 (Save RM240)<br><br>
                     <strong>Member Benefits:</strong><br>
@@ -1005,7 +1025,7 @@
                     userRole = 'master';
                     currentStaff = staffName + ' (Director)';
                     document.getElementById('currentBranch').textContent = 'All Branches - ' + currentStaff;
-                    document.getElementById('memberBranch').value = 'All Branches';
+                    // Don't pre-select branch for master - they choose when adding members
                 } else {
                     alert('❌ Invalid username or password');
                     return;
@@ -1014,6 +1034,7 @@
                 userRole = 'branch';
                 currentStaff = staffName;
                 document.getElementById('currentBranch').textContent = branchNames[selectedBranch] + ' - ' + staffName;
+                // Pre-select the branch for branch staff
                 document.getElementById('memberBranch').value = branchNames[selectedBranch];
             } else {
                 alert('❌ Please complete all login fields');
@@ -1080,6 +1101,9 @@
                 // Hide sections
                 document.getElementById('branchSection').style.display = 'none';
                 document.getElementById('masterSection').style.display = 'none';
+                
+                // Reset branch selector
+                document.getElementById('memberBranch').value = '';
                 
                 // Show login screen and hide main app
                 document.getElementById('loginScreen').style.display = 'flex';
