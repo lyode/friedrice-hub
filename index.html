@@ -324,7 +324,7 @@
         
         .edit-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 8px;
         }
         
@@ -348,6 +348,40 @@
             font-size: 11px;
             cursor: pointer;
             font-weight: 500;
+        }
+        
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+        
+        .branch-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .branch-edit-form {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: #fdf2f8;
+            border-radius: 6px;
+            border: 1px solid #f9a8d4;
+        }
+        
+        .branch-edit-form.active {
+            display: block;
         }
         
         .edit-toggle {
@@ -553,7 +587,7 @@
             <div class="card">
                 <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Active Branches (2)</h3>
                 
-                <div class="member-card" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
+                <div class="member-card" id="branch-main" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
                     <div class="member-header">
                         <div>
                             <div class="member-name">🏪 Main Branch</div>
@@ -576,9 +610,24 @@
                             <div class="stat-label-small">Active Rate</div>
                         </div>
                     </div>
+                    
+                    <div class="branch-actions">
+                        <button class="btn-small btn-blue" onclick="editBranch('branch-main')">✏️ Edit</button>
+                        <button class="btn-small btn-delete" onclick="deleteBranch('branch-main', 'Main Branch')">🗑️ Delete</button>
+                    </div>
+                    
+                    <div class="branch-edit-form" id="edit-branch-main">
+                        <input type="text" class="edit-input" id="edit-branch-name-main" value="Main Branch" placeholder="Branch Name">
+                        <input type="text" class="edit-input" id="edit-branch-location-main" value="Shah Alam, Selangor" placeholder="Location">
+                        <input type="text" class="edit-input" id="edit-branch-manager-main" value="Sarah Lee" placeholder="Manager">
+                        <div class="edit-buttons">
+                            <button class="btn-save" onclick="saveBranch('branch-main')">💾 Save</button>
+                            <button class="btn-cancel" onclick="cancelBranchEdit('branch-main')">❌ Cancel</button>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="member-card" style="background: #fffbeb; border: 1px solid #fed7aa;">
+                <div class="member-card" id="branch-kl" style="background: #fffbeb; border: 1px solid #fed7aa;">
                     <div class="member-header">
                         <div>
                             <div class="member-name">🏢 KL Branch</div>
@@ -599,6 +648,21 @@
                         <div class="stat">
                             <div class="stat-value">100%</div>
                             <div class="stat-label-small">Active Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="branch-actions">
+                        <button class="btn-small btn-blue" onclick="editBranch('branch-kl')">✏️ Edit</button>
+                        <button class="btn-small btn-delete" onclick="deleteBranch('branch-kl', 'KL Branch')">🗑️ Delete</button>
+                    </div>
+                    
+                    <div class="branch-edit-form" id="edit-branch-kl">
+                        <input type="text" class="edit-input" id="edit-branch-name-kl" value="KL Branch" placeholder="Branch Name">
+                        <input type="text" class="edit-input" id="edit-branch-location-kl" value="Kuala Lumpur" placeholder="Location">
+                        <input type="text" class="edit-input" id="edit-branch-manager-kl" value="Ahmad Rahman" placeholder="Manager">
+                        <div class="edit-buttons">
+                            <button class="btn-save" onclick="saveBranch('branch-kl')">💾 Save</button>
+                            <button class="btn-cancel" onclick="cancelBranchEdit('branch-kl')">❌ Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -678,6 +742,7 @@
                     <div class="edit-buttons">
                         <button class="btn-save" onclick="saveMember('member-1')">💾 Save</button>
                         <button class="btn-cancel" onclick="cancelEdit('member-1')">❌ Cancel</button>
+                        <button class="btn-delete" onclick="deleteMember('member-1', 'Sarah Chen')">🗑️ Delete</button>
                     </div>
                 </div>
             </div>
@@ -724,6 +789,7 @@
                     <div class="edit-buttons">
                         <button class="btn-save" onclick="saveMember('member-2')">💾 Save</button>
                         <button class="btn-cancel" onclick="cancelEdit('member-2')">❌ Cancel</button>
+                        <button class="btn-delete" onclick="deleteMember('member-2', 'Ahmad Rahman')">🗑️ Delete</button>
                     </div>
                 </div>
             </div>
@@ -770,6 +836,7 @@
                     <div class="edit-buttons">
                         <button class="btn-save" onclick="saveMember('member-3')">💾 Save</button>
                         <button class="btn-cancel" onclick="cancelEdit('member-3')">❌ Cancel</button>
+                        <button class="btn-delete" onclick="deleteMember('member-3', 'Priya Sharma')">🗑️ Delete</button>
                     </div>
                 </div>
             </div>
@@ -1124,6 +1191,120 @@
             
             // Hide edit form
             document.getElementById('edit-' + memberId).classList.remove('active');
+        }
+
+        function deleteMember(memberId, memberName) {
+            if (confirm('⚠️ Are you sure you want to delete member "' + memberName + '"?\n\nThis action cannot be undone and will:\n• Remove all member data\n• Delete membership history\n• Cancel any active benefits\n\nClick OK to confirm deletion.')) {
+                // Remove the member card from display
+                var memberCard = document.getElementById(memberId);
+                memberCard.remove();
+                
+                // Update stats
+                var totalElement = document.getElementById('totalMembers');
+                var activeElement = document.getElementById('activeMembers');
+                
+                var total = parseInt(totalElement.textContent) - 1;
+                var active = parseInt(activeElement.textContent) - 1;
+                
+                totalElement.textContent = total;
+                activeElement.textContent = active;
+                
+                // Show success message
+                alert('✅ Member "' + memberName + '" has been deleted successfully.\n\nMembership data and history have been removed from the system.');
+            }
+        }
+
+        function editBranch(branchId) {
+            var editForm = document.getElementById('edit-' + branchId);
+            var isActive = editForm.classList.contains('active');
+            
+            // Close all other edit forms first
+            var allBranchEditForms = document.querySelectorAll('.branch-edit-form');
+            allBranchEditForms.forEach(function(form) {
+                form.classList.remove('active');
+            });
+            
+            // Toggle current form
+            if (!isActive) {
+                editForm.classList.add('active');
+            }
+        }
+
+        function saveBranch(branchId) {
+            var branchCode = branchId.split('-')[1];
+            var newName = document.getElementById('edit-branch-name-' + branchCode).value;
+            var newLocation = document.getElementById('edit-branch-location-' + branchCode).value;
+            var newManager = document.getElementById('edit-branch-manager-' + branchCode).value;
+            
+            if (newName && newLocation && newManager) {
+                // Update the display
+                var branchCard = document.getElementById(branchId);
+                var icon = branchCode === 'main' ? '🏪' : '🏢';
+                branchCard.querySelector('.member-name').textContent = icon + ' ' + newName;
+                branchCard.querySelector('.member-id').textContent = newLocation;
+                branchCard.querySelector('.member-phone').textContent = '👤 Manager: ' + newManager;
+                
+                // Update branch dropdown options in member forms
+                updateBranchDropdowns();
+                
+                // Hide edit form
+                document.getElementById('edit-' + branchId).classList.remove('active');
+                
+                // Show success message
+                alert('✅ Branch updated successfully!\n\nName: ' + newName + '\nLocation: ' + newLocation + '\nManager: ' + newManager);
+            } else {
+                alert('❌ Please fill in all fields');
+            }
+        }
+
+        function cancelBranchEdit(branchId) {
+            // Reset form values to original
+            var branchCode = branchId.split('-')[1];
+            var branchCard = document.getElementById(branchId);
+            var originalName = branchCard.querySelector('.member-name').textContent.replace(/🏪|🏢/, '').trim();
+            var originalLocation = branchCard.querySelector('.member-id').textContent;
+            var originalManager = branchCard.querySelector('.member-phone').textContent.replace('👤 Manager: ', '');
+            
+            document.getElementById('edit-branch-name-' + branchCode).value = originalName;
+            document.getElementById('edit-branch-location-' + branchCode).value = originalLocation;
+            document.getElementById('edit-branch-manager-' + branchCode).value = originalManager;
+            
+            // Hide edit form
+            document.getElementById('edit-' + branchId).classList.remove('active');
+        }
+
+        function deleteBranch(branchId, branchName) {
+            // Check if branch has members
+            var branchCode = branchId.split('-')[1];
+            var membersInBranch = document.querySelectorAll('.member-card[data-branch="' + branchCode + '"]');
+            
+            if (membersInBranch.length > 0) {
+                alert('❌ Cannot delete branch "' + branchName + '"!\n\nThis branch has ' + membersInBranch.length + ' active member(s).\n\nPlease transfer or remove all members before deleting the branch.');
+                return;
+            }
+            
+            if (confirm('⚠️ Are you sure you want to delete branch "' + branchName + '"?\n\nThis action cannot be undone and will:\n• Remove branch from all dropdowns\n• Delete branch statistics\n• Cannot be recovered\n\nClick OK to confirm deletion.')) {
+                // Remove the branch card from display
+                var branchCard = document.getElementById(branchId);
+                branchCard.remove();
+                
+                // Remove from branch dropdowns
+                var branchSelects = document.querySelectorAll('#memberBranch, #branchFilter, [id^="edit-branch-"]');
+                branchSelects.forEach(function(select) {
+                    var options = select.querySelectorAll('option[value="' + branchCode + '"]');
+                    options.forEach(function(option) {
+                        option.remove();
+                    });
+                });
+                
+                // Show success message
+                alert('✅ Branch "' + branchName + '" has been deleted successfully.\n\nBranch data has been removed from the system.');
+            }
+        }
+
+        function updateBranchDropdowns() {
+            // This function would update all branch dropdowns when branch names change
+            // For now, it's a placeholder for future enhancement
         }
     </script>
 </body>
