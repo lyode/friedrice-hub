@@ -1,1359 +1,764 @@
-var branchNames = {
-            'shah-alam': 'Shah Alam Central',
-            'pj-ss2': 'PJ SS2 Branch',
-            'subang': 'Subang Parade',
-            'klcc': 'KLCC Branch'
-        };                <div class="form-group">
-                    <label class="form-label">Branch *</label>
-                    <select class="form-input" id="memberBranch" onchange="handleBranchChange()" style="background: white;">
-                        <option value="">Select Branch</option>
-                        <optgroup label="🌟 Klang Valley - Premium">
-                            <option value="KLCC Branch">🌟 KLCC Branch - Suria KLCC, Level 4</option>
-                            <option value="Pavilion KL">🌟 Pavilion KL - Level 6, Elite Floor</option>
-                            <option value="Starhill Gallery">🌟 Starhill Gallery - Lot 6.01, Level 6</option>
-                            <option value="The Gardens Mall">🌟 The Gardens Mall - Level 3, Premium Wing</option>
-                        </optgroup>
-                        <optgroup label="🏬 Klang Valley - Shopping Centers">
-                            <option value="Sunway Pyramid">🛍️ Sunway Pyramid - LG2 Floor</option>
-                            <option value="One Utama">🏬 One Utama - New Wing, Level 3</option>
-                            <option value="Mid Valley">🏢 Mid Valley - Level 3, Megamall</option>
-                            <option value="Sunway Velocity">🏬 Sunway Velocity - Level 2</option>
-                            <option value="IOI City Mall">🏬 IOI City Mall - Level 2</option>
-                        </optgroup>
-                        <optgroup label="🏢 Selangor - Street Shops & Commercial">
-                            <option value="Shah Alam Central">🏢 Shah Alam Central - Jalan Tengku Ampuan</option>
-                            <option value="PJ SS2 Branch">🏪 PJ SS2 Branch - SS2 Commercial Center</option>
-                            <option value="Subang Jaya">🏪 Subang Jaya - SS15 Shophouse</option>
-                            <option value="Damansara Uptown">🏢 Damansara Uptown - Block C, Ground Floor</option>
-                            <option value="Kota Damansara">🏪 Kota Damansara - Commercial Street</option>
-                            <option value="USJ Height">🏪 USJ Height - Corner Shop</option>
-                        </optgroup>
-                        <optgroup label="🌴 Johor - Various Locations">
-                            <option value="JB City Square">🏬 JB City Square - Level 3</option>
-                            <option value="JB Taman Molek">🏪 JB Taman Molek - Street Shop</option>
-                            <option value="Johor Premium">🌟 Johor Premium Outlets - G-23</option>
-                            <option value="Skudai Town">🏪 Skudai Town - Main Street</option>
-                        </optgroup>
-                        <optgroup label="🏝️ Penang - Island & Mainland">
-                            <option value="Gurney Plaza">🏬 Gurney Plaza - Level 3</option>
-                            <option value="Queensbay Mall">🏬 Queensbay Mall - Level 2</option>
-                            <option value="Georgetown Heritage">🏛️ Georgetown Heritage - Lebuh Pantai</option>
-                            <option value="Butterworth">🏪 Butterworth - Jalan Bagan Luar</option>
-                        </optgroup>
-                        <optgroup label="🏔️ Other States">
-                            <option value="Ipoh Parade">🏬 Ipoh Parade - Level 2, Perak</option>
-                            <option value="Ipoh Old Town">🏪 Ipoh Old Town - Heritage Shophouse</option>
-                            <option value="Kuantan City">🏬 Kuantan City Mall - Level 1, Pahang</option>
-                            <option value="Kuantan Taman Tas">🏪 Kuantan Taman Tas - Corner Lot</option>
-                            <option value="Melaka Mahkota">🏬 Melaka Mahkota Parade - Level 2</option>
-                            <option value="Melaka Jonker">🏛️ Melaka Jonker Street - Heritage Shop</option>
-                        </optgroup>
-                        <option value="manual" style="background: #fdf2f8; color: #ec4899; font-weight: bold;">✏️ Enter Branch Manually (Any Location Type)</option>
+import React, { useState, useEffect } from 'react';
+import { Users, Calendar, Gift, CreditCard, Bell, CheckCircle, Clock, Star, Plus, Search, Edit, Trash2, Phone, Mail, MapPin, TrendingUp, Award, AlertCircle, Download } from 'lucide-react';
+
+const MembershipManagementSystem = () => {
+  const [activeTab, setActiveTab] = useState('activation');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedMember, setSelectedMember] = useState(null);
+  const [showMemberDetails, setShowMemberDetails] = useState(false);
+  
+  const [members, setMembers] = useState([
+    {
+      id: 'M001',
+      name: 'Sarah Chen',
+      phone: '+60123456789',
+      email: 'sarah@email.com',
+      address: 'Shah Alam, Selangor',
+      joinDate: '2024-01-15',
+      expiryDate: '2025-01-15',
+      duration: '12 months',
+      status: 'Active',
+      points: 450,
+      visits: 12,
+      totalSpent: 480.50,
+      lastVisit: '2024-06-10',
+      favoriteItems: ['Special Fried Rice', 'Seafood Fried Rice']
+    },
+    {
+      id: 'M002',
+      name: 'Ahmad Rahman',
+      phone: '+60198765432',
+      email: 'ahmad@email.com',
+      address: 'Petaling Jaya, Selangor',
+      joinDate: '2024-02-20',
+      expiryDate: '2025-02-20',
+      duration: '12 months',
+      status: 'Expiring Soon',
+      points: 280,
+      visits: 8,
+      totalSpent: 320.00,
+      lastVisit: '2024-06-05',
+      favoriteItems: ['Chicken Fried Rice']
+    },
+    {
+      id: 'M003',
+      name: 'Priya Sharma',
+      phone: '+60167890123',
+      email: 'priya@email.com',
+      address: 'Subang Jaya, Selangor',
+      joinDate: '2024-03-10',
+      expiryDate: '2025-09-10',
+      duration: '18 months',
+      status: 'Active',
+      points: 150,
+      visits: 5,
+      totalSpent: 180.00,
+      lastVisit: '2024-06-12',
+      favoriteItems: ['Vegetable Fried Rice', 'Tom Yam Fried Rice']
+    }
+  ]);
+
+  const [newMember, setNewMember] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    address: '',
+    duration: '12'
+  });
+
+
+
+  const addNewMember = () => {
+    if (newMember.name && newMember.phone) {
+      const memberId = `M${String(members.length + 1).padStart(3, '0')}`;
+      const today = new Date();
+      const expiry = new Date(today);
+      expiry.setMonth(expiry.getMonth() + parseInt(newMember.duration));
+
+      const member = {
+        id: memberId,
+        name: newMember.name,
+        phone: newMember.phone,
+        email: newMember.email,
+        address: newMember.address,
+        joinDate: today.toISOString().split('T')[0],
+        expiryDate: expiry.toISOString().split('T')[0],
+        duration: `${newMember.duration} months`,
+        status: 'Active',
+        points: 0,
+        visits: 0,
+        totalSpent: 0,
+        lastVisit: null,
+        favoriteItems: []
+      };
+
+      setMembers([...members, member]);
+      setNewMember({ name: '', phone: '', email: '', address: '', duration: '12' });
+    }
+  };
+
+  const updateMemberTier = (member) => {
+    return 'Member'; // Simple membership without tiers
+  };
+
+  const getStatusColor = (status) => {
+    switch(status) {
+      case 'Active': return 'bg-green-100 text-green-800';
+      case 'Expiring Soon': return 'bg-yellow-100 text-yellow-800';
+      case 'Expired': return 'bg-red-100 text-red-800';
+      case 'Inactive': return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getDaysToExpiry = (expiryDate) => {
+    const today = new Date();
+    const expiry = new Date(expiryDate);
+    const diffTime = expiry - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
+  const expiringMembers = members.filter(member => {
+    const daysToExpiry = getDaysToExpiry(member.expiryDate);
+    return daysToExpiry <= 30 && daysToExpiry > 0;
+  });
+
+  const filteredMembers = members.filter(member =>
+    member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    member.phone.includes(searchTerm) ||
+    member.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const renewMembership = (memberId, duration = 12) => {
+    setMembers(members.map(member => {
+      if (member.id === memberId) {
+        const newExpiry = new Date();
+        newExpiry.setMonth(newExpiry.getMonth() + duration);
+        return {
+          ...member,
+          expiryDate: newExpiry.toISOString().split('T')[0],
+          status: 'Active'
+        };
+      }
+      return member;
+    }));
+  };
+
+  const totalMembers = members.length;
+  const activeMembers = members.filter(m => m.status === 'Active').length;
+  const totalRevenue = members.reduce((sum, m) => sum + m.totalSpent, 0);
+  const averageSpent = totalRevenue / totalMembers;
+
+  return (
+    <div className="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl shadow-lg p-8 mb-6 text-white">
+        <h1 className="text-3xl font-bold mb-2">🍚 Fried Rice Shop - Membership Management</h1>
+        <p className="text-orange-100">Activate, track, and manage your customer memberships</p>
+        
+        {/* Quick Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+            <div className="text-2xl font-bold">{totalMembers}</div>
+            <div className="text-sm text-orange-100">Total Members</div>
+          </div>
+          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+            <div className="text-2xl font-bold">{activeMembers}</div>
+            <div className="text-sm text-orange-100">Active Members</div>
+          </div>
+          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+            <div className="text-2xl font-bold">RM{totalRevenue.toFixed(0)}</div>
+            <div className="text-sm text-orange-100">Total Revenue</div>
+          </div>
+          <div className="bg-white bg-opacity-20 rounded-lg p-4">
+            <div className="text-2xl font-bold">{expiringMembers.length}</div>
+            <div className="text-sm text-orange-100">Expiring Soon</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tab Navigation */}
+      <div className="bg-white rounded-lg shadow-md mb-6">
+        <div className="flex border-b overflow-x-auto">
+          <button
+            onClick={() => setActiveTab('activation')}
+            className={`px-6 py-3 font-medium whitespace-nowrap ${activeTab === 'activation' 
+              ? 'border-b-2 border-orange-500 text-orange-600' 
+              : 'text-gray-500 hover:text-gray-700'}`}
+          >
+            <Users className="w-4 h-4 inline mr-2" />
+            Member Activation
+          </button>
+          <button
+            onClick={() => setActiveTab('tracking')}
+            className={`px-6 py-3 font-medium whitespace-nowrap ${activeTab === 'tracking' 
+              ? 'border-b-2 border-orange-500 text-orange-600' 
+              : 'text-gray-500 hover:text-gray-700'}`}
+          >
+            <Calendar className="w-4 h-4 inline mr-2" />
+            Membership Tracking
+          </button>
+          <button
+            onClick={() => setActiveTab('renewals')}
+            className={`px-6 py-3 font-medium whitespace-nowrap ${activeTab === 'renewals' 
+              ? 'border-b-2 border-orange-500 text-orange-600' 
+              : 'text-gray-500 hover:text-gray-700'}`}
+          >
+            <Bell className="w-4 h-4 inline mr-2" />
+            Renewal Alerts ({expiringMembers.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('analytics')}
+            className={`px-6 py-3 font-medium whitespace-nowrap ${activeTab === 'analytics' 
+              ? 'border-b-2 border-orange-500 text-orange-600' 
+              : 'text-gray-500 hover:text-gray-700'}`}
+          >
+            <TrendingUp className="w-4 h-4 inline mr-2" />
+            Analytics
+          </button>
+        </div>
+
+        {/* Member Activation Tab */}
+        {activeTab === 'activation' && (
+          <div className="p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Activation Form */}
+              <div className="space-y-6">
+                <h2 className="text-xl font-bold text-gray-800">New Member Registration</h2>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                    <input
+                      type="text"
+                      value={newMember.name}
+                      onChange={(e) => setNewMember({...newMember, name: e.target.value})}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      placeholder="Enter customer name"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                    <input
+                      type="text"
+                      value={newMember.phone}
+                      onChange={(e) => setNewMember({...newMember, phone: e.target.value})}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      placeholder="+60xxxxxxxxx"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Email (Optional)</label>
+                    <input
+                      type="email"
+                      value={newMember.email}
+                      onChange={(e) => setNewMember({...newMember, email: e.target.value})}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      placeholder="customer@email.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Address (Optional)</label>
+                    <input
+                      type="text"
+                      value={newMember.address}
+                      onChange={(e) => setNewMember({...newMember, address: e.target.value})}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      placeholder="City, State"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Membership Duration</label>
+                    <select
+                      value={newMember.duration}
+                      onChange={(e) => setNewMember({...newMember, duration: e.target.value})}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    >
+                      <option value="1">1 Month</option>
+                      <option value="3">3 Months</option>
+                      <option value="6">6 Months</option>
+                      <option value="12">12 Months (Most Popular)</option>
+                      <option value="18">18 Months</option>
+                      <option value="24">24 Months</option>
                     </select>
-                    
-                    <!-- Manual Branch Input (Hidden by default) -->
-                    <div id="manualBranchSection" style="display: none; margin-top: 12px; background: #fdf2f8; padding: 12px; border-radius: 8px; border: 2px solid #f9a8d4;">
-                        <div style="font-weight: 500; color: #be185d; margin-bottom: 8px; font-size: 13px;">
-                            ➕ Add New Branch Location
-                        </div>
-                        
-                        <input type="text" class="form-input" id="manualBranchInput" placeholder="Branch Name - Location Details" style="border: 2px solid #ec4899; background: white; margin-bottom: 8px;">
-                        
-                        <div style="font-size: 11px; color: #be185d; margin-bottom: 12px; line-height: 1.4;">
-                            <strong>Examples by location type:</strong><br>
-                            🏪 <strong>Street Shop:</strong> "Kepong Branch - No. 15, Jalan Kepong Baru"<br>
-                            🏢 <strong>Office Building:</strong> "TTDI Branch - Damansara City Mall, Ground Floor"<br>
-                            🏘️ <strong>Housing Area:</strong> "Taman Desa Branch - Block A, Ground Floor"<br>
-                            🏭 <strong>Industrial:</strong> "Puchong IOI Branch - IOI Boulevard, Lot G-12"<br>
-                            🚗 <strong>Drive-Thru:</strong> "Cyberjaya Drive-Thru - Persiaran Multimedia"<br>
-                            🏫 <strong>University:</strong> "UM Branch - University Malaya, Student Center"
-                        </div>
-                        
-                        <div style="display: flex; gap: 8px;">
-                            <button type="button" onclick="saveManualBranch()" style="flex: 1; padding: 10px; background: #ec4899; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 500;">
-                                ✅ Add This Branch
+                  </div>
+
+                  <button
+                    onClick={addNewMember}
+                    disabled={!newMember.name || !newMember.phone}
+                    className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Activate Membership
+                  </button>
+                </div>
+              </div>
+
+              {/* Basic Membership Info */}
+              <div className="space-y-4">
+                <h2 className="text-xl font-bold text-gray-800">Membership Information</h2>
+                
+                <div className="border rounded-lg p-6 bg-orange-50">
+                  <div className="flex items-center mb-4">
+                    <Award className="w-6 h-6 text-orange-500 mr-3" />
+                    <h3 className="font-semibold text-gray-800 text-lg">Fried Rice Club Member</h3>
+                  </div>
+                  <p className="text-gray-700">
+                    Join our membership program to enjoy exclusive benefits and track your dining history with us.
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-medium text-blue-800 mb-2">💡 Duration Recommendations:</h4>
+                  <ul className="text-sm text-blue-700 space-y-1">
+                    <li><strong>12 months:</strong> Most popular, best value</li>
+                    <li><strong>6 months:</strong> Good for trying membership</li>
+                    <li><strong>24 months:</strong> Longest commitment, great for regulars</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Membership Tracking Tab */}
+        {activeTab === 'tracking' && (
+          <div className="p-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+              <h2 className="text-xl font-bold text-gray-800">All Members ({filteredMembers.length})</h2>
+              <div className="flex items-center space-x-4">
+                <div className="relative">
+                  <Search className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search members..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                </div>
+                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export
+                </button>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse bg-white rounded-lg shadow">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="p-4 text-left font-medium text-gray-700">Member</th>
+                    <th className="p-4 text-left font-medium text-gray-700">Contact</th>
+                    <th className="p-4 text-left font-medium text-gray-700">Status</th>
+                    <th className="p-4 text-left font-medium text-gray-700">Stats</th>
+                    <th className="p-4 text-left font-medium text-gray-700">Expiry</th>
+                    <th className="p-4 text-left font-medium text-gray-700">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredMembers.map((member) => {
+                    const daysToExpiry = getDaysToExpiry(member.expiryDate);
+                    const currentTier = updateMemberTier(member);
+                    return (
+                      <tr key={member.id} className="border-t hover:bg-gray-50">
+                        <td className="p-4">
+                          <div>
+                            <div className="font-medium text-gray-800">{member.name}</div>
+                            <div className="text-sm text-gray-500 font-mono">{member.id}</div>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <div className="space-y-1">
+                            <div className="flex items-center text-sm text-gray-600">
+                              <Phone className="w-3 h-3 mr-1" />
+                              {member.phone}
+                            </div>
+                            {member.email && (
+                              <div className="flex items-center text-sm text-gray-600">
+                                <Mail className="w-3 h-3 mr-1" />
+                                {member.email}
+                              </div>
+                            )}
+                            {member.address && (
+                              <div className="flex items-center text-sm text-gray-600">
+                                <MapPin className="w-3 h-3 mr-1" />
+                                {member.address}
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(member.status)}`}>
+                            {member.status}
+                          </span>
+                        </td>
+                        <td className="p-4">
+                          <div className="space-y-1 text-sm">
+                            <div className="flex items-center">
+                              <Star className="w-3 h-3 text-yellow-500 mr-1" />
+                              {member.points} pts
+                            </div>
+                            <div>{member.visits} visits</div>
+                            <div className="font-medium">RM{member.totalSpent.toFixed(2)}</div>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <div className="text-sm">
+                            <div className={daysToExpiry <= 30 ? 'text-orange-600 font-medium' : ''}>
+                              {member.expiryDate}
+                            </div>
+                            <div className={`text-xs ${daysToExpiry <= 30 ? 'text-orange-500' : 'text-gray-500'}`}>
+                              {daysToExpiry > 0 ? `${daysToExpiry} days left` : 'Expired'}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => {
+                                setSelectedMember(member);
+                                setShowMemberDetails(true);
+                              }}
+                              className="text-blue-600 hover:text-blue-800 p-1"
+                              title="View Details"
+                            >
+                              <Edit className="w-4 h-4" />
                             </button>
-                            <button type="button" onclick="cancelManualBranch()" style="flex: 1; padding: 10px; background: #6b7280; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 500;">
-                                ❌ Cancel
-                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Renewal Alerts Tab */}
+        {activeTab === 'renewals' && (
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Membership Renewal Alerts</h2>
+              {expiringMembers.length > 0 && (
+                <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                  Send All Reminders
+                </button>
+              )}
+            </div>
+            
+            {expiringMembers.length === 0 ? (
+              <div className="text-center py-12">
+                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-800 mb-2">All Good!</h3>
+                <p className="text-gray-600">No memberships expiring in the next 30 days.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                  <div className="flex items-center">
+                    <AlertCircle className="w-5 h-5 text-yellow-600 mr-2" />
+                    <span className="font-medium text-yellow-800">
+                      {expiringMembers.length} membership{expiringMembers.length > 1 ? 's' : ''} expiring soon
+                    </span>
+                  </div>
+                </div>
+
+                {expiringMembers.map((member) => {
+                  const daysToExpiry = getDaysToExpiry(member.expiryDate);
+                  return (
+                    <div key={member.id} className="bg-white border border-yellow-200 rounded-lg p-6 shadow-sm">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-4">
+                          <div className="flex-shrink-0">
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                              daysToExpiry <= 7 ? 'bg-red-100' : 'bg-yellow-100'
+                            }`}>
+                              <Clock className={`w-5 h-5 ${
+                                daysToExpiry <= 7 ? 'text-red-600' : 'text-yellow-600'
+                              }`} />
+                            </div>
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-gray-800 text-lg">{member.name}</h3>
+                            <div className="flex items-center space-x-4 text-sm text-gray-600 mt-1">
+                              <span>{member.phone}</span>
+                              <span>•</span>
+                              <span>{member.duration}</span>
+                            </div>
+                          </div>
                         </div>
+                        <div className="text-right">
+                          <div className={`text-lg font-bold ${
+                            daysToExpiry <= 7 ? 'text-red-600' : 'text-yellow-600'
+                          }`}>
+                            {daysToExpiry} days
+                          </div>
+                          <div className="text-xs text-gray-500">until expiry</div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                        <div className="grid grid-cols-3 gap-4 text-sm">
+                          <div className="text-center">
+                            <div className="font-semibold text-gray-800">{member.visits}</div>
+                            <div className="text-gray-600">Total Visits</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="font-semibold text-gray-800">RM{member.totalSpent.toFixed(2)}</div>
+                            <div className="text-gray-600">Total Spent</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="font-semibold text-gray-800">{member.points}</div>
+                            <div className="text-gray-600">Points Balance</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-2">
+                        <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center">
+                          <Bell className="w-4 h-4 mr-2" />
+                          Send Reminder
+                        </button>
+                        <button 
+                          onClick={() => renewMembership(member.id, 12)}
+                          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center"
+                        >
+                          <CheckCircle className="w-4 h-4 mr-2" />
+                          Renew 12 Months
+                        </button>
+                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center">
+                          <Gift className="w-4 h-4 mr-2" />
+                          Special Offer
+                        </button>
+                      </div>
                     </div>
-                </div><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fried Rice Shop - Mobile</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #fdf2f8, #fce7f3, #f3e8ff);
-            max-width: 400px;
-            margin: 0 auto;
-            min-height: 100vh;
-        }
-        
-        .login-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            background: linear-gradient(135deg, #fce7f3, #f3e8ff, #fdf2f8);
-        }
-        
-        .login-card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 320px;
-        }
-        
-        .login-header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        
-        .login-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-        
-        .login-subtitle {
-            font-size: 14px;
-            color: #6b7280;
-        }
-        
-        .branch-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-        }
-        
-        .branch-btn {
-            padding: 16px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.2s;
-        }
-        
-        .branch-btn:hover {
-            border-color: #ec4899;
-            background: #fdf2f8;
-        }
-        
-        .branch-btn.selected {
-            border-color: #ec4899;
-            background: #fdf2f8;
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
-        }
-        
-        .branch-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 4px;
-        }
-        
-        .branch-location {
-            font-size: 12px;
-            color: #6b7280;
-        }
-        
-        .branch-status {
-            font-size: 10px;
-            color: #ec4899;
-            font-weight: 500;
-            margin-top: 4px;
-        }
-        
-        .staff-input {
-            margin: 16px 0;
-        }
-        
-        .staff-label {
-            display: block;
-            font-size: 12px;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 6px;
-        }
-        
-        .staff-field {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-        
-        .staff-field:focus {
-            outline: none;
-            border-color: #ec4899;
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: #ec4899;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-        
-        .login-btn:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-        }
-        
-        .main-app {
-            display: none;
-        }
-        
-        .main-app.active {
-            display: block;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #ec4899, #db2777, #be185d);
-            color: white;
-            padding: 16px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        
-        .header p {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-bottom: 4px;
-        }
-        
-        .branch-info {
-            font-size: 11px;
-            opacity: 0.8;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            cursor: pointer;
-        }
-        
-        .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-        
-        .stat-card {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-        
-        .stat-label {
-            font-size: 10px;
-        }
-        
-        .tabs {
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 12px 8px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            text-align: center;
-            font-size: 12px;
-            color: #6b7280;
-            border-bottom: 2px solid transparent;
-        }
-        
-        .tab.active {
-            color: #ec4899;
-            background: #fdf2f8;
-            border-bottom-color: #ec4899;
-        }
-        
-        .tab-icon {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-        
-        .content {
-            padding: 16px;
-            padding-bottom: 80px;
-        }
-        
-        .section {
-            display: none;
-        }
-        
-        .section.active {
-            display: block;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 8px;
-            padding: 16px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 12px;
-        }
-        
-        .form-group {
-            margin-bottom: 12px;
-        }
-        
-        .form-label {
-            display: block;
-            font-size: 12px;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 4px;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #ec4899;
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        
-        .btn-primary {
-            background: #ec4899;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #db2777;
-        }
-        
-        .btn-primary:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-        }
-        
-        .branch-display {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            margin-bottom: 8px;
-        }
-        
-        .member-card {
-            background: white;
-            border-radius: 8px;
-            padding: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 8px;
-        }
-        
-        .member-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 8px;
-        }
-        
-        .member-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: #1f2937;
-        }
-        
-        .member-id {
-            font-size: 12px;
-            color: #6b7280;
-        }
-        
-        .member-branch {
-            font-size: 10px;
-            color: #ec4899;
-            background: #fdf2f8;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-top: 2px;
-        }
-        
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 500;
-        }
-        
-        .status-active {
-            background: #dcfce7;
-            color: #166534;
-        }
-        
-        .status-expiring {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        
-        .member-phone {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 8px;
-        }
-        
-        .stats-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            font-size: 12px;
-        }
-        
-        .stat {
-            text-align: center;
-            background: #f9fafb;
-            padding: 8px;
-            border-radius: 4px;
-        }
-        
-        .stat-value {
-            font-weight: 500;
-        }
-        
-        .stat-label-small {
-            color: #6b7280;
-            font-size: 10px;
-        }
-        
-        .metric-card {
-            color: white;
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .metric-blue { background: linear-gradient(135deg, #ec4899, #db2777); }
-        .metric-green { background: linear-gradient(135deg, #f472b6, #ec4899); }
-        .metric-purple { background: linear-gradient(135deg, #d946ef, #c026d3); }
-        
-        .metric-value {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        
-        .metric-label {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-        
-        .metric-icon {
-            font-size: 24px;
-        }
-        
-        .alert-warning {
-            background: #fef3c7;
-            border: 1px solid #fbbf24;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .alert-text {
-            font-size: 14px;
-            font-weight: 500;
-            color: #92400e;
-            margin-left: 8px;
-        }
-        
-        .btn-small {
-            padding: 8px 12px;
-            font-size: 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        .btn-yellow { background: #ec4899; color: white; }
-        .btn-green { background: #f472b6; color: white; }
-        .btn-blue { background: #d946ef; color: white; }
-        
-        .btn-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        
-        .info-box {
-            background: #fdf2f8;
-            border: 1px solid #f9a8d4;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 16px;
-        }
-        
-        .info-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #be185d;
-            margin-bottom: 8px;
-        }
-        
-        .info-list {
-            font-size: 12px;
-            color: #be185d;
-            line-height: 1.4;
-        }
-    </style>
-</head>
-<body>
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-screen">
-        <div class="login-card">
-            <div class="login-header">
-                <div style="font-size: 48px; margin-bottom: 16px;">🍚</div>
-                <h1 class="login-title">Fried Rice Shop</h1>
-                <p class="login-subtitle">Login to Membership System</p>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Analytics Tab */}
+        {activeTab === 'analytics' && (
+          <div className="p-6">
+            <h2 className="text-xl font-bold text-gray-800 mb-6">Membership Analytics</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {/* Key Metrics Cards */}
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-blue-100">Total Revenue</p>
+                    <p className="text-2xl font-bold">RM{totalRevenue.toFixed(2)}</p>
+                  </div>
+                  <TrendingUp className="w-8 h-8 text-blue-200" />
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-green-100">Active Rate</p>
+                    <p className="text-2xl font-bold">{((activeMembers/totalMembers)*100).toFixed(1)}%</p>
+                  </div>
+                  <Users className="w-8 h-8 text-green-200" />
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-purple-100">Avg. Spent</p>
+                    <p className="text-2xl font-bold">RM{averageSpent.toFixed(2)}</p>
+                  </div>
+                  <CreditCard className="w-8 h-8 text-purple-200" />
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-orange-100">Retention Alert</p>
+                    <p className="text-2xl font-bold">{expiringMembers.length}</p>
+                  </div>
+                  <Bell className="w-8 h-8 text-orange-200" />
+                </div>
+              </div>
+            </div>
+
+            {/* Charts and Analysis */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Membership Status */}
+              <div className="bg-white p-6 rounded-lg shadow">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Membership Status</h3>
+                <div className="space-y-3">
+                  {['Active', 'Expiring Soon', 'Expired', 'Inactive'].map(status => {
+                    const statusMembers = members.filter(m => m.status === status).length;
+                    const percentage = (statusMembers / totalMembers * 100).toFixed(1);
+                    return (
+                      <div key={status} className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(status)}`}>
+                            {status}
+                          </span>
+                          <span className="ml-3 text-sm text-gray-600">{statusMembers} members</span>
+                        </div>
+                        <span className="text-sm font-semibold text-gray-800">{percentage}%</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Top Spenders */}
+              <div className="bg-white p-6 rounded-lg shadow">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Top Spenders</h3>
+                <div className="space-y-3">
+                  {members
+                    .sort((a, b) => b.totalSpent - a.totalSpent)
+                    .slice(0, 5)
+                    .map((member, index) => (
+                      <div key={member.id} className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                            {index + 1}
+                          </div>
+                          <div className="ml-3">
+                            <div className="font-medium text-gray-800">{member.name}</div>
+                            <div className="text-xs text-gray-500">{member.visits} visits</div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="font-semibold text-gray-800">RM{member.totalSpent.toFixed(2)}</div>
+                          <div className="text-xs text-gray-500">{member.points} pts</div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              {/* Recent Activity */}
+              <div className="bg-white p-6 rounded-lg shadow">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
+                <div className="space-y-3">
+                  {members
+                    .filter(m => m.lastVisit)
+                    .sort((a, b) => new Date(b.lastVisit) - new Date(a.lastVisit))
+                    .slice(0, 5)
+                    .map(member => (
+                      <div key={member.id} className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                          <div>
+                            <div className="font-medium text-gray-800">{member.name}</div>
+                            <div className="text-xs text-gray-500">Last visit: {member.lastVisit}</div>
+                          </div>
+                        </div>
+                        <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          Member
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Member Details Modal */}
+      {showMemberDetails && selectedMember && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-bold text-gray-800">Member Details</h3>
+                <button
+                  onClick={() => setShowMemberDetails(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ×
+                </button>
+              </div>
             </div>
             
-            <!-- Role Selection -->
-            <div class="form-group">
-                <label class="form-label">Login Type</label>
-                <select class="form-input" id="roleSelect" onchange="toggleLoginType()">
-                    <option value="">Select Role</option>
-                    <option value="branch">Branch Staff</option>
-                    <option value="master">Master/Director</option>
-                </select>
-            </div>
-            
-            <!-- Branch Selection (for branch staff) -->
-            <div id="branchSection" style="display: none;">
-                <div class="form-group">
-                    <label class="form-label">Select Branch</label>
-                    <div class="branch-grid">
-                        <div class="branch-btn" onclick="selectBranch('shah-alam')" data-branch="shah-alam">
-                            <div class="branch-name">🏢 Shah Alam Central</div>
-                            <div class="branch-location">No. 45, Jalan Tengku Ampuan Zabedah</div>
-                            <div class="branch-status">● Online</div>
-                        </div>
-                        
-                        <div class="branch-btn" onclick="selectBranch('pj-ss2')" data-branch="pj-ss2">
-                            <div class="branch-name">🏬 PJ SS2 Branch</div>
-                            <div class="branch-location">Lot 2-15, SS2 Shopping Center</div>
-                            <div class="branch-status">● Online</div>
-                        </div>
-                        
-                        <div class="branch-btn" onclick="selectBranch('subang')" data-branch="subang">
-                            <div class="branch-name">🏪 Subang Parade</div>
-                            <div class="branch-location">Level 2, Subang Parade Mall</div>
-                            <div class="branch-status">● Online</div>
-                        </div>
-                        
-                        <div class="branch-btn" onclick="selectBranch('klcc')" data-branch="klcc">
-                            <div class="branch-name">🌟 KLCC Branch</div>
-                            <div class="branch-location">Suria KLCC, Level 4</div>
-                            <div class="branch-status">● Online</div>
-                        </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold text-gray-800 mb-3">Personal Information</h4>
+                  <div className="space-y-2 text-sm">
+                    <div><strong>ID:</strong> {selectedMember.id}</div>
+                    <div><strong>Name:</strong> {selectedMember.name}</div>
+                    <div><strong>Phone:</strong> {selectedMember.phone}</div>
+                    <div><strong>Email:</strong> {selectedMember.email || 'Not provided'}</div>
+                    <div><strong>Address:</strong> {selectedMember.address || 'Not provided'}</div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold text-gray-800 mb-3">Membership Details</h4>
+                  <div className="space-y-2 text-sm">
+                    <div><strong>Join Date:</strong> {selectedMember.joinDate}</div>
+                    <div><strong>Expiry Date:</strong> {selectedMember.expiryDate}</div>
+                    <div><strong>Duration:</strong> {selectedMember.duration}</div>
+                    <div><strong>Status:</strong> 
+                      <span className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedMember.status)}`}>
+                        {selectedMember.status}
+                      </span>
                     </div>
+                  </div>
                 </div>
+              </div>
+              
+              <div className="mt-6">
+                <h4 className="font-semibold text-gray-800 mb-3">Activity Summary</h4>
+                <div className="grid grid-cols-4 gap-4 text-center">
+                  <div className="bg-blue-50 p-3 rounded-lg">
+                    <div className="font-bold text-blue-600">{selectedMember.points}</div>
+                    <div className="text-xs text-blue-600">Points</div>
+                  </div>
+                  <div className="bg-green-50 p-3 rounded-lg">
+                    <div className="font-bold text-green-600">{selectedMember.visits}</div>
+                    <div className="text-xs text-green-600">Visits</div>
+                  </div>
+                  <div className="bg-purple-50 p-3 rounded-lg">
+                    <div className="font-bold text-purple-600">RM{selectedMember.totalSpent.toFixed(2)}</div>
+                    <div className="text-xs text-purple-600">Total Spent</div>
+                  </div>
+                  <div className="bg-orange-50 p-3 rounded-lg">
+                    <div className="font-bold text-orange-600">{selectedMember.lastVisit || 'Never'}</div>
+                    <div className="text-xs text-orange-600">Last Visit</div>
+                  </div>
+                </div>
+              </div>
             </div>
             
-            <!-- Master Login (for master/director) -->
-            <div id="masterSection" style="display: none;">
-                <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-input" id="masterUsername" placeholder="Enter username">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" id="masterPassword" placeholder="Enter password">
-                </div>
-                <div style="font-size: 11px; color: #6b7280; margin-top: 8px;">
-                    💡 Demo: username: <strong>admin</strong>, password: <strong>admin123</strong>
-                </div>
+            <div className="p-6 border-t bg-gray-50">
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={() => setShowMemberDetails(false)}
+                  className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  Close
+                </button>
+                <button className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+                  Edit Member
+                </button>
+              </div>
             </div>
-            
-            <div class="staff-input">
-                <label class="staff-label">Staff Name</label>
-                <input type="text" class="staff-field" id="staffName" placeholder="Enter your name">
-            </div>
-            
-            <button class="login-btn" onclick="login()" id="loginBtn" disabled>
-                Login to System
-            </button>
+          </div>
         </div>
+      )}
     </div>
+  );
+};
 
-    <!-- Main App -->
-    <div id="mainApp" class="main-app">
-        <!-- Header -->
-        <div class="header">
-            <h1>🍚 Fried Rice Shop</h1>
-            <p>Membership Management</p>
-            <div class="branch-info">
-                <span id="currentBranch">Branch: Loading...</span>
-                <button class="logout-btn" onclick="logout()">Logout</button>
-            </div>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalMembers">3</div>
-                    <div class="stat-label">Total</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="activeMembers">2</div>
-                    <div class="stat-label">Active</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalRevenue">RM980</div>
-                    <div class="stat-label">Revenue</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="expiringCount">1</div>
-                    <div class="stat-label">Expiring</div>
-                </div>
-            </div>
-        </div>
-
-    <!-- Tabs -->
-    <div class="tabs">
-        <button class="tab active" onclick="showTab('add')">
-            <div class="tab-icon">➕</div>
-            <div>Add</div>
-        </button>
-        <button class="tab" onclick="showTab('list')">
-            <div class="tab-icon">👥</div>
-            <div>List</div>
-        </button>
-        <button class="tab" onclick="showTab('alerts')">
-            <div class="tab-icon">🔔</div>
-            <div>Alerts</div>
-        </button>
-        <button class="tab" onclick="showTab('stats')">
-            <div class="tab-icon">📊</div>
-            <div>Stats</div>
-        </button>
-    </div>
-
-    <!-- Content -->
-    <div class="content">
-        <!-- Add Member Section -->
-        <div id="add" class="section active">
-            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Add New Member</h2>
-            
-            <div class="card">
-                <div class="form-group">
-                    <label class="form-label">Name *</label>
-                    <input type="text" class="form-input" id="memberName" placeholder="Customer name">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Phone *</label>
-                    <input type="tel" class="form-input" id="memberPhone" placeholder="+60xxxxxxxxx">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Membership Plan *</label>
-                    <select class="form-input" id="memberDuration" style="padding: 8px 12px; font-size: 13px;">
-                        <option value="1" data-price="30">1 Month - RM30</option>
-                        <option value="3" data-price="80">3 Months - RM80 (Save RM10)</option>
-                        <option value="6" data-price="150">6 Months - RM150 (Save RM30)</option>
-                        <option value="12" data-price="250" selected>12 Months - RM250 (Save RM110) ⭐ Popular</option>
-                        <option value="18" data-price="375">18 Months - RM375 (Save RM165)</option>
-                        <option value="24" data-price="480">24 Months - RM480 (Save RM240)</option>
-                    </select>
-                    <div style="font-size: 11px; color: #6b7280; margin-top: 4px; display: flex; justify-content: space-between;">
-                        <span>💡 Longer plans = Better savings</span>
-                        <span id="priceDisplay" style="font-weight: bold; color: #ec4899;">RM250</span>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary" onclick="addMember()" id="addMemberBtn">Add Member - RM250</button>
-            </div>
-
-            <div class="info-box">
-                <div class="info-title">🏢 Flexible Branch Network (All Location Types)</div>
-                <div class="info-list">
-                    <strong>🌟 Current Network (30+ Locations):</strong><br>
-                    • Premium malls, street shops, commercial areas<br>
-                    • Housing estates, office buildings, universities<br>
-                    • Drive-thru, heritage sites, industrial areas<br><br>
-                    
-                    <strong>📍 Easy Branch Addition:</strong><br>
-                    • ANY location type supported<br>
-                    • Street shops, corner lots, drive-thru<br>
-                    • Shopping centers, office buildings<br>
-                    • Housing areas, university campuses<br>
-                    • Industrial zones, heritage sites<br><br>
-                    
-                    <strong>🚀 Perfect For Expansion:</strong><br>
-                    • Instant branch addition (no IT needed)<br>
-                    • Works for all business models<br>
-                    • Franchise-ready system<br>
-                    • Unlimited growth potential<br><br>
-                    
-                    <strong>💰 Membership Benefits (All Branches):</strong><br>
-                    • 10% discount everywhere you go<br>
-                    • Points valid at ALL locations<br>
-                    • 12 months: RM250 (Save RM110) ⭐<br>
-                    • Birthday specials + priority seating
-                </div>
-            </div>
-        </div>
-
-        <!-- Members List Section -->
-        <div id="list" class="section">
-            <!-- Branch Staff View -->
-            <div id="branchListView" style="display: none;">
-                <div style="text-center; padding: 32px; background: white; border-radius: 8px;">
-                    <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
-                    <h3 style="font-size: 16px; font-weight: 500; color: #1f2937; margin-bottom: 8px;">Access Restricted</h3>
-                    <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">Branch staff can only add new members.</p>
-                    <p style="font-size: 12px; color: #6b7280;">Contact master/director for member details access.</p>
-                </div>
-            </div>
-            
-            <!-- Master/Director View -->
-            <div id="masterListView" style="display: none;">
-                <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">All Members (3)</h2>
-                
-                <div class="member-card">
-                    <div class="member-header">
-                        <div>
-                            <div class="member-name">Sarah Chen</div>
-                            <div class="member-id">M001</div>
-                            <div class="member-branch">Shah Alam Central</div>
-                        </div>
-                        <span class="status-badge status-active">Active</span>
-                    </div>
-                    <div class="member-phone">📞 +60123456789</div>
-                    <div class="stats-row">
-                        <div class="stat">
-                            <div class="stat-value">⭐ 450</div>
-                            <div class="stat-label-small">Points</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">12</div>
-                            <div class="stat-label-small">Visits</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">RM480</div>
-                            <div class="stat-label-small">Spent</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-header">
-                        <div>
-                            <div class="member-name">Ahmad Rahman</div>
-                            <div class="member-id">M002</div>
-                            <div class="member-branch">PJ SS2 Branch</div>
-                        </div>
-                        <span class="status-badge status-expiring">Expiring Soon</span>
-                    </div>
-                    <div class="member-phone">📞 +60198765432</div>
-                    <div class="stats-row">
-                        <div class="stat">
-                            <div class="stat-value">⭐ 280</div>
-                            <div class="stat-label-small">Points</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">8</div>
-                            <div class="stat-label-small">Visits</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">RM320</div>
-                            <div class="stat-label-small">Spent</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="member-card">
-                    <div class="member-header">
-                        <div>
-                            <div class="member-name">Priya Sharma</div>
-                            <div class="member-id">M003</div>
-                            <div class="member-branch">Subang Parade</div>
-                        </div>
-                        <span class="status-badge status-active">Active</span>
-                    </div>
-                    <div class="member-phone">📞 +60167890123</div>
-                    <div class="stats-row">
-                        <div class="stat">
-                            <div class="stat-value">⭐ 150</div>
-                            <div class="stat-label-small">Points</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">5</div>
-                            <div class="stat-label-small">Visits</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">RM180</div>
-                            <div class="stat-label-small">Spent</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Alerts Section -->
-        <div id="alerts" class="section">
-            <!-- Branch Staff View -->
-            <div id="branchAlertsView" style="display: none;">
-                <div style="text-center; padding: 32px; background: white; border-radius: 8px;">
-                    <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
-                    <h3 style="font-size: 16px; font-weight: 500; color: #1f2937; margin-bottom: 8px;">Access Restricted</h3>
-                    <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">Only master/director can view renewal alerts.</p>
-                    <p style="font-size: 12px; color: #6b7280;">Focus on adding new members for your branch.</p>
-                </div>
-            </div>
-            
-            <!-- Master/Director View -->
-            <div id="masterAlertsView" style="display: none;">
-                <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Renewal Alerts</h2>
-                
-                <div class="alert-warning">
-                    <span>⚠️</span>
-                    <span class="alert-text">1 membership expiring soon</span>
-                </div>
-
-                <div class="member-card" style="border: 1px solid #fbbf24;">
-                    <div class="member-header">
-                        <div style="display: flex; align-items: center;">
-                            <div style="width: 32px; height: 32px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
-                                <span style="color: #f59e0b;">⏰</span>
-                            </div>
-                            <div>
-                                <div class="member-name">Ahmad Rahman</div>
-                                <div class="member-id">+60198765432</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 16px; font-weight: bold; color: #ec4899;">15</div>
-                            <div style="font-size: 10px; color: #6b7280;">days</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stats-row" style="margin: 12px 0;">
-                        <div class="stat">
-                            <div class="stat-value">8</div>
-                            <div class="stat-label-small">Visits</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">RM320</div>
-                            <div class="stat-label-small">Spent</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">280</div>
-                            <div class="stat-label-small">Points</div>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-small btn-yellow" style="width: 100%; margin-bottom: 8px;">
-                        🔔 Send Reminder
-                    </button>
-                    <div class="btn-row">
-                        <button class="btn-small btn-green">✅ Renew</button>
-                        <button class="btn-small btn-blue">🎁 Offer</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Stats Section -->
-        <div id="stats" class="section">
-            <!-- Branch Staff View -->
-            <div id="branchStatsView" style="display: none;">
-                <div style="text-center; padding: 32px; background: white; border-radius: 8px;">
-                    <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
-                    <h3 style="font-size: 16px; font-weight: 500; color: #1f2937; margin-bottom: 8px;">Access Restricted</h3>
-                    <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">Only master/director can view analytics.</p>
-                    <p style="font-size: 12px; color: #6b7280;">Keep adding members to boost our numbers!</p>
-                </div>
-            </div>
-            
-            <!-- Master/Director View -->
-            <div id="masterStatsView" style="display: none;">
-                <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Analytics</h2>
-                
-                <div class="metric-card metric-blue">
-                    <div>
-                        <div class="metric-label">Total Revenue</div>
-                        <div class="metric-value">RM980</div>
-                    </div>
-                    <div class="metric-icon">📈</div>
-                </div>
-
-                <div class="metric-card metric-green">
-                    <div>
-                        <div class="metric-label">Active Rate</div>
-                        <div class="metric-value">67%</div>
-                    </div>
-                    <div class="metric-icon">👥</div>
-                </div>
-
-                <div class="metric-card metric-purple">
-                    <div>
-                        <div class="metric-label">Average Spent</div>
-                        <div class="metric-value">RM327</div>
-                    </div>
-                    <div class="metric-icon">💳</div>
-                </div>
-
-                <div class="card">
-                    <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Top Spenders</h3>
-                    
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <div style="display: flex; align-items: center;">
-                            <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #ec4899, #db2777); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">1</div>
-                            <div>
-                                <div style="font-size: 12px; font-weight: 500;">Sarah Chen</div>
-                                <div style="font-size: 10px; color: #6b7280;">12 visits</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 12px; font-weight: 500;">RM480</div>
-                            <div style="font-size: 10px; color: #6b7280;">450 pts</div>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <div style="display: flex; align-items: center;">
-                            <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #ec4899, #db2777); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">2</div>
-                            <div>
-                                <div style="font-size: 12px; font-weight: 500;">Ahmad Rahman</div>
-                                <div style="font-size: 10px; color: #6b7280;">8 visits</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 12px; font-weight: 500;">RM320</div>
-                            <div style="font-size: 10px; color: #6b7280;">280 pts</div>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: flex; align-items: center;">
-                            <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #ec4899, #db2777); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">3</div>
-                            <div>
-                                <div style="font-size: 12px; font-weight: 500;">Priya Sharma</div>
-                                <div style="font-size: 10px; color: #6b7280;">5 visits</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 12px; font-weight: 500;">RM180</div>
-                            <div style="font-size: 10px; color: #6b7280;">150 pts</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </div>
-
-    <script>
-        var selectedBranch = null;
-        var currentStaff = null;
-        var userRole = null;
-        var branchDatabase = [
-            // Klang Valley Premium
-            'KLCC Branch', 'Pavilion KL', 'Starhill Gallery', 'The Gardens Mall',
-            // Klang Valley Malls
-            'Sunway Pyramid', 'One Utama', 'Mid Valley', 'Sunway Velocity', 'IOI City Mall', 'Empire Shopping',
-            // Selangor
-            'Shah Alam Central', 'PJ SS2 Branch', 'Subang Parade', 'Damansara Uptown', 'Kota Damansara', 'USJ Summit',
-            // Johor
-            'JB City Square', 'Johor Premium', 'Paradigm Mall JB', 'Aeon Tebrau',
-            // Penang
-            'Gurney Plaza', 'Queensbay Mall', 'Georgetown Heritage', 'Penang Times Square',
-            // Other States
-            'Ipoh Parade', 'Kuantan City Mall', 'Kota Bharu Mall', 'Melaka Mahkota'
-        ];
-
-        function handleBranchChange() {
-            var branchSelect = document.getElementById('memberBranch');
-            var manualSection = document.getElementById('manualBranchSection');
-            
-            if (branchSelect.value === 'manual') {
-                manualSection.style.display = 'block';
-                document.getElementById('manualBranchInput').focus();
-            } else {
-                manualSection.style.display = 'none';
-            }
-        }
-
-        function saveManualBranch() {
-            var manualInput = document.getElementById('manualBranchInput');
-            var branchName = manualInput.value.trim();
-            
-            if (branchName && branchName.length >= 5) {
-                // Add to database
-                branchDatabase.push(branchName);
-                
-                // Add to dropdown
-                var branchSelect = document.getElementById('memberBranch');
-                var manualOption = branchSelect.querySelector('option[value="manual"]');
-                
-                // Create new option before the manual option
-                var newOption = document.createElement('option');
-                newOption.value = branchName;
-                newOption.textContent = '🆕 ' + branchName;
-                newOption.style.background = '#dcfce7';
-                newOption.style.color = '#166534';
-                newOption.style.fontWeight = '500';
-                
-                branchSelect.insertBefore(newOption, manualOption);
-                
-                // Select the new branch
-                branchSelect.value = branchName;
-                
-                // Hide manual section
-                document.getElementById('manualBranchSection').style.display = 'none';
-                manualInput.value = '';
-                
-                // Show success message
-                alert('✅ New branch added successfully!\n\n"' + branchName + '" has been added to the system and is now available for all staff to use.\n\n📍 This branch will appear in the dropdown for future member registrations.');
-                
-                // Save to local storage for persistence
-                localStorage.setItem('customBranches', JSON.stringify(branchDatabase));
-                
-            } else {
-                alert('❌ Please enter a valid branch name (minimum 5 characters)\n\n📍 Examples:\n• "Kepong Branch - No. 15, Jalan Kepong Baru"\n• "TTDI Drive-Thru - Persiaran Multimedia"\n• "UM Branch - University Malaya, Student Center"');
-            }
-        }
-
-        function cancelManualBranch() {
-            document.getElementById('manualBranchSection').style.display = 'none';
-            document.getElementById('manualBranchInput').value = '';
-            document.getElementById('memberBranch').value = '';
-        }
-
-        function loadCustomBranches() {
-            var saved = localStorage.getItem('customBranches');
-            if (saved) {
-                var savedBranches = JSON.parse(saved);
-                var branchSelect = document.getElementById('memberBranch');
-                var manualOption = branchSelect.querySelector('option[value="manual"]');
-                
-                // Add saved custom branches
-                savedBranches.forEach(function(branchName) {
-                    if (!branchDatabase.includes(branchName)) {
-                        branchDatabase.push(branchName);
-                        
-                        var newOption = document.createElement('option');
-                        newOption.value = branchName;
-                        newOption.textContent = '🆕 ' + branchName;
-                        newOption.style.background = '#dcfce7';
-                        newOption.style.color = '#166534';
-                        newOption.style.fontWeight = '500';
-                        
-                        branchSelect.insertBefore(newOption, manualOption);
-                    }
-                });
-            }
-        }
-
-        function toggleLoginType() {
-            var role = document.getElementById('roleSelect').value;
-            var branchSection = document.getElementById('branchSection');
-            var masterSection = document.getElementById('masterSection');
-            
-            if (role === 'branch') {
-                branchSection.style.display = 'block';
-                masterSection.style.display = 'none';
-            } else if (role === 'master') {
-                branchSection.style.display = 'none';
-                masterSection.style.display = 'block';
-                selectedBranch = 'all'; // Master can see all branches
-            } else {
-                branchSection.style.display = 'none';
-                masterSection.style.display = 'none';
-            }
-            
-            checkLoginReady();
-        }
-
-        function selectBranch(branchId) {
-            // Remove previous selection
-            var branches = document.querySelectorAll('.branch-btn');
-            branches.forEach(function(btn) {
-                btn.classList.remove('selected');
-            });
-            
-            // Select new branch
-            var selectedBtn = document.querySelector('[data-branch="' + branchId + '"]');
-            selectedBtn.classList.add('selected');
-            selectedBranch = branchId;
-            
-            checkLoginReady();
-        }
-
-        function checkLoginReady() {
-            var role = document.getElementById('roleSelect').value;
-            var staffName = document.getElementById('staffName').value.trim();
-            var loginBtn = document.getElementById('loginBtn');
-            
-            var canLogin = false;
-            
-            if (role === 'branch' && selectedBranch && staffName) {
-                canLogin = true;
-            } else if (role === 'master' && staffName) {
-                var username = document.getElementById('masterUsername').value.trim();
-                var password = document.getElementById('masterPassword').value.trim();
-                canLogin = username && password;
-            }
-            
-            loginBtn.disabled = !canLogin;
-        }
-
-        function login() {
-            var role = document.getElementById('roleSelect').value;
-            var staffName = document.getElementById('staffName').value.trim();
-            
-            if (role === 'master') {
-                var username = document.getElementById('masterUsername').value.trim();
-                var password = document.getElementById('masterPassword').value.trim();
-                
-                // Simple demo authentication
-                if (username === 'admin' && password === 'admin123') {
-                    userRole = 'master';
-                    currentStaff = staffName + ' (Director)';
-                    document.getElementById('currentBranch').textContent = 'All Branches - ' + currentStaff;
-                    // Don't pre-select branch for master - they choose when adding members
-                } else {
-                    alert('❌ Invalid username or password');
-                    return;
-                }
-            } else if (role === 'branch' && selectedBranch && staffName) {
-                userRole = 'branch';
-                currentStaff = staffName;
-                document.getElementById('currentBranch').textContent = branchNames[selectedBranch] + ' - ' + staffName;
-                // Pre-select the branch for branch staff
-                document.getElementById('memberBranch').value = branchNames[selectedBranch];
-            } else {
-                alert('❌ Please complete all login fields');
-                return;
-            }
-            
-            // Configure UI based on role
-            setupUserInterface();
-            
-            // Hide login screen and show main app
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('mainApp').classList.add('active');
-        }
-
-        function setupUserInterface() {
-            if (userRole === 'branch') {
-                // Branch staff - only Add tab accessible
-                document.getElementById('listTab').style.opacity = '0.5';
-                document.getElementById('alertsTab').style.opacity = '0.5';
-                document.getElementById('statsTab').style.opacity = '0.5';
-                
-                // Show restricted views
-                document.getElementById('branchListView').style.display = 'block';
-                document.getElementById('masterListView').style.display = 'none';
-                document.getElementById('branchAlertsView').style.display = 'block';
-                document.getElementById('masterAlertsView').style.display = 'none';
-                document.getElementById('branchStatsView').style.display = 'block';
-                document.getElementById('masterStatsView').style.display = 'none';
-                
-            } else if (userRole === 'master') {
-                // Master - full access
-                document.getElementById('listTab').style.opacity = '1';
-                document.getElementById('alertsTab').style.opacity = '1';
-                document.getElementById('statsTab').style.opacity = '1';
-                
-                // Show full views
-                document.getElementById('branchListView').style.display = 'none';
-                document.getElementById('masterListView').style.display = 'block';
-                document.getElementById('branchAlertsView').style.display = 'none';
-                document.getElementById('masterAlertsView').style.display = 'block';
-                document.getElementById('branchStatsView').style.display = 'none';
-                document.getElementById('masterStatsView').style.display = 'block';
-            }
-        }
-
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                // Reset all variables
-                selectedBranch = null;
-                currentStaff = null;
-                userRole = null;
-                
-                // Reset form
-                document.getElementById('roleSelect').value = '';
-                document.getElementById('staffName').value = '';
-                document.getElementById('masterUsername').value = '';
-                document.getElementById('masterPassword').value = '';
-                
-                var branches = document.querySelectorAll('.branch-btn');
-                branches.forEach(function(btn) {
-                    btn.classList.remove('selected');
-                });
-                
-                // Hide sections
-                document.getElementById('branchSection').style.display = 'none';
-                document.getElementById('masterSection').style.display = 'none';
-                
-                // Reset branch selector
-                document.getElementById('memberBranch').value = '';
-                
-                // Show login screen and hide main app
-                document.getElementById('loginScreen').style.display = 'flex';
-                document.getElementById('mainApp').classList.remove('active');
-                
-                checkLoginReady();
-            }
-        }
-
-        // Add event listeners
-        document.getElementById('staffName').addEventListener('input', checkLoginReady);
-        document.getElementById('masterUsername').addEventListener('input', checkLoginReady);
-        document.getElementById('masterPassword').addEventListener('input', checkLoginReady);
-
-        function showTab(tabName) {
-            // Check if branch staff is trying to access restricted tabs
-            if (userRole === 'branch' && (tabName === 'list' || tabName === 'alerts' || tabName === 'stats')) {
-                alert('🔒 Access restricted. Branch staff can only add new members.\n\nContact master/director for full access.');
-                return;
-            }
-            
-            // Hide all sections
-            var sections = document.querySelectorAll('.section');
-            sections.forEach(function(section) {
-                section.classList.remove('active');
-            });
-            
-            // Remove active class from all tabs
-            var tabs = document.querySelectorAll('.tab');
-            tabs.forEach(function(tab) {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected section
-            document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to clicked tab
-            event.target.closest('.tab').classList.add('active');
-        }
-
-        function addMember() {
-            var name = document.getElementById('memberName').value;
-            var phone = document.getElementById('memberPhone').value;
-            var branch = document.getElementById('memberBranch').value;
-            var durationSelect = document.getElementById('memberDuration');
-            var duration = durationSelect.value;
-            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
-            
-            if (name && phone && branch) {
-                // Clear form
-                document.getElementById('memberName').value = '';
-                document.getElementById('memberPhone').value = '';
-                document.getElementById('memberDuration').value = '12';
-                updatePriceDisplay();
-                
-                // Show success message
-                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branch + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nStaff: ' + currentStaff + '\n\nThank you for joining our Fried Rice Club! 🍚');
-                
-                // Update stats (simple increment)
-                var totalElement = document.getElementById('totalMembers');
-                var activeElement = document.getElementById('activeMembers');
-                var revenueElement = document.getElementById('totalRevenue');
-                
-                var total = parseInt(totalElement.textContent) + 1;
-                var active = parseInt(activeElement.textContent) + 1;
-                var currentRevenue = parseInt(revenueElement.textContent.replace('RM', ''));
-                var newRevenue = currentRevenue + parseInt(price);
-                
-                totalElement.textContent = total;
-                activeElement.textContent = active;
-                revenueElement.textContent = 'RM' + newRevenue;
-            } else {
-                alert('❌ Please fill in all required fields');
-            }
-        }
-
-        function updatePriceDisplay() {
-            var durationSelect = document.getElementById('memberDuration');
-            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
-            document.getElementById('priceDisplay').textContent = 'RM' + price;
-            document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
-        }
-
-        // Load custom branches when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCustomBranches();
-            document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
-        });
-    </script>
-</body>
-</html>
+export default MembershipManagementSystem;
