@@ -13,56 +13,69 @@ var branchNames = {
                             <option value="Starhill Gallery">🌟 Starhill Gallery - Lot 6.01, Level 6</option>
                             <option value="The Gardens Mall">🌟 The Gardens Mall - Level 3, Premium Wing</option>
                         </optgroup>
-                        <optgroup label="🏬 Klang Valley - Shopping Malls">
+                        <optgroup label="🏬 Klang Valley - Shopping Centers">
                             <option value="Sunway Pyramid">🛍️ Sunway Pyramid - LG2 Floor</option>
                             <option value="One Utama">🏬 One Utama - New Wing, Level 3</option>
                             <option value="Mid Valley">🏢 Mid Valley - Level 3, Megamall</option>
                             <option value="Sunway Velocity">🏬 Sunway Velocity - Level 2</option>
                             <option value="IOI City Mall">🏬 IOI City Mall - Level 2</option>
-                            <option value="Empire Shopping">🏬 Empire Shopping - Level 1</option>
                         </optgroup>
-                        <optgroup label="🏢 Selangor - Main Areas">
+                        <optgroup label="🏢 Selangor - Street Shops & Commercial">
                             <option value="Shah Alam Central">🏢 Shah Alam Central - Jalan Tengku Ampuan</option>
-                            <option value="PJ SS2 Branch">🏬 PJ SS2 Branch - SS2 Shopping Center</option>
-                            <option value="Subang Parade">🏪 Subang Parade - Level 2, Mall</option>
-                            <option value="Damansara Uptown">🏢 Damansara Uptown - Block C</option>
-                            <option value="Kota Damansara">🏢 Kota Damansara - The Strand Mall</option>
-                            <option value="USJ Summit">🏢 USJ Summit - Level 2</option>
+                            <option value="PJ SS2 Branch">🏪 PJ SS2 Branch - SS2 Commercial Center</option>
+                            <option value="Subang Jaya">🏪 Subang Jaya - SS15 Shophouse</option>
+                            <option value="Damansara Uptown">🏢 Damansara Uptown - Block C, Ground Floor</option>
+                            <option value="Kota Damansara">🏪 Kota Damansara - Commercial Street</option>
+                            <option value="USJ Height">🏪 USJ Height - Corner Shop</option>
                         </optgroup>
-                        <optgroup label="🌴 Johor">
+                        <optgroup label="🌴 Johor - Various Locations">
                             <option value="JB City Square">🏬 JB City Square - Level 3</option>
+                            <option value="JB Taman Molek">🏪 JB Taman Molek - Street Shop</option>
                             <option value="Johor Premium">🌟 Johor Premium Outlets - G-23</option>
-                            <option value="Paradigm Mall JB">🏬 Paradigm Mall JB - Level 2</option>
-                            <option value="Aeon Tebrau">🏬 Aeon Tebrau - Level 1</option>
+                            <option value="Skudai Town">🏪 Skudai Town - Main Street</option>
                         </optgroup>
-                        <optgroup label="🏝️ Penang">
+                        <optgroup label="🏝️ Penang - Island & Mainland">
                             <option value="Gurney Plaza">🏬 Gurney Plaza - Level 3</option>
                             <option value="Queensbay Mall">🏬 Queensbay Mall - Level 2</option>
                             <option value="Georgetown Heritage">🏛️ Georgetown Heritage - Lebuh Pantai</option>
-                            <option value="Penang Times Square">🏬 Penang Times Square - Level 2</option>
+                            <option value="Butterworth">🏪 Butterworth - Jalan Bagan Luar</option>
                         </optgroup>
                         <optgroup label="🏔️ Other States">
                             <option value="Ipoh Parade">🏬 Ipoh Parade - Level 2, Perak</option>
-                            <option value="Kuantan City Mall">🏬 Kuantan City Mall - Level 1, Pahang</option>
-                            <option value="Kota Bharu Mall">🏬 Kota Bharu Mall - Kelantan</option>
+                            <option value="Ipoh Old Town">🏪 Ipoh Old Town - Heritage Shophouse</option>
+                            <option value="Kuantan City">🏬 Kuantan City Mall - Level 1, Pahang</option>
+                            <option value="Kuantan Taman Tas">🏪 Kuantan Taman Tas - Corner Lot</option>
                             <option value="Melaka Mahkota">🏬 Melaka Mahkota Parade - Level 2</option>
+                            <option value="Melaka Jonker">🏛️ Melaka Jonker Street - Heritage Shop</option>
                         </optgroup>
-                        <option value="custom" style="background: #fdf2f8; color: #ec4899; font-weight: bold;">➕ Add New Branch (Manual Entry)</option>
+                        <option value="manual" style="background: #fdf2f8; color: #ec4899; font-weight: bold;">✏️ Enter Branch Manually (Any Location Type)</option>
                     </select>
                     
-                    <!-- Custom Branch Input (Hidden by default) -->
-                    <div id="customBranchSection" style="display: none; margin-top: 8px;">
-                        <input type="text" class="form-input" id="customBranchInput" placeholder="Enter new branch name and location" style="border: 2px solid #ec4899; background: #fdf2f8;">
-                        <div style="display: flex; gap: 8px; margin-top: 8px;">
-                            <button type="button" onclick="saveCustomBranch()" style="flex: 1; padding: 8px; background: #ec4899; color: white; border: none; border-radius: 4px; font-size: 12px;">
-                                ✅ Save Branch
+                    <!-- Manual Branch Input (Hidden by default) -->
+                    <div id="manualBranchSection" style="display: none; margin-top: 12px; background: #fdf2f8; padding: 12px; border-radius: 8px; border: 2px solid #f9a8d4;">
+                        <div style="font-weight: 500; color: #be185d; margin-bottom: 8px; font-size: 13px;">
+                            ➕ Add New Branch Location
+                        </div>
+                        
+                        <input type="text" class="form-input" id="manualBranchInput" placeholder="Branch Name - Location Details" style="border: 2px solid #ec4899; background: white; margin-bottom: 8px;">
+                        
+                        <div style="font-size: 11px; color: #be185d; margin-bottom: 12px; line-height: 1.4;">
+                            <strong>Examples by location type:</strong><br>
+                            🏪 <strong>Street Shop:</strong> "Kepong Branch - No. 15, Jalan Kepong Baru"<br>
+                            🏢 <strong>Office Building:</strong> "TTDI Branch - Damansara City Mall, Ground Floor"<br>
+                            🏘️ <strong>Housing Area:</strong> "Taman Desa Branch - Block A, Ground Floor"<br>
+                            🏭 <strong>Industrial:</strong> "Puchong IOI Branch - IOI Boulevard, Lot G-12"<br>
+                            🚗 <strong>Drive-Thru:</strong> "Cyberjaya Drive-Thru - Persiaran Multimedia"<br>
+                            🏫 <strong>University:</strong> "UM Branch - University Malaya, Student Center"
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" onclick="saveManualBranch()" style="flex: 1; padding: 10px; background: #ec4899; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 500;">
+                                ✅ Add This Branch
                             </button>
-                            <button type="button" onclick="cancelCustomBranch()" style="flex: 1; padding: 8px; background: #6b7280; color: white; border: none; border-radius: 4px; font-size: 12px;">
+                            <button type="button" onclick="cancelManualBranch()" style="flex: 1; padding: 10px; background: #6b7280; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 500;">
                                 ❌ Cancel
                             </button>
-                        </div>
-                        <div style="font-size: 11px; color: #ec4899; margin-top: 4px;">
-                            💡 Example: "Kepong Branch - Kepong Village Mall, Level 1"
                         </div>
                     </div>
                 </div><!DOCTYPE html>
@@ -727,42 +740,31 @@ var branchNames = {
             </div>
 
             <div class="info-box">
-                <div class="info-title">🏢 Branch Network (25+ Locations)</div>
+                <div class="info-title">🏢 Flexible Branch Network (All Location Types)</div>
                 <div class="info-list">
-                    <strong>🌟 Premium Locations:</strong><br>
-                    • KLCC, Pavilion KL, Starhill Gallery, The Gardens<br><br>
+                    <strong>🌟 Current Network (30+ Locations):</strong><br>
+                    • Premium malls, street shops, commercial areas<br>
+                    • Housing estates, office buildings, universities<br>
+                    • Drive-thru, heritage sites, industrial areas<br><br>
                     
-                    <strong>🏬 Major Shopping Malls:</strong><br>
-                    • Sunway Pyramid, One Utama, Mid Valley, IOI City<br><br>
+                    <strong>📍 Easy Branch Addition:</strong><br>
+                    • ANY location type supported<br>
+                    • Street shops, corner lots, drive-thru<br>
+                    • Shopping centers, office buildings<br>
+                    • Housing areas, university campuses<br>
+                    • Industrial zones, heritage sites<br><br>
                     
-                    <strong>🏢 Selangor Network:</strong><br>
-                    • Shah Alam, PJ SS2, Subang, Damansara, USJ<br><br>
+                    <strong>🚀 Perfect For Expansion:</strong><br>
+                    • Instant branch addition (no IT needed)<br>
+                    • Works for all business models<br>
+                    • Franchise-ready system<br>
+                    • Unlimited growth potential<br><br>
                     
-                    <strong>🌏 Nationwide Coverage:</strong><br>
-                    • Johor: JB City Square, Paradigm Mall<br>
-                    • Penang: Gurney Plaza, Queensbay<br>
-                    • Others: Ipoh, Kuantan, Melaka, Kelantan<br><br>
-                    
-                    <strong>➕ Growing Network:</strong><br>
-                    • Add new branches instantly with manual entry<br>
-                    • Perfect for franchise expansion<br>
-                    • Supports 100+ locations<br><br>
-                    
-                    <strong>💰 Membership Pricing:</strong><br>
-                    • 1 Month: RM30<br>
-                    • 3 Months: RM80 (Save RM10)<br>
-                    • 6 Months: RM150 (Save RM30)<br>
-                    • 12 Months: RM250 (Save RM110) ⭐ Popular<br>
-                    • 18 Months: RM375 (Save RM165)<br>
-                    • 24 Months: RM480 (Save RM240)<br><br>
-                    
-                    <strong>🎁 Member Benefits:</strong><br>
-                    • Valid at ALL branches nationwide<br>
-                    • 10% discount on all dishes<br>
-                    • Earn 1 point per RM1 spent<br>
-                    • Birthday special + free meal<br>
-                    • Priority seating during peak hours<br>
-                    • Monthly exclusive recipes newsletter
+                    <strong>💰 Membership Benefits (All Branches):</strong><br>
+                    • 10% discount everywhere you go<br>
+                    • Points valid at ALL locations<br>
+                    • 12 months: RM250 (Save RM110) ⭐<br>
+                    • Birthday specials + priority seating
                 </div>
             </div>
         </div>
@@ -1038,19 +1040,19 @@ var branchNames = {
 
         function handleBranchChange() {
             var branchSelect = document.getElementById('memberBranch');
-            var customSection = document.getElementById('customBranchSection');
+            var manualSection = document.getElementById('manualBranchSection');
             
-            if (branchSelect.value === 'custom') {
-                customSection.style.display = 'block';
-                document.getElementById('customBranchInput').focus();
+            if (branchSelect.value === 'manual') {
+                manualSection.style.display = 'block';
+                document.getElementById('manualBranchInput').focus();
             } else {
-                customSection.style.display = 'none';
+                manualSection.style.display = 'none';
             }
         }
 
-        function saveCustomBranch() {
-            var customInput = document.getElementById('customBranchInput');
-            var branchName = customInput.value.trim();
+        function saveManualBranch() {
+            var manualInput = document.getElementById('manualBranchInput');
+            var branchName = manualInput.value.trim();
             
             if (branchName && branchName.length >= 5) {
                 // Add to database
@@ -1058,38 +1060,39 @@ var branchNames = {
                 
                 // Add to dropdown
                 var branchSelect = document.getElementById('memberBranch');
-                var customOption = branchSelect.querySelector('option[value="custom"]');
+                var manualOption = branchSelect.querySelector('option[value="manual"]');
                 
-                // Create new option before the custom option
+                // Create new option before the manual option
                 var newOption = document.createElement('option');
                 newOption.value = branchName;
                 newOption.textContent = '🆕 ' + branchName;
                 newOption.style.background = '#dcfce7';
                 newOption.style.color = '#166534';
+                newOption.style.fontWeight = '500';
                 
-                branchSelect.insertBefore(newOption, customOption);
+                branchSelect.insertBefore(newOption, manualOption);
                 
                 // Select the new branch
                 branchSelect.value = branchName;
                 
-                // Hide custom section
-                document.getElementById('customBranchSection').style.display = 'none';
-                customInput.value = '';
+                // Hide manual section
+                document.getElementById('manualBranchSection').style.display = 'none';
+                manualInput.value = '';
                 
                 // Show success message
-                alert('✅ New branch added successfully!\n\n"' + branchName + '" has been added to the system and is now available for all staff.');
+                alert('✅ New branch added successfully!\n\n"' + branchName + '" has been added to the system and is now available for all staff to use.\n\n📍 This branch will appear in the dropdown for future member registrations.');
                 
                 // Save to local storage for persistence
                 localStorage.setItem('customBranches', JSON.stringify(branchDatabase));
                 
             } else {
-                alert('❌ Please enter a valid branch name (minimum 5 characters)\n\nExample: "Kepong Branch - Kepong Village Mall, Level 1"');
+                alert('❌ Please enter a valid branch name (minimum 5 characters)\n\n📍 Examples:\n• "Kepong Branch - No. 15, Jalan Kepong Baru"\n• "TTDI Drive-Thru - Persiaran Multimedia"\n• "UM Branch - University Malaya, Student Center"');
             }
         }
 
-        function cancelCustomBranch() {
-            document.getElementById('customBranchSection').style.display = 'none';
-            document.getElementById('customBranchInput').value = '';
+        function cancelManualBranch() {
+            document.getElementById('manualBranchSection').style.display = 'none';
+            document.getElementById('manualBranchInput').value = '';
             document.getElementById('memberBranch').value = '';
         }
 
@@ -1098,7 +1101,7 @@ var branchNames = {
             if (saved) {
                 var savedBranches = JSON.parse(saved);
                 var branchSelect = document.getElementById('memberBranch');
-                var customOption = branchSelect.querySelector('option[value="custom"]');
+                var manualOption = branchSelect.querySelector('option[value="manual"]');
                 
                 // Add saved custom branches
                 savedBranches.forEach(function(branchName) {
@@ -1110,8 +1113,9 @@ var branchNames = {
                         newOption.textContent = '🆕 ' + branchName;
                         newOption.style.background = '#dcfce7';
                         newOption.style.color = '#166534';
+                        newOption.style.fontWeight = '500';
                         
-                        branchSelect.insertBefore(newOption, customOption);
+                        branchSelect.insertBefore(newOption, manualOption);
                     }
                 });
             }
