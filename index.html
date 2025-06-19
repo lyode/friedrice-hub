@@ -1,16 +1,70 @@
-<div class="form-group">
+var branchNames = {
+            'shah-alam': 'Shah Alam Central',
+            'pj-ss2': 'PJ SS2 Branch',
+            'subang': 'Subang Parade',
+            'klcc': 'KLCC Branch'
+        };                <div class="form-group">
                     <label class="form-label">Branch *</label>
-                    <select class="form-input" id="memberBranch" style="background: white;">
+                    <select class="form-input" id="memberBranch" onchange="handleBranchChange()" style="background: white;">
                         <option value="">Select Branch</option>
-                        <option value="Shah Alam Central">🏢 Shah Alam Central</option>
-                        <option value="PJ SS2 Branch">🏬 PJ SS2 Branch</option>
-                        <option value="Subang Parade">🏪 Subang Parade</option>
-                        <option value="KLCC Branch">🌟 KLCC Branch</option>
-                        <option value="Sunway Pyramid">🛍️ Sunway Pyramid</option>
-                        <option value="One Utama">🏬 One Utama</option>
-                        <option value="Mid Valley">🏢 Mid Valley</option>
-                        <option value="Pavilion KL">🌟 Pavilion KL</option>
+                        <optgroup label="🌟 Klang Valley - Premium">
+                            <option value="KLCC Branch">🌟 KLCC Branch - Suria KLCC, Level 4</option>
+                            <option value="Pavilion KL">🌟 Pavilion KL - Level 6, Elite Floor</option>
+                            <option value="Starhill Gallery">🌟 Starhill Gallery - Lot 6.01, Level 6</option>
+                            <option value="The Gardens Mall">🌟 The Gardens Mall - Level 3, Premium Wing</option>
+                        </optgroup>
+                        <optgroup label="🏬 Klang Valley - Shopping Malls">
+                            <option value="Sunway Pyramid">🛍️ Sunway Pyramid - LG2 Floor</option>
+                            <option value="One Utama">🏬 One Utama - New Wing, Level 3</option>
+                            <option value="Mid Valley">🏢 Mid Valley - Level 3, Megamall</option>
+                            <option value="Sunway Velocity">🏬 Sunway Velocity - Level 2</option>
+                            <option value="IOI City Mall">🏬 IOI City Mall - Level 2</option>
+                            <option value="Empire Shopping">🏬 Empire Shopping - Level 1</option>
+                        </optgroup>
+                        <optgroup label="🏢 Selangor - Main Areas">
+                            <option value="Shah Alam Central">🏢 Shah Alam Central - Jalan Tengku Ampuan</option>
+                            <option value="PJ SS2 Branch">🏬 PJ SS2 Branch - SS2 Shopping Center</option>
+                            <option value="Subang Parade">🏪 Subang Parade - Level 2, Mall</option>
+                            <option value="Damansara Uptown">🏢 Damansara Uptown - Block C</option>
+                            <option value="Kota Damansara">🏢 Kota Damansara - The Strand Mall</option>
+                            <option value="USJ Summit">🏢 USJ Summit - Level 2</option>
+                        </optgroup>
+                        <optgroup label="🌴 Johor">
+                            <option value="JB City Square">🏬 JB City Square - Level 3</option>
+                            <option value="Johor Premium">🌟 Johor Premium Outlets - G-23</option>
+                            <option value="Paradigm Mall JB">🏬 Paradigm Mall JB - Level 2</option>
+                            <option value="Aeon Tebrau">🏬 Aeon Tebrau - Level 1</option>
+                        </optgroup>
+                        <optgroup label="🏝️ Penang">
+                            <option value="Gurney Plaza">🏬 Gurney Plaza - Level 3</option>
+                            <option value="Queensbay Mall">🏬 Queensbay Mall - Level 2</option>
+                            <option value="Georgetown Heritage">🏛️ Georgetown Heritage - Lebuh Pantai</option>
+                            <option value="Penang Times Square">🏬 Penang Times Square - Level 2</option>
+                        </optgroup>
+                        <optgroup label="🏔️ Other States">
+                            <option value="Ipoh Parade">🏬 Ipoh Parade - Level 2, Perak</option>
+                            <option value="Kuantan City Mall">🏬 Kuantan City Mall - Level 1, Pahang</option>
+                            <option value="Kota Bharu Mall">🏬 Kota Bharu Mall - Kelantan</option>
+                            <option value="Melaka Mahkota">🏬 Melaka Mahkota Parade - Level 2</option>
+                        </optgroup>
+                        <option value="custom" style="background: #fdf2f8; color: #ec4899; font-weight: bold;">➕ Add New Branch (Manual Entry)</option>
                     </select>
+                    
+                    <!-- Custom Branch Input (Hidden by default) -->
+                    <div id="customBranchSection" style="display: none; margin-top: 8px;">
+                        <input type="text" class="form-input" id="customBranchInput" placeholder="Enter new branch name and location" style="border: 2px solid #ec4899; background: #fdf2f8;">
+                        <div style="display: flex; gap: 8px; margin-top: 8px;">
+                            <button type="button" onclick="saveCustomBranch()" style="flex: 1; padding: 8px; background: #ec4899; color: white; border: none; border-radius: 4px; font-size: 12px;">
+                                ✅ Save Branch
+                            </button>
+                            <button type="button" onclick="cancelCustomBranch()" style="flex: 1; padding: 8px; background: #6b7280; color: white; border: none; border-radius: 4px; font-size: 12px;">
+                                ❌ Cancel
+                            </button>
+                        </div>
+                        <div style="font-size: 11px; color: #ec4899; margin-top: 4px;">
+                            💡 Example: "Kepong Branch - Kepong Village Mall, Level 1"
+                        </div>
+                    </div>
                 </div><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -673,27 +727,31 @@
             </div>
 
             <div class="info-box">
-                <div class="info-title">🏢 Available Branches</div>
+                <div class="info-title">🏢 Branch Network (25+ Locations)</div>
                 <div class="info-list">
-                    <strong>Main Branches:</strong><br>
-                    • Shah Alam Central - Jalan Tengku Ampuan Zabedah<br>
-                    • PJ SS2 Branch - SS2 Shopping Center<br>
-                    • Subang Parade - Level 2, Mall<br>
-                    • KLCC Branch - Suria KLCC, Level 4<br><br>
-                    <strong>New Branches:</strong><br>
-                    • Sunway Pyramid - LG2 Floor<br>
-                    • One Utama - New Wing, Level 3<br>
-                    • Mid Valley - Level 3, Megamall<br>
-                    • Pavilion KL - Level 6, Elite Floor<br><br>
-                    <strong>💰 Membership Pricing:</strong><br>
-                    • 12 months: RM250 (Save RM110) ⭐ Popular<br>
-                    • 18 months: RM375 (Save RM165)<br>
-                    • 24 months: RM480 (Save RM240)<br><br>
-                    <strong>Member Benefits:</strong><br>
-                    • 10% discount on all dishes<br>
-                    • Earn 1 point per RM1 spent<br>
-                    • Birthday special + free meal<br>
-                    • Priority seating during peak hours
+                    <strong>🌟 Premium Locations:</strong><br>
+                    • KLCC, Pavilion KL, Starhill Gallery, The Gardens<br><br>
+                    
+                    <strong>🏬 Major Shopping Malls:</strong><br>
+                    • Sunway Pyramid, One Utama, Mid Valley, IOI City<br><br>
+                    
+                    <strong>🏢 Selangor Network:</strong><br>
+                    • Shah Alam, PJ SS2, Subang, Damansara, USJ<br><br>
+                    
+                    <strong>🌏 Nationwide Coverage:</strong><br>
+                    • Johor: JB City Square, Paradigm Mall<br>
+                    • Penang: Gurney Plaza, Queensbay<br>
+                    • Others: Ipoh, Kuantan, Melaka, Kelantan<br><br>
+                    
+                    <strong>➕ Growing Network:</strong><br>
+                    • Add new branches instantly with manual entry<br>
+                    • Perfect for franchise expansion<br>
+                    • Supports 100+ locations<br><br>
+                    
+                    <strong>💰 Membership Benefits:</strong><br>
+                    • Valid at ALL branches nationwide<br>
+                    • 10% discount + points system<br>
+                    • Birthday specials + priority seating
                 </div>
             </div>
         </div>
@@ -952,12 +1010,101 @@
         var selectedBranch = null;
         var currentStaff = null;
         var userRole = null;
-        var branchNames = {
-            'shah-alam': 'Shah Alam Central',
-            'pj-ss2': 'PJ SS2 Branch',
-            'subang': 'Subang Parade',
-            'klcc': 'KLCC Branch'
-        };
+        var branchDatabase = [
+            // Klang Valley Premium
+            'KLCC Branch', 'Pavilion KL', 'Starhill Gallery', 'The Gardens Mall',
+            // Klang Valley Malls
+            'Sunway Pyramid', 'One Utama', 'Mid Valley', 'Sunway Velocity', 'IOI City Mall', 'Empire Shopping',
+            // Selangor
+            'Shah Alam Central', 'PJ SS2 Branch', 'Subang Parade', 'Damansara Uptown', 'Kota Damansara', 'USJ Summit',
+            // Johor
+            'JB City Square', 'Johor Premium', 'Paradigm Mall JB', 'Aeon Tebrau',
+            // Penang
+            'Gurney Plaza', 'Queensbay Mall', 'Georgetown Heritage', 'Penang Times Square',
+            // Other States
+            'Ipoh Parade', 'Kuantan City Mall', 'Kota Bharu Mall', 'Melaka Mahkota'
+        ];
+
+        function handleBranchChange() {
+            var branchSelect = document.getElementById('memberBranch');
+            var customSection = document.getElementById('customBranchSection');
+            
+            if (branchSelect.value === 'custom') {
+                customSection.style.display = 'block';
+                document.getElementById('customBranchInput').focus();
+            } else {
+                customSection.style.display = 'none';
+            }
+        }
+
+        function saveCustomBranch() {
+            var customInput = document.getElementById('customBranchInput');
+            var branchName = customInput.value.trim();
+            
+            if (branchName && branchName.length >= 5) {
+                // Add to database
+                branchDatabase.push(branchName);
+                
+                // Add to dropdown
+                var branchSelect = document.getElementById('memberBranch');
+                var customOption = branchSelect.querySelector('option[value="custom"]');
+                
+                // Create new option before the custom option
+                var newOption = document.createElement('option');
+                newOption.value = branchName;
+                newOption.textContent = '🆕 ' + branchName;
+                newOption.style.background = '#dcfce7';
+                newOption.style.color = '#166534';
+                
+                branchSelect.insertBefore(newOption, customOption);
+                
+                // Select the new branch
+                branchSelect.value = branchName;
+                
+                // Hide custom section
+                document.getElementById('customBranchSection').style.display = 'none';
+                customInput.value = '';
+                
+                // Show success message
+                alert('✅ New branch added successfully!\n\n"' + branchName + '" has been added to the system and is now available for all staff.');
+                
+                // Save to local storage for persistence
+                localStorage.setItem('customBranches', JSON.stringify(branchDatabase));
+                
+            } else {
+                alert('❌ Please enter a valid branch name (minimum 5 characters)\n\nExample: "Kepong Branch - Kepong Village Mall, Level 1"');
+            }
+        }
+
+        function cancelCustomBranch() {
+            document.getElementById('customBranchSection').style.display = 'none';
+            document.getElementById('customBranchInput').value = '';
+            document.getElementById('memberBranch').value = '';
+        }
+
+        function loadCustomBranches() {
+            var saved = localStorage.getItem('customBranches');
+            if (saved) {
+                var savedBranches = JSON.parse(saved);
+                var branchSelect = document.getElementById('memberBranch');
+                var customOption = branchSelect.querySelector('option[value="custom"]');
+                
+                // Add saved custom branches
+                savedBranches.forEach(function(branchName) {
+                    if (!branchDatabase.includes(branchName)) {
+                        branchDatabase.push(branchName);
+                        
+                        var newOption = document.createElement('option');
+                        newOption.value = branchName;
+                        newOption.textContent = '🆕 ' + branchName;
+                        newOption.style.background = '#dcfce7';
+                        newOption.style.color = '#166534';
+                        
+                        branchSelect.insertBefore(newOption, customOption);
+                    }
+                });
+            }
+        }
 
         function toggleLoginType() {
             var role = document.getElementById('roleSelect').value;
@@ -1187,8 +1334,9 @@
             document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
         }
 
-        // Update price when duration changes
+        // Load custom branches when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            loadCustomBranches();
             document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
         });
     </script>
