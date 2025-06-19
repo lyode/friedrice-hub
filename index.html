@@ -110,126 +110,94 @@ const MembershipManagementSystem = () => {
   );
 
   const tabs = [
-    { id: 'activation', icon: Users, label: 'Add', count: 0 },
-    { id: 'tracking', icon: Calendar, label: 'Members', count: 0 },
-    { id: 'renewals', icon: Bell, label: 'Alerts', count: expiringMembers.length },
-    { id: 'analytics', icon: TrendingUp, label: 'Stats', count: 0 }
+    { id: 'activation', icon: Plus, label: 'Add' },
+    { id: 'tracking', icon: Users, label: 'List' },
+    { id: 'renewals', icon: Bell, label: 'Alert', count: expiringMembers.length },
+    { id: 'analytics', icon: TrendingUp, label: 'Stats' }
   ];
 
   return (
-    <div className="max-w-full mx-auto bg-gray-50 min-h-screen">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-orange-500 to-red-500 p-4 text-white">
-        <div className="text-center mb-4">
-          <h1 className="text-xl font-bold mb-1">🍚 Fried Rice Shop</h1>
-          <p className="text-orange-100 text-sm">Membership Management</p>
+    <div className="w-full max-w-md mx-auto bg-gray-50 min-h-screen relative pb-20">
+      {/* Mobile Header - Compact */}
+      <div className="bg-orange-500 p-3 text-white sticky top-0 z-10">
+        <div className="text-center mb-3">
+          <h1 className="text-lg font-bold">🍚 Fried Rice Shop</h1>
+          <p className="text-xs text-orange-100">Membership System</p>
         </div>
         
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center">
-            <div className="text-lg font-bold">{totalMembers}</div>
-            <div className="text-xs text-orange-100">Total</div>
+        {/* Stats Grid - 2x2 for mobile */}
+        <div className="grid grid-cols-2 gap-2 text-center">
+          <div className="bg-white bg-opacity-20 rounded p-2">
+            <div className="text-sm font-bold">{totalMembers}</div>
+            <div className="text-xs">Total</div>
           </div>
-          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center">
-            <div className="text-lg font-bold">{activeMembers}</div>
-            <div className="text-xs text-orange-100">Active</div>
+          <div className="bg-white bg-opacity-20 rounded p-2">
+            <div className="text-sm font-bold">{activeMembers}</div>
+            <div className="text-xs">Active</div>
           </div>
-          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center">
-            <div className="text-lg font-bold">RM{totalRevenue.toFixed(0)}</div>
-            <div className="text-xs text-orange-100">Revenue</div>
+          <div className="bg-white bg-opacity-20 rounded p-2">
+            <div className="text-sm font-bold">RM{totalRevenue.toFixed(0)}</div>
+            <div className="text-xs">Revenue</div>
           </div>
-          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center">
-            <div className="text-lg font-bold">{expiringMembers.length}</div>
-            <div className="text-xs text-orange-100">Expiring</div>
+          <div className="bg-white bg-opacity-20 rounded p-2">
+            <div className="text-sm font-bold">{expiringMembers.length}</div>
+            <div className="text-xs">Expiring</div>
           </div>
         </div>
       </div>
 
-      {/* Tab Navigation */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="flex">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 px-2 py-3 text-center relative ${
-                  activeTab === tab.id
-                    ? 'text-orange-600 bg-orange-50'
-                    : 'text-gray-500'
-                }`}
-              >
-                {activeTab === tab.id && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-500"></div>
-                )}
-                <Icon className="w-5 h-5 mx-auto mb-1" />
-                <div className="text-xs font-medium">
-                  {tab.label}
-                  {tab.count > 0 && (
-                    <span className="ml-1 bg-red-500 text-white rounded-full px-1 text-xs">
-                      {tab.count}
-                    </span>
-                  )}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-4">
+      {/* Mobile Content Area */}
+      <div className="p-3 pb-20">
         {/* Add Member Tab */}
         {activeTab === 'activation' && (
-          <div className="space-y-6">
-            <h2 className="text-lg font-bold text-gray-800">New Member Registration</h2>
+          <div className="space-y-4">
+            <h2 className="text-base font-bold text-gray-800">Add New Member</h2>
             
-            <div className="bg-white rounded-lg p-4 shadow-sm space-y-4">
+            <div className="bg-white rounded-lg p-3 shadow-sm space-y-3">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Name *</label>
                 <input
                   type="text"
                   value={newMember.name}
                   onChange={(e) => setNewMember({...newMember, name: e.target.value})}
-                  className="w-full p-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-                  placeholder="Enter customer name"
+                  className="w-full p-3 text-sm border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  placeholder="Customer name"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Phone *</label>
                 <input
                   type="tel"
                   value={newMember.phone}
                   onChange={(e) => setNewMember({...newMember, phone: e.target.value})}
-                  className="w-full p-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+                  className="w-full p-3 text-sm border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   placeholder="+60xxxxxxxxx"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email (Optional)</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Email</label>
                 <input
                   type="email"
                   value={newMember.email}
                   onChange={(e) => setNewMember({...newMember, email: e.target.value})}
-                  className="w-full p-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+                  className="w-full p-3 text-sm border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   placeholder="customer@email.com"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Duration</label>
                 <select
                   value={newMember.duration}
                   onChange={(e) => setNewMember({...newMember, duration: e.target.value})}
-                  className="w-full p-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+                  className="w-full p-3 text-sm border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 >
                   <option value="1">1 Month</option>
                   <option value="3">3 Months</option>
                   <option value="6">6 Months</option>
-                  <option value="12">12 Months (Popular)</option>
+                  <option value="12">12 Months</option>
                   <option value="18">18 Months</option>
                   <option value="24">24 Months</option>
                 </select>
@@ -238,23 +206,18 @@ const MembershipManagementSystem = () => {
               <button
                 onClick={addNewMember}
                 disabled={!newMember.name || !newMember.phone}
-                className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center"
+                className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 text-white py-3 rounded-lg font-medium text-sm"
               >
-                <Plus className="w-5 h-5 mr-2" />
-                Activate Membership
+                Add Member
               </button>
             </div>
 
-            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-              <div className="flex items-center mb-3">
-                <Award className="w-5 h-5 text-orange-500 mr-2" />
-                <h3 className="font-semibold text-gray-800">Member Benefits</h3>
-              </div>
-              <div className="text-sm text-orange-700 space-y-1">
-                <div>• 10% discount on all dishes</div>
-                <div>• Earn points with every visit</div>
-                <div>• Birthday special offers</div>
-                <div>• Priority seating</div>
+            <div className="bg-orange-50 rounded-lg p-3">
+              <h3 className="font-medium text-orange-800 text-sm mb-2">Member Benefits</h3>
+              <div className="text-xs text-orange-700 space-y-1">
+                <div>• 10% off all dishes</div>
+                <div>• Points for every visit</div>
+                <div>• Birthday specials</div>
               </div>
             </div>
           </div>
@@ -262,77 +225,69 @@ const MembershipManagementSystem = () => {
 
         {/* Members List Tab */}
         {activeTab === 'tracking' && (
-          <div className="space-y-4">
-            <div className="flex flex-col gap-4">
-              <h2 className="text-lg font-bold text-gray-800">All Members ({filteredMembers.length})</h2>
-              <div className="flex items-center space-x-2">
-                <div className="relative flex-1">
-                  <Search className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search members..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
-                  />
-                </div>
-                <button className="bg-green-500 hover:bg-green-600 text-white p-2.5 rounded-lg">
-                  <Download className="w-5 h-5" />
-                </button>
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <div className="relative flex-1">
+                <Search className="w-4 h-4 absolute left-2 top-2.5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-8 pr-3 py-2 text-sm border rounded-lg"
+                />
               </div>
+              <button className="bg-green-500 text-white p-2 rounded-lg">
+                <Download className="w-4 h-4" />
+              </button>
             </div>
 
-            <div className="space-y-3">
+            <div className="text-sm text-gray-600 mb-2">
+              {filteredMembers.length} members
+            </div>
+
+            <div className="space-y-2">
               {filteredMembers.map((member) => {
                 const daysToExpiry = getDaysToExpiry(member.expiryDate);
                 return (
-                  <div key={member.id} className="bg-white rounded-lg p-4 shadow-sm border">
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="flex-1">
-                        <div className="font-medium text-gray-800">{member.name}</div>
-                        <div className="text-sm text-gray-500 font-mono">{member.id}</div>
+                  <div key={member.id} className="bg-white rounded-lg p-3 shadow-sm">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <div className="font-medium text-sm">{member.name}</div>
+                        <div className="text-xs text-gray-500">{member.id}</div>
                       </div>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(member.status)}`}>
+                      <span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(member.status)}`}>
                         {member.status}
                       </span>
                     </div>
                     
-                    <div className="space-y-2 text-sm mb-3">
-                      <div className="flex items-center text-gray-600">
-                        <Phone className="w-4 h-4 mr-2" />
-                        {member.phone}
-                      </div>
-                      {member.email && (
-                        <div className="flex items-center text-gray-600">
-                          <Mail className="w-4 h-4 mr-2" />
-                          {member.email}
-                        </div>
-                      )}
+                    <div className="text-xs text-gray-600 mb-2">
+                      <div>{member.phone}</div>
+                      {member.email && <div>{member.email}</div>}
                     </div>
                     
-                    <div className="grid grid-cols-3 gap-3 text-sm mb-3">
-                      <div className="text-center bg-gray-50 rounded p-2">
-                        <Star className="w-4 h-4 text-yellow-500 mx-auto mb-1" />
+                    <div className="grid grid-cols-3 gap-2 text-xs text-center mb-2">
+                      <div className="bg-gray-50 rounded p-1">
                         <div className="font-medium">{member.points}</div>
-                        <div className="text-xs text-gray-500">Points</div>
+                        <div className="text-gray-500">Points</div>
                       </div>
-                      <div className="text-center bg-gray-50 rounded p-2">
+                      <div className="bg-gray-50 rounded p-1">
                         <div className="font-medium">{member.visits}</div>
-                        <div className="text-xs text-gray-500">Visits</div>
+                        <div className="text-gray-500">Visits</div>
                       </div>
-                      <div className="text-center bg-gray-50 rounded p-2">
+                      <div className="bg-gray-50 rounded p-1">
                         <div className="font-medium">RM{member.totalSpent.toFixed(0)}</div>
-                        <div className="text-xs text-gray-500">Spent</div>
+                        <div className="text-gray-500">Spent</div>
                       </div>
                     </div>
                     
                     <div className="flex justify-between items-center">
-                      <div className="text-sm">
-                        <div className={daysToExpiry <= 30 ? 'text-orange-600 font-medium' : 'text-gray-600'}>
-                          Expires: {member.expiryDate}
+                      <div className="text-xs">
+                        <div className={daysToExpiry <= 30 ? 'text-orange-600' : 'text-gray-600'}>
+                          Exp: {member.expiryDate}
                         </div>
-                        <div className={`text-xs ${daysToExpiry <= 30 ? 'text-orange-500' : 'text-gray-500'}`}>
-                          {daysToExpiry > 0 ? `${daysToExpiry} days left` : 'Expired'}
+                        <div className="text-gray-500">
+                          {daysToExpiry > 0 ? `${daysToExpiry} days` : 'Expired'}
                         </div>
                       </div>
                       <button
@@ -340,9 +295,9 @@ const MembershipManagementSystem = () => {
                           setSelectedMember(member);
                           setShowMemberDetails(true);
                         }}
-                        className="text-blue-600 hover:text-blue-800 p-2"
+                        className="text-blue-600 p-1"
                       >
-                        <Edit className="w-5 h-5" />
+                        <Edit className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -354,29 +309,22 @@ const MembershipManagementSystem = () => {
 
         {/* Renewals Tab */}
         {activeTab === 'renewals' && (
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h2 className="text-lg font-bold text-gray-800">Renewal Alerts</h2>
-              {expiringMembers.length > 0 && (
-                <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium">
-                  Send All
-                </button>
-              )}
-            </div>
+          <div className="space-y-3">
+            <h2 className="text-base font-bold text-gray-800">Renewal Alerts</h2>
             
             {expiringMembers.length === 0 ? (
-              <div className="text-center py-12 bg-white rounded-lg">
-                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-800 mb-2">All Good!</h3>
-                <p className="text-gray-600">No memberships expiring soon.</p>
+              <div className="text-center py-8 bg-white rounded-lg">
+                <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-2" />
+                <h3 className="font-medium text-gray-800 mb-1">All Good!</h3>
+                <p className="text-sm text-gray-600">No expiring memberships</p>
               </div>
             ) : (
-              <div className="space-y-4">
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="space-y-3">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                   <div className="flex items-center">
-                    <AlertCircle className="w-5 h-5 text-yellow-600 mr-2" />
-                    <span className="font-medium text-yellow-800 text-sm">
-                      {expiringMembers.length} membership{expiringMembers.length > 1 ? 's' : ''} expiring soon
+                    <AlertCircle className="w-4 h-4 text-yellow-600 mr-2" />
+                    <span className="text-sm font-medium text-yellow-800">
+                      {expiringMembers.length} expiring soon
                     </span>
                   </div>
                 </div>
@@ -384,23 +332,23 @@ const MembershipManagementSystem = () => {
                 {expiringMembers.map((member) => {
                   const daysToExpiry = getDaysToExpiry(member.expiryDate);
                   return (
-                    <div key={member.id} className="bg-white border border-yellow-200 rounded-lg p-4 shadow-sm">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center space-x-3">
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    <div key={member.id} className="bg-white border border-yellow-200 rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
                             daysToExpiry <= 7 ? 'bg-red-100' : 'bg-yellow-100'
                           }`}>
-                            <Clock className={`w-5 h-5 ${
+                            <Clock className={`w-3 h-3 ${
                               daysToExpiry <= 7 ? 'text-red-600' : 'text-yellow-600'
                             }`} />
                           </div>
                           <div>
-                            <h3 className="font-semibold text-gray-800">{member.name}</h3>
-                            <div className="text-sm text-gray-600">{member.phone}</div>
+                            <div className="font-medium text-sm">{member.name}</div>
+                            <div className="text-xs text-gray-600">{member.phone}</div>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className={`text-lg font-bold ${
+                          <div className={`text-sm font-bold ${
                             daysToExpiry <= 7 ? 'text-red-600' : 'text-yellow-600'
                           }`}>
                             {daysToExpiry}
@@ -409,38 +357,33 @@ const MembershipManagementSystem = () => {
                         </div>
                       </div>
                       
-                      <div className="bg-gray-50 rounded-lg p-3 mb-4">
-                        <div className="grid grid-cols-3 gap-3 text-sm text-center">
-                          <div>
-                            <div className="font-semibold text-gray-800">{member.visits}</div>
-                            <div className="text-gray-600 text-xs">Visits</div>
-                          </div>
-                          <div>
-                            <div className="font-semibold text-gray-800">RM{member.totalSpent.toFixed(0)}</div>
-                            <div className="text-gray-600 text-xs">Spent</div>
-                          </div>
-                          <div>
-                            <div className="font-semibold text-gray-800">{member.points}</div>
-                            <div className="text-gray-600 text-xs">Points</div>
-                          </div>
+                      <div className="grid grid-cols-3 gap-2 text-xs text-center mb-3">
+                        <div className="bg-gray-50 rounded p-1">
+                          <div className="font-medium">{member.visits}</div>
+                          <div className="text-gray-500">Visits</div>
+                        </div>
+                        <div className="bg-gray-50 rounded p-1">
+                          <div className="font-medium">RM{member.totalSpent.toFixed(0)}</div>
+                          <div className="text-gray-500">Spent</div>
+                        </div>
+                        <div className="bg-gray-50 rounded p-1">
+                          <div className="font-medium">{member.points}</div>
+                          <div className="text-gray-500">Points</div>
                         </div>
                       </div>
                       
-                      <div className="flex flex-col space-y-2">
-                        <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-3 rounded-lg text-sm font-medium flex items-center justify-center">
-                          <Bell className="w-4 h-4 mr-2" />
+                      <div className="space-y-2">
+                        <button className="w-full bg-yellow-500 text-white py-2 rounded-lg text-sm">
                           Send Reminder
                         </button>
-                        <div className="flex space-x-2">
+                        <div className="grid grid-cols-2 gap-2">
                           <button 
                             onClick={() => renewMembership(member.id, 12)}
-                            className="flex-1 bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg text-sm font-medium flex items-center justify-center"
+                            className="bg-green-500 text-white py-2 rounded-lg text-sm"
                           >
-                            <CheckCircle className="w-4 h-4 mr-2" />
                             Renew
                           </button>
-                          <button className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg text-sm font-medium flex items-center justify-center">
-                            <Gift className="w-4 h-4 mr-2" />
+                          <button className="bg-blue-500 text-white py-2 rounded-lg text-sm">
                             Offer
                           </button>
                         </div>
@@ -455,60 +398,60 @@ const MembershipManagementSystem = () => {
 
         {/* Analytics Tab */}
         {activeTab === 'analytics' && (
-          <div className="space-y-6">
-            <h2 className="text-lg font-bold text-gray-800">Analytics</h2>
+          <div className="space-y-4">
+            <h2 className="text-base font-bold text-gray-800">Analytics</h2>
             
-            <div className="grid grid-cols-1 gap-4">
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-lg">
-                <div className="flex items-center justify-between">
+            <div className="space-y-3">
+              <div className="bg-blue-500 text-white p-3 rounded-lg">
+                <div className="flex justify-between items-center">
                   <div>
-                    <p className="text-blue-100 text-sm">Total Revenue</p>
-                    <p className="text-xl font-bold">RM{totalRevenue.toFixed(2)}</p>
+                    <p className="text-xs text-blue-100">Total Revenue</p>
+                    <p className="text-lg font-bold">RM{totalRevenue.toFixed(2)}</p>
                   </div>
-                  <TrendingUp className="w-8 h-8 text-blue-200" />
+                  <TrendingUp className="w-6 h-6 text-blue-200" />
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-lg">
-                <div className="flex items-center justify-between">
+              <div className="bg-green-500 text-white p-3 rounded-lg">
+                <div className="flex justify-between items-center">
                   <div>
-                    <p className="text-green-100 text-sm">Active Rate</p>
-                    <p className="text-xl font-bold">{((activeMembers/totalMembers)*100).toFixed(1)}%</p>
+                    <p className="text-xs text-green-100">Active Rate</p>
+                    <p className="text-lg font-bold">{((activeMembers/totalMembers)*100).toFixed(1)}%</p>
                   </div>
-                  <Users className="w-8 h-8 text-green-200" />
+                  <Users className="w-6 h-6 text-green-200" />
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-4 rounded-lg">
-                <div className="flex items-center justify-between">
+              <div className="bg-purple-500 text-white p-3 rounded-lg">
+                <div className="flex justify-between items-center">
                   <div>
-                    <p className="text-purple-100 text-sm">Average Spent</p>
-                    <p className="text-xl font-bold">RM{averageSpent.toFixed(2)}</p>
+                    <p className="text-xs text-purple-100">Avg Spent</p>
+                    <p className="text-lg font-bold">RM{averageSpent.toFixed(0)}</p>
                   </div>
-                  <CreditCard className="w-8 h-8 text-purple-200" />
+                  <CreditCard className="w-6 h-6 text-purple-200" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h3 className="text-base font-semibold text-gray-800 mb-4">Top Spenders</h3>
-              <div className="space-y-3">
+            <div className="bg-white rounded-lg p-3 shadow-sm">
+              <h3 className="text-sm font-medium text-gray-800 mb-3">Top Spenders</h3>
+              <div className="space-y-2">
                 {members
                   .sort((a, b) => b.totalSpent - a.totalSpent)
-                  .slice(0, 5)
+                  .slice(0, 3)
                   .map((member, index) => (
                     <div key={member.id} className="flex items-center justify-between">
                       <div className="flex items-center">
-                        <div className="w-6 h-6 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                        <div className="w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">
                           {index + 1}
                         </div>
-                        <div className="ml-3">
-                          <div className="font-medium text-gray-800 text-sm">{member.name}</div>
+                        <div>
+                          <div className="text-sm font-medium">{member.name}</div>
                           <div className="text-xs text-gray-500">{member.visits} visits</div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-semibold text-gray-800 text-sm">RM{member.totalSpent.toFixed(0)}</div>
+                        <div className="text-sm font-medium">RM{member.totalSpent.toFixed(0)}</div>
                         <div className="text-xs text-gray-500">{member.points} pts</div>
                       </div>
                     </div>
@@ -519,43 +462,67 @@ const MembershipManagementSystem = () => {
         )}
       </div>
 
+      {/* Bottom Navigation - Fixed */}
+      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white border-t shadow-lg">
+        <div className="grid grid-cols-4">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`p-3 flex flex-col items-center justify-center relative ${
+                  isActive ? 'text-orange-600 bg-orange-50' : 'text-gray-500'
+                }`}
+              >
+                <Icon className="w-5 h-5 mb-1" />
+                <span className="text-xs font-medium">{tab.label}</span>
+                {tab.count > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Member Details Modal */}
       {showMemberDetails && selectedMember && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end sm:items-center justify-center z-50">
-          <div className="bg-white rounded-t-xl sm:rounded-lg w-full sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="p-4 border-b sticky top-0 bg-white">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-bold text-gray-800">Member Details</h3>
-                <button
-                  onClick={() => setShowMemberDetails(false)}
-                  className="text-gray-500 hover:text-gray-700 p-2"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end">
+          <div className="bg-white rounded-t-xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="p-3 border-b flex justify-between items-center">
+              <h3 className="font-bold text-gray-800">Member Details</h3>
+              <button
+                onClick={() => setShowMemberDetails(false)}
+                className="text-gray-500 p-1"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
             
-            <div className="p-4 space-y-6">
+            <div className="p-3 space-y-4">
               <div>
-                <h4 className="font-semibold text-gray-800 mb-3">Personal Information</h4>
-                <div className="space-y-2 text-sm">
-                  <div><strong>ID:</strong> {selectedMember.id}</div>
-                  <div><strong>Name:</strong> {selectedMember.name}</div>
-                  <div><strong>Phone:</strong> {selectedMember.phone}</div>
-                  <div><strong>Email:</strong> {selectedMember.email || 'Not provided'}</div>
-                  <div><strong>Address:</strong> {selectedMember.address || 'Not provided'}</div>
+                <h4 className="font-medium text-gray-800 mb-2">Personal Info</h4>
+                <div className="space-y-1 text-sm">
+                  <div><span className="font-medium">ID:</span> {selectedMember.id}</div>
+                  <div><span className="font-medium">Name:</span> {selectedMember.name}</div>
+                  <div><span className="font-medium">Phone:</span> {selectedMember.phone}</div>
+                  <div><span className="font-medium">Email:</span> {selectedMember.email || 'None'}</div>
                 </div>
               </div>
               
               <div>
-                <h4 className="font-semibold text-gray-800 mb-3">Membership Details</h4>
-                <div className="space-y-2 text-sm">
-                  <div><strong>Join Date:</strong> {selectedMember.joinDate}</div>
-                  <div><strong>Expiry Date:</strong> {selectedMember.expiryDate}</div>
-                  <div><strong>Duration:</strong> {selectedMember.duration}</div>
+                <h4 className="font-medium text-gray-800 mb-2">Membership</h4>
+                <div className="space-y-1 text-sm">
+                  <div><span className="font-medium">Joined:</span> {selectedMember.joinDate}</div>
+                  <div><span className="font-medium">Expires:</span> {selectedMember.expiryDate}</div>
+                  <div><span className="font-medium">Duration:</span> {selectedMember.duration}</div>
                   <div className="flex items-center">
-                    <strong>Status:</strong>
-                    <span className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedMember.status)}`}>
+                    <span className="font-medium mr-2">Status:</span>
+                    <span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(selectedMember.status)}`}>
                       {selectedMember.status}
                     </span>
                   </div>
@@ -563,40 +530,38 @@ const MembershipManagementSystem = () => {
               </div>
               
               <div>
-                <h4 className="font-semibold text-gray-800 mb-3">Activity Summary</h4>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-blue-50 p-3 rounded-lg text-center">
-                    <div className="font-bold text-blue-600 text-lg">{selectedMember.points}</div>
+                <h4 className="font-medium text-gray-800 mb-2">Activity</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-blue-50 p-2 rounded text-center">
+                    <div className="font-bold text-blue-600">{selectedMember.points}</div>
                     <div className="text-xs text-blue-600">Points</div>
                   </div>
-                  <div className="bg-green-50 p-3 rounded-lg text-center">
-                    <div className="font-bold text-green-600 text-lg">{selectedMember.visits}</div>
+                  <div className="bg-green-50 p-2 rounded text-center">
+                    <div className="font-bold text-green-600">{selectedMember.visits}</div>
                     <div className="text-xs text-green-600">Visits</div>
                   </div>
-                  <div className="bg-purple-50 p-3 rounded-lg text-center">
-                    <div className="font-bold text-purple-600 text-lg">RM{selectedMember.totalSpent.toFixed(0)}</div>
-                    <div className="text-xs text-purple-600">Total Spent</div>
+                  <div className="bg-purple-50 p-2 rounded text-center">
+                    <div className="font-bold text-purple-600">RM{selectedMember.totalSpent.toFixed(0)}</div>
+                    <div className="text-xs text-purple-600">Spent</div>
                   </div>
-                  <div className="bg-orange-50 p-3 rounded-lg text-center">
-                    <div className="font-bold text-orange-600 text-lg">{selectedMember.lastVisit || 'Never'}</div>
+                  <div className="bg-orange-50 p-2 rounded text-center">
+                    <div className="font-bold text-orange-600">{selectedMember.lastVisit || 'Never'}</div>
                     <div className="text-xs text-orange-600">Last Visit</div>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="p-4 border-t bg-gray-50 sticky bottom-0">
-              <div className="flex flex-col space-y-2">
-                <button
-                  onClick={() => setShowMemberDetails(false)}
-                  className="w-full px-4 py-3 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100"
-                >
-                  Close
-                </button>
-                <button className="w-full px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
-                  Edit Member
-                </button>
-              </div>
+            <div className="p-3 border-t space-y-2">
+              <button
+                onClick={() => setShowMemberDetails(false)}
+                className="w-full py-2 text-gray-600 border rounded-lg"
+              >
+                Close
+              </button>
+              <button className="w-full py-2 bg-orange-500 text-white rounded-lg">
+                Edit Member
+              </button>
             </div>
           </div>
         </div>
