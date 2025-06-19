@@ -1,388 +1,661 @@
-import React, { useState } from 'react';
-
-const MembershipManagementSystem = () => {
-  const [activeTab, setActiveTab] = useState('add');
-  const [members, setMembers] = useState([
-    { id: 'M001', name: 'Sarah Chen', phone: '+60123456789', status: 'Active', points: 450, visits: 12, spent: 480 },
-    { id: 'M002', name: 'Ahmad Rahman', phone: '+60198765432', status: 'Expiring Soon', points: 280, visits: 8, spent: 320 },
-    { id: 'M003', name: 'Priya Sharma', phone: '+60167890123', status: 'Active', points: 150, visits: 5, spent: 180 }
-  ]);
-
-  const [newMember, setNewMember] = useState({ name: '', phone: '', duration: '12' });
-
-  const addMember = () => {
-    if (newMember.name && newMember.phone) {
-      const member = {
-        id: `M${String(members.length + 1).padStart(3, '0')}`,
-        name: newMember.name,
-        phone: newMember.phone,
-        status: 'Active',
-        points: 0,
-        visits: 0,
-        spent: 0
-      };
-      setMembers([...members, member]);
-      setNewMember({ name: '', phone: '', duration: '12' });
-    }
-  };
-
-  const totalMembers = members.length;
-  const activeMembers = members.filter(m => m.status === 'Active').length;
-  const totalRevenue = members.reduce((sum, m) => sum + m.spent, 0);
-  const expiringCount = members.filter(m => m.status === 'Expiring Soon').length;
-
-  return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', backgroundColor: '#f9fafb', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-      
-      {/* Header */}
-      <div style={{ backgroundColor: '#f97316', color: 'white', padding: '16px', textAlign: 'center' }}>
-        <h1 style={{ margin: '0 0 8px 0', fontSize: '18px', fontWeight: 'bold' }}>🍚 Fried Rice Shop</h1>
-        <p style={{ margin: '0 0 16px 0', fontSize: '12px', opacity: '0.9' }}>Membership Management</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fried Rice Shop - Mobile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
-        {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-          <div style={{ backgroundColor: 'rgba(255,255,255,0.2)', padding: '12px', borderRadius: '8px', textAlign: 'center' }}>
-            <div style={{ fontSize: '16px', fontWeight: 'bold' }}>{totalMembers}</div>
-            <div style={{ fontSize: '10px' }}>Total</div>
-          </div>
-          <div style={{ backgroundColor: 'rgba(255,255,255,0.2)', padding: '12px', borderRadius: '8px', textAlign: 'center' }}>
-            <div style={{ fontSize: '16px', fontWeight: 'bold' }}>{activeMembers}</div>
-            <div style={{ fontSize: '10px' }}>Active</div>
-          </div>
-          <div style={{ backgroundColor: 'rgba(255,255,255,0.2)', padding: '12px', borderRadius: '8px', textAlign: 'center' }}>
-            <div style={{ fontSize: '16px', fontWeight: 'bold' }}>RM{totalRevenue}</div>
-            <div style={{ fontSize: '10px' }}>Revenue</div>
-          </div>
-          <div style={{ backgroundColor: 'rgba(255,255,255,0.2)', padding: '12px', borderRadius: '8px', textAlign: 'center' }}>
-            <div style={{ fontSize: '16px', fontWeight: 'bold' }}>{expiringCount}</div>
-            <div style={{ fontSize: '10px' }}>Expiring</div>
-          </div>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background-color: #f9fafb;
+            max-width: 400px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .header p {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 16px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .stat-label {
+            font-size: 10px;
+        }
+        
+        .tabs {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px 8px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            color: #f97316;
+            background: #fff7ed;
+            border-bottom-color: #f97316;
+        }
+        
+        .tab-icon {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        
+        .content {
+            padding: 16px;
+            padding-bottom: 80px;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 12px;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: #f97316;
+            color: white;
+        }
+        
+        .btn-primary:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+        
+        .member-card {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 8px;
+        }
+        
+        .member-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        
+        .member-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f2937;
+        }
+        
+        .member-id {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-expiring {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .member-phone {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            font-size: 12px;
+        }
+        
+        .stat {
+            text-align: center;
+            background: #f9fafb;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .stat-value {
+            font-weight: 500;
+        }
+        
+        .stat-label-small {
+            color: #6b7280;
+            font-size: 10px;
+        }
+        
+        .metric-card {
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .metric-blue { background: #3b82f6; }
+        .metric-green { background: #10b981; }
+        .metric-purple { background: #8b5cf6; }
+        
+        .metric-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .metric-icon {
+            font-size: 24px;
+        }
+        
+        .alert-warning {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #92400e;
+            margin-left: 8px;
+        }
+        
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .btn-yellow { background: #f59e0b; color: white; }
+        .btn-green { background: #10b981; color: white; }
+        .btn-blue { background: #3b82f6; color: white; }
+        
+        .btn-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .info-box {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .info-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #c2410c;
+            margin-bottom: 8px;
+        }
+        
+        .info-list {
+            font-size: 12px;
+            color: #c2410c;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>🍚 Fried Rice Shop</h1>
+        <p>Membership Management</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalMembers">3</div>
+                <div class="stat-label">Total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeMembers">2</div>
+                <div class="stat-label">Active</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalRevenue">RM980</div>
+                <div class="stat-label">Revenue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="expiringCount">1</div>
+                <div class="stat-label">Expiring</div>
+            </div>
         </div>
-      </div>
+    </div>
 
-      {/* Tab Navigation */}
-      <div style={{ backgroundColor: 'white', borderBottom: '1px solid #e5e7eb', display: 'flex' }}>
-        {[
-          { id: 'add', label: '➕ Add', icon: '➕' },
-          { id: 'list', label: '👥 List', icon: '👥' },
-          { id: 'alerts', label: '🔔 Alerts', icon: '🔔' },
-          { id: 'stats', label: '📊 Stats', icon: '📊' }
-        ].map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            style={{
-              flex: 1,
-              padding: '12px 8px',
-              border: 'none',
-              backgroundColor: activeTab === tab.id ? '#fff7ed' : 'white',
-              color: activeTab === tab.id ? '#f97316' : '#6b7280',
-              fontSize: '12px',
-              fontWeight: '500',
-              cursor: 'pointer',
-              borderBottom: activeTab === tab.id ? '2px solid #f97316' : 'none'
-            }}
-          >
-            <div>{tab.icon}</div>
-            <div style={{ marginTop: '4px' }}>{tab.label.split(' ')[1]}</div>
-          </button>
-        ))}
-      </div>
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('add')">
+            <div class="tab-icon">➕</div>
+            <div>Add</div>
+        </button>
+        <button class="tab" onclick="showTab('list')">
+            <div class="tab-icon">👥</div>
+            <div>List</div>
+        </button>
+        <button class="tab" onclick="showTab('alerts')">
+            <div class="tab-icon">🔔</div>
+            <div>Alerts</div>
+        </button>
+        <button class="tab" onclick="showTab('stats')">
+            <div class="tab-icon">📊</div>
+            <div>Stats</div>
+        </button>
+    </div>
 
-      {/* Content */}
-      <div style={{ padding: '16px', paddingBottom: '80px' }}>
-        
-        {/* Add Member Tab */}
-        {activeTab === 'add' && (
-          <div>
-            <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '16px', color: '#1f2937' }}>Add New Member</h2>
+    <!-- Content -->
+    <div class="content">
+        <!-- Add Member Section -->
+        <div id="add" class="section active">
+            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Add New Member</h2>
             
-            <div style={{ backgroundColor: 'white', padding: '16px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '4px' }}>Name *</label>
-                <input
-                  type="text"
-                  value={newMember.name}
-                  onChange={(e) => setNewMember({...newMember, name: e.target.value})}
-                  placeholder="Customer name"
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    boxSizing: 'border-box'
-                  }}
-                />
-              </div>
+            <div class="card">
+                <div class="form-group">
+                    <label class="form-label">Name *</label>
+                    <input type="text" class="form-input" id="memberName" placeholder="Customer name">
+                </div>
 
-              <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '4px' }}>Phone *</label>
-                <input
-                  type="tel"
-                  value={newMember.phone}
-                  onChange={(e) => setNewMember({...newMember, phone: e.target.value})}
-                  placeholder="+60xxxxxxxxx"
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    boxSizing: 'border-box'
-                  }}
-                />
-              </div>
+                <div class="form-group">
+                    <label class="form-label">Phone *</label>
+                    <input type="tel" class="form-input" id="memberPhone" placeholder="+60xxxxxxxxx">
+                </div>
 
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '4px' }}>Duration</label>
-                <select
-                  value={newMember.duration}
-                  onChange={(e) => setNewMember({...newMember, duration: e.target.value})}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    boxSizing: 'border-box'
-                  }}
-                >
-                  <option value="1">1 Month</option>
-                  <option value="3">3 Months</option>
-                  <option value="6">6 Months</option>
-                  <option value="12">12 Months</option>
-                </select>
-              </div>
+                <div class="form-group">
+                    <label class="form-label">Duration</label>
+                    <select class="form-input" id="memberDuration">
+                        <option value="1">1 Month</option>
+                        <option value="3">3 Months</option>
+                        <option value="6">6 Months</option>
+                        <option value="12" selected>12 Months</option>
+                    </select>
+                </div>
 
-              <button
-                onClick={addMember}
-                disabled={!newMember.name || !newMember.phone}
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  backgroundColor: newMember.name && newMember.phone ? '#f97316' : '#d1d5db',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  cursor: newMember.name && newMember.phone ? 'pointer' : 'not-allowed'
-                }}
-              >
-                Add Member
-              </button>
+                <button class="btn btn-primary" onclick="addMember()">Add Member</button>
             </div>
 
-            <div style={{ backgroundColor: '#fff7ed', padding: '12px', borderRadius: '8px', marginTop: '16px', border: '1px solid #fed7aa' }}>
-              <h3 style={{ fontSize: '14px', fontWeight: '500', color: '#c2410c', marginBottom: '8px' }}>Member Benefits</h3>
-              <div style={{ fontSize: '12px', color: '#c2410c' }}>
-                <div>• 10% discount on all dishes</div>
-                <div>• Earn points with every visit</div>
-                <div>• Birthday special offers</div>
-              </div>
+            <div class="info-box">
+                <div class="info-title">🎁 Member Benefits</div>
+                <div class="info-list">
+                    • 10% discount on all dishes<br>
+                    • Earn points with every visit<br>
+                    • Birthday special offers
+                </div>
             </div>
-          </div>
-        )}
+        </div>
 
-        {/* Members List Tab */}
-        {activeTab === 'list' && (
-          <div>
-            <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '16px', color: '#1f2937' }}>All Members ({members.length})</h2>
+        <!-- Members List Section -->
+        <div id="list" class="section">
+            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">All Members (3)</h2>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {members.map(member => (
-                <div key={member.id} style={{ backgroundColor: 'white', padding: '12px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+            <div class="member-card">
+                <div class="member-header">
                     <div>
-                      <div style={{ fontSize: '14px', fontWeight: '500', color: '#1f2937' }}>{member.name}</div>
-                      <div style={{ fontSize: '12px', color: '#6b7280' }}>{member.id}</div>
+                        <div class="member-name">Sarah Chen</div>
+                        <div class="member-id">M001</div>
                     </div>
-                    <span style={{
-                      padding: '4px 8px',
-                      borderRadius: '12px',
-                      fontSize: '10px',
-                      fontWeight: '500',
-                      backgroundColor: member.status === 'Active' ? '#d1fae5' : '#fef3c7',
-                      color: member.status === 'Active' ? '#065f46' : '#92400e'
-                    }}>
-                      {member.status}
-                    </span>
-                  </div>
-                  
-                  <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-                    📞 {member.phone}
-                  </div>
-                  
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', fontSize: '12px' }}>
-                    <div style={{ textAlign: 'center', backgroundColor: '#f9fafb', padding: '8px', borderRadius: '4px' }}>
-                      <div style={{ fontWeight: '500' }}>⭐ {member.points}</div>
-                      <div style={{ color: '#6b7280' }}>Points</div>
-                    </div>
-                    <div style={{ textAlign: 'center', backgroundColor: '#f9fafb', padding: '8px', borderRadius: '4px' }}>
-                      <div style={{ fontWeight: '500' }}>{member.visits}</div>
-                      <div style={{ color: '#6b7280' }}>Visits</div>
-                    </div>
-                    <div style={{ textAlign: 'center', backgroundColor: '#f9fafb', padding: '8px', borderRadius: '4px' }}>
-                      <div style={{ fontWeight: '500' }}>RM{member.spent}</div>
-                      <div style={{ color: '#6b7280' }}>Spent</div>
-                    </div>
-                  </div>
+                    <span class="status-badge status-active">Active</span>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Alerts Tab */}
-        {activeTab === 'alerts' && (
-          <div>
-            <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '16px', color: '#1f2937' }}>Renewal Alerts</h2>
-            
-            {expiringCount === 0 ? (
-              <div style={{ textAlign: 'center', padding: '32px', backgroundColor: 'white', borderRadius: '8px' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
-                <h3 style={{ fontSize: '16px', fontWeight: '500', color: '#1f2937', marginBottom: '8px' }}>All Good!</h3>
-                <p style={{ fontSize: '14px', color: '#6b7280' }}>No memberships expiring soon</p>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div style={{ backgroundColor: '#fef3c7', padding: '12px', borderRadius: '8px', border: '1px solid #fbbf24' }}>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <span style={{ marginRight: '8px' }}>⚠️</span>
-                    <span style={{ fontSize: '14px', fontWeight: '500', color: '#92400e' }}>
-                      {expiringCount} membership{expiringCount > 1 ? 's' : ''} expiring soon
-                    </span>
-                  </div>
-                </div>
-
-                {members.filter(m => m.status === 'Expiring Soon').map(member => (
-                  <div key={member.id} style={{ backgroundColor: 'white', padding: '12px', borderRadius: '8px', border: '1px solid #fbbf24' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                      <div>
-                        <div style={{ fontSize: '14px', fontWeight: '500' }}>{member.name}</div>
-                        <div style={{ fontSize: '12px', color: '#6b7280' }}>{member.phone}</div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#f59e0b' }}>15</div>
-                        <div style={{ fontSize: '10px', color: '#6b7280' }}>days</div>
-                      </div>
+                <div class="member-phone">📞 +60123456789</div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value">⭐ 450</div>
+                        <div class="stat-label-small">Points</div>
                     </div>
-                    
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', fontSize: '12px', marginBottom: '12px' }}>
-                      <div style={{ textAlign: 'center', backgroundColor: '#f9fafb', padding: '8px', borderRadius: '4px' }}>
-                        <div style={{ fontWeight: '500' }}>{member.visits}</div>
-                        <div style={{ color: '#6b7280' }}>Visits</div>
-                      </div>
-                      <div style={{ textAlign: 'center', backgroundColor: '#f9fafb', padding: '8px', borderRadius: '4px' }}>
-                        <div style={{ fontWeight: '500' }}>RM{member.spent}</div>
-                        <div style={{ color: '#6b7280' }}>Spent</div>
-                      </div>
-                      <div style={{ textAlign: 'center', backgroundColor: '#f9fafb', padding: '8px', borderRadius: '4px' }}>
-                        <div style={{ fontWeight: '500' }}>{member.points}</div>
-                        <div style={{ color: '#6b7280' }}>Points</div>
-                      </div>
+                    <div class="stat">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label-small">Visits</div>
                     </div>
-                    
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <button style={{ width: '100%', padding: '8px', backgroundColor: '#f59e0b', color: 'white', border: 'none', borderRadius: '4px', fontSize: '12px' }}>
-                        🔔 Send Reminder
-                      </button>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                        <button style={{ padding: '8px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '4px', fontSize: '12px' }}>
-                          ✅ Renew
-                        </button>
-                        <button style={{ padding: '8px', backgroundColor: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', fontSize: '12px' }}>
-                          🎁 Offer
-                        </button>
-                      </div>
+                    <div class="stat">
+                        <div class="stat-value">RM480</div>
+                        <div class="stat-label-small">Spent</div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Stats Tab */}
-        {activeTab === 'stats' && (
-          <div>
-            <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '16px', color: '#1f2937' }}>Analytics</h2>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px' }}>
-              <div style={{ backgroundColor: '#3b82f6', color: 'white', padding: '16px', borderRadius: '8px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <p style={{ fontSize: '12px', opacity: '0.8', margin: '0 0 4px 0' }}>Total Revenue</p>
-                    <p style={{ fontSize: '20px', fontWeight: 'bold', margin: '0' }}>RM{totalRevenue}</p>
-                  </div>
-                  <div style={{ fontSize: '24px' }}>📈</div>
                 </div>
-              </div>
-
-              <div style={{ backgroundColor: '#10b981', color: 'white', padding: '16px', borderRadius: '8px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <p style={{ fontSize: '12px', opacity: '0.8', margin: '0 0 4px 0' }}>Active Rate</p>
-                    <p style={{ fontSize: '20px', fontWeight: 'bold', margin: '0' }}>{Math.round((activeMembers/totalMembers)*100)}%</p>
-                  </div>
-                  <div style={{ fontSize: '24px' }}>👥</div>
-                </div>
-              </div>
-
-              <div style={{ backgroundColor: '#8b5cf6', color: 'white', padding: '16px', borderRadius: '8px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <p style={{ fontSize: '12px', opacity: '0.8', margin: '0 0 4px 0' }}>Average Spent</p>
-                    <p style={{ fontSize: '20px', fontWeight: 'bold', margin: '0' }}>RM{Math.round(totalRevenue/totalMembers)}</p>
-                  </div>
-                  <div style={{ fontSize: '24px' }}>💳</div>
-                </div>
-              </div>
             </div>
 
-            <div style={{ backgroundColor: 'white', padding: '16px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-              <h3 style={{ fontSize: '14px', fontWeight: '500', marginBottom: '12px', color: '#1f2937' }}>Top Spenders</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {members
-                  .sort((a, b) => b.spent - a.spent)
-                  .slice(0, 3)
-                  .map((member, index) => (
-                    <div key={member.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <div style={{
-                          width: '20px',
-                          height: '20px',
-                          backgroundColor: '#f59e0b',
-                          borderRadius: '50%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: 'white',
-                          fontSize: '10px',
-                          fontWeight: 'bold',
-                          marginRight: '8px'
-                        }}>
-                          {index + 1}
+            <div class="member-card">
+                <div class="member-header">
+                    <div>
+                        <div class="member-name">Ahmad Rahman</div>
+                        <div class="member-id">M002</div>
+                    </div>
+                    <span class="status-badge status-expiring">Expiring Soon</span>
+                </div>
+                <div class="member-phone">📞 +60198765432</div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value">⭐ 280</div>
+                        <div class="stat-label-small">Points</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label-small">Visits</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">RM320</div>
+                        <div class="stat-label-small">Spent</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-header">
+                    <div>
+                        <div class="member-name">Priya Sharma</div>
+                        <div class="member-id">M003</div>
+                    </div>
+                    <span class="status-badge status-active">Active</span>
+                </div>
+                <div class="member-phone">📞 +60167890123</div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value">⭐ 150</div>
+                        <div class="stat-label-small">Points</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label-small">Visits</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">RM180</div>
+                        <div class="stat-label-small">Spent</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Section -->
+        <div id="alerts" class="section">
+            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Renewal Alerts</h2>
+            
+            <div class="alert-warning">
+                <span>⚠️</span>
+                <span class="alert-text">1 membership expiring soon</span>
+            </div>
+
+            <div class="member-card" style="border: 1px solid #fbbf24;">
+                <div class="member-header">
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 32px; height: 32px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <span style="color: #f59e0b;">⏰</span>
                         </div>
                         <div>
-                          <div style={{ fontSize: '12px', fontWeight: '500' }}>{member.name}</div>
-                          <div style={{ fontSize: '10px', color: '#6b7280' }}>{member.visits} visits</div>
+                            <div class="member-name">Ahmad Rahman</div>
+                            <div class="member-id">+60198765432</div>
                         </div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontSize: '12px', fontWeight: '500' }}>RM{member.spent}</div>
-                        <div style={{ fontSize: '10px', color: '#6b7280' }}>{member.points} pts</div>
-                      </div>
                     </div>
-                  ))}
-              </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 16px; font-weight: bold; color: #f59e0b;">15</div>
+                        <div style="font-size: 10px; color: #6b7280;">days</div>
+                    </div>
+                </div>
+                
+                <div class="stats-row" style="margin: 12px 0;">
+                    <div class="stat">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label-small">Visits</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">RM320</div>
+                        <div class="stat-label-small">Spent</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">280</div>
+                        <div class="stat-label-small">Points</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-small btn-yellow" style="width: 100%; margin-bottom: 8px;">
+                    🔔 Send Reminder
+                </button>
+                <div class="btn-row">
+                    <button class="btn-small btn-green">✅ Renew</button>
+                    <button class="btn-small btn-blue">🎁 Offer</button>
+                </div>
             </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
+        </div>
 
-export default MembershipManagementSystem;
+        <!-- Stats Section -->
+        <div id="stats" class="section">
+            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Analytics</h2>
+            
+            <div class="metric-card metric-blue">
+                <div>
+                    <div class="metric-label">Total Revenue</div>
+                    <div class="metric-value">RM980</div>
+                </div>
+                <div class="metric-icon">📈</div>
+            </div>
+
+            <div class="metric-card metric-green">
+                <div>
+                    <div class="metric-label">Active Rate</div>
+                    <div class="metric-value">67%</div>
+                </div>
+                <div class="metric-icon">👥</div>
+            </div>
+
+            <div class="metric-card metric-purple">
+                <div>
+                    <div class="metric-label">Average Spent</div>
+                    <div class="metric-value">RM327</div>
+                </div>
+                <div class="metric-icon">💳</div>
+            </div>
+
+            <div class="card">
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Top Spenders</h3>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 20px; height: 20px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">1</div>
+                        <div>
+                            <div style="font-size: 12px; font-weight: 500;">Sarah Chen</div>
+                            <div style="font-size: 10px; color: #6b7280;">12 visits</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 12px; font-weight: 500;">RM480</div>
+                        <div style="font-size: 10px; color: #6b7280;">450 pts</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 20px; height: 20px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">2</div>
+                        <div>
+                            <div style="font-size: 12px; font-weight: 500;">Ahmad Rahman</div>
+                            <div style="font-size: 10px; color: #6b7280;">8 visits</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 12px; font-weight: 500;">RM320</div>
+                        <div style="font-size: 10px; color: #6b7280;">280 pts</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 20px; height: 20px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">3</div>
+                        <div>
+                            <div style="font-size: 12px; font-weight: 500;">Priya Sharma</div>
+                            <div style="font-size: 10px; color: #6b7280;">5 visits</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 12px; font-weight: 500;">RM180</div>
+                        <div style="font-size: 10px; color: #6b7280;">150 pts</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all sections
+            var sections = document.querySelectorAll('.section');
+            sections.forEach(function(section) {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.closest('.tab').classList.add('active');
+        }
+
+        function addMember() {
+            var name = document.getElementById('memberName').value;
+            var phone = document.getElementById('memberPhone').value;
+            var duration = document.getElementById('memberDuration').value;
+            
+            if (name && phone) {
+                // Clear form
+                document.getElementById('memberName').value = '';
+                document.getElementById('memberPhone').value = '';
+                document.getElementById('memberDuration').value = '12';
+                
+                // Show success message
+                alert('Member added successfully!\nName: ' + name + '\nPhone: ' + phone + '\nDuration: ' + duration + ' months');
+                
+                // Update stats (simple increment)
+                var totalElement = document.getElementById('totalMembers');
+                var activeElement = document.getElementById('activeMembers');
+                var total = parseInt(totalElement.textContent) + 1;
+                var active = parseInt(activeElement.textContent) + 1;
+                
+                totalElement.textContent = total;
+                activeElement.textContent = active;
+            } else {
+                alert('Please fill in Name and Phone fields');
+            }
+        }
+    </script>
+</body>
+</html>
