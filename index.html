@@ -496,32 +496,63 @@
             <div class="login-header">
                 <div style="font-size: 48px; margin-bottom: 16px;">🍚</div>
                 <h1 class="login-title">Fried Rice Shop</h1>
-                <p class="login-subtitle">Select your branch to continue</p>
+                <p class="login-subtitle">Login to Membership System</p>
             </div>
             
-            <div class="branch-grid">
-                <div class="branch-btn" onclick="selectBranch('shah-alam')" data-branch="shah-alam">
-                    <div class="branch-name">🏢 Shah Alam Central</div>
-                    <div class="branch-location">No. 45, Jalan Tengku Ampuan Zabedah</div>
-                    <div class="branch-status">● Online</div>
+            <!-- Role Selection -->
+            <div class="form-group">
+                <label class="form-label">Login Type</label>
+                <select class="form-input" id="roleSelect" onchange="toggleLoginType()">
+                    <option value="">Select Role</option>
+                    <option value="branch">Branch Staff</option>
+                    <option value="master">Master/Director</option>
+                </select>
+            </div>
+            
+            <!-- Branch Selection (for branch staff) -->
+            <div id="branchSection" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label">Select Branch</label>
+                    <div class="branch-grid">
+                        <div class="branch-btn" onclick="selectBranch('shah-alam')" data-branch="shah-alam">
+                            <div class="branch-name">🏢 Shah Alam Central</div>
+                            <div class="branch-location">No. 45, Jalan Tengku Ampuan Zabedah</div>
+                            <div class="branch-status">● Online</div>
+                        </div>
+                        
+                        <div class="branch-btn" onclick="selectBranch('pj-ss2')" data-branch="pj-ss2">
+                            <div class="branch-name">🏬 PJ SS2 Branch</div>
+                            <div class="branch-location">Lot 2-15, SS2 Shopping Center</div>
+                            <div class="branch-status">● Online</div>
+                        </div>
+                        
+                        <div class="branch-btn" onclick="selectBranch('subang')" data-branch="subang">
+                            <div class="branch-name">🏪 Subang Parade</div>
+                            <div class="branch-location">Level 2, Subang Parade Mall</div>
+                            <div class="branch-status">● Online</div>
+                        </div>
+                        
+                        <div class="branch-btn" onclick="selectBranch('klcc')" data-branch="klcc">
+                            <div class="branch-name">🌟 KLCC Branch</div>
+                            <div class="branch-location">Suria KLCC, Level 4</div>
+                            <div class="branch-status">● Online</div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="branch-btn" onclick="selectBranch('pj-ss2')" data-branch="pj-ss2">
-                    <div class="branch-name">🏬 PJ SS2 Branch</div>
-                    <div class="branch-location">Lot 2-15, SS2 Shopping Center</div>
-                    <div class="branch-status">● Online</div>
+            </div>
+            
+            <!-- Master Login (for master/director) -->
+            <div id="masterSection" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" id="masterUsername" placeholder="Enter username">
                 </div>
-                
-                <div class="branch-btn" onclick="selectBranch('subang')" data-branch="subang">
-                    <div class="branch-name">🏪 Subang Parade</div>
-                    <div class="branch-location">Level 2, Subang Parade Mall</div>
-                    <div class="branch-status">● Online</div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="masterPassword" placeholder="Enter password">
                 </div>
-                
-                <div class="branch-btn" onclick="selectBranch('klcc')" data-branch="klcc">
-                    <div class="branch-name">🌟 KLCC Branch</div>
-                    <div class="branch-location">Suria KLCC, Level 4</div>
-                    <div class="branch-status">● Online</div>
+                <div style="font-size: 11px; color: #6b7280; margin-top: 8px;">
+                    💡 Demo: username: <strong>admin</strong>, password: <strong>admin123</strong>
                 </div>
             </div>
             
@@ -531,7 +562,7 @@
             </div>
             
             <button class="login-btn" onclick="login()" id="loginBtn" disabled>
-                Start Managing Members
+                Login to System
             </button>
         </div>
     </div>
@@ -641,82 +672,95 @@
 
         <!-- Members List Section -->
         <div id="list" class="section">
-            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">All Members (3)</h2>
+            <!-- Branch Staff View -->
+            <div id="branchListView" style="display: none;">
+                <div style="text-center; padding: 32px; background: white; border-radius: 8px;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
+                    <h3 style="font-size: 16px; font-weight: 500; color: #1f2937; margin-bottom: 8px;">Access Restricted</h3>
+                    <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">Branch staff can only add new members.</p>
+                    <p style="font-size: 12px; color: #6b7280;">Contact master/director for member details access.</p>
+                </div>
+            </div>
             
-            <div class="member-card">
-                <div class="member-header">
-                    <div>
-                        <div class="member-name">Sarah Chen</div>
-                        <div class="member-id">M001</div>
-                        <div class="member-branch">Shah Alam Central</div>
+            <!-- Master/Director View -->
+            <div id="masterListView" style="display: none;">
+                <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">All Members (3)</h2>
+                
+                <div class="member-card">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">Sarah Chen</div>
+                            <div class="member-id">M001</div>
+                            <div class="member-branch">Shah Alam Central</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
                     </div>
-                    <span class="status-badge status-active">Active</span>
+                    <div class="member-phone">📞 +60123456789</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">⭐ 450</div>
+                            <div class="stat-label-small">Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label-small">Visits</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM480</div>
+                            <div class="stat-label-small">Spent</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="member-phone">📞 +60123456789</div>
-                <div class="stats-row">
-                    <div class="stat">
-                        <div class="stat-value">⭐ 450</div>
-                        <div class="stat-label-small">Points</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">12</div>
-                        <div class="stat-label-small">Visits</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">RM480</div>
-                        <div class="stat-label-small">Spent</div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="member-card">
-                <div class="member-header">
-                    <div>
-                        <div class="member-name">Ahmad Rahman</div>
-                        <div class="member-id">M002</div>
-                        <div class="member-branch">PJ SS2 Branch</div>
+                <div class="member-card">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">Ahmad Rahman</div>
+                            <div class="member-id">M002</div>
+                            <div class="member-branch">PJ SS2 Branch</div>
+                        </div>
+                        <span class="status-badge status-expiring">Expiring Soon</span>
                     </div>
-                    <span class="status-badge status-expiring">Expiring Soon</span>
+                    <div class="member-phone">📞 +60198765432</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">⭐ 280</div>
+                            <div class="stat-label-small">Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label-small">Visits</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM320</div>
+                            <div class="stat-label-small">Spent</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="member-phone">📞 +60198765432</div>
-                <div class="stats-row">
-                    <div class="stat">
-                        <div class="stat-value">⭐ 280</div>
-                        <div class="stat-label-small">Points</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">8</div>
-                        <div class="stat-label-small">Visits</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">RM320</div>
-                        <div class="stat-label-small">Spent</div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="member-card">
-                <div class="member-header">
-                    <div>
-                        <div class="member-name">Priya Sharma</div>
-                        <div class="member-id">M003</div>
-                        <div class="member-branch">Subang Parade</div>
+                <div class="member-card">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">Priya Sharma</div>
+                            <div class="member-id">M003</div>
+                            <div class="member-branch">Subang Parade</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
                     </div>
-                    <span class="status-badge status-active">Active</span>
-                </div>
-                <div class="member-phone">📞 +60167890123</div>
-                <div class="stats-row">
-                    <div class="stat">
-                        <div class="stat-value">⭐ 150</div>
-                        <div class="stat-label-small">Points</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">5</div>
-                        <div class="stat-label-small">Visits</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">RM180</div>
-                        <div class="stat-label-small">Spent</div>
+                    <div class="member-phone">📞 +60167890123</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">⭐ 150</div>
+                            <div class="stat-label-small">Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label-small">Visits</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM180</div>
+                            <div class="stat-label-small">Spent</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -724,125 +768,151 @@
 
         <!-- Alerts Section -->
         <div id="alerts" class="section">
-            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Renewal Alerts</h2>
-            
-            <div class="alert-warning">
-                <span>⚠️</span>
-                <span class="alert-text">1 membership expiring soon</span>
+            <!-- Branch Staff View -->
+            <div id="branchAlertsView" style="display: none;">
+                <div style="text-center; padding: 32px; background: white; border-radius: 8px;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
+                    <h3 style="font-size: 16px; font-weight: 500; color: #1f2937; margin-bottom: 8px;">Access Restricted</h3>
+                    <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">Only master/director can view renewal alerts.</p>
+                    <p style="font-size: 12px; color: #6b7280;">Focus on adding new members for your branch.</p>
+                </div>
             </div>
+            
+            <!-- Master/Director View -->
+            <div id="masterAlertsView" style="display: none;">
+                <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Renewal Alerts</h2>
+                
+                <div class="alert-warning">
+                    <span>⚠️</span>
+                    <span class="alert-text">1 membership expiring soon</span>
+                </div>
 
-            <div class="member-card" style="border: 1px solid #fbbf24;">
-                <div class="member-header">
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 32px; height: 32px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
-                            <span style="color: #f59e0b;">⏰</span>
+                <div class="member-card" style="border: 1px solid #fbbf24;">
+                    <div class="member-header">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 32px; height: 32px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                <span style="color: #f59e0b;">⏰</span>
+                            </div>
+                            <div>
+                                <div class="member-name">Ahmad Rahman</div>
+                                <div class="member-id">+60198765432</div>
+                            </div>
                         </div>
-                        <div>
-                            <div class="member-name">Ahmad Rahman</div>
-                            <div class="member-id">+60198765432</div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 16px; font-weight: bold; color: #f59e0b;">15</div>
+                            <div style="font-size: 10px; color: #6b7280;">days</div>
                         </div>
                     </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 16px; font-weight: bold; color: #f59e0b;">15</div>
-                        <div style="font-size: 10px; color: #6b7280;">days</div>
+                    
+                    <div class="stats-row" style="margin: 12px 0;">
+                        <div class="stat">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label-small">Visits</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM320</div>
+                            <div class="stat-label-small">Spent</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">280</div>
+                            <div class="stat-label-small">Points</div>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="stats-row" style="margin: 12px 0;">
-                    <div class="stat">
-                        <div class="stat-value">8</div>
-                        <div class="stat-label-small">Visits</div>
+                    
+                    <button class="btn btn-small btn-yellow" style="width: 100%; margin-bottom: 8px;">
+                        🔔 Send Reminder
+                    </button>
+                    <div class="btn-row">
+                        <button class="btn-small btn-green">✅ Renew</button>
+                        <button class="btn-small btn-blue">🎁 Offer</button>
                     </div>
-                    <div class="stat">
-                        <div class="stat-value">RM320</div>
-                        <div class="stat-label-small">Spent</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">280</div>
-                        <div class="stat-label-small">Points</div>
-                    </div>
-                </div>
-                
-                <button class="btn btn-small btn-yellow" style="width: 100%; margin-bottom: 8px;">
-                    🔔 Send Reminder
-                </button>
-                <div class="btn-row">
-                    <button class="btn-small btn-green">✅ Renew</button>
-                    <button class="btn-small btn-blue">🎁 Offer</button>
                 </div>
             </div>
         </div>
 
         <!-- Stats Section -->
         <div id="stats" class="section">
-            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Analytics</h2>
+            <!-- Branch Staff View -->
+            <div id="branchStatsView" style="display: none;">
+                <div style="text-center; padding: 32px; background: white; border-radius: 8px;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
+                    <h3 style="font-size: 16px; font-weight: 500; color: #1f2937; margin-bottom: 8px;">Access Restricted</h3>
+                    <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">Only master/director can view analytics.</p>
+                    <p style="font-size: 12px; color: #6b7280;">Keep adding members to boost our numbers!</p>
+                </div>
+            </div>
             
-            <div class="metric-card metric-blue">
-                <div>
-                    <div class="metric-label">Total Revenue</div>
-                    <div class="metric-value">RM980</div>
-                </div>
-                <div class="metric-icon">📈</div>
-            </div>
-
-            <div class="metric-card metric-green">
-                <div>
-                    <div class="metric-label">Active Rate</div>
-                    <div class="metric-value">67%</div>
-                </div>
-                <div class="metric-icon">👥</div>
-            </div>
-
-            <div class="metric-card metric-purple">
-                <div>
-                    <div class="metric-label">Average Spent</div>
-                    <div class="metric-value">RM327</div>
-                </div>
-                <div class="metric-icon">💳</div>
-            </div>
-
-            <div class="card">
-                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Top Spenders</h3>
+            <!-- Master/Director View -->
+            <div id="masterStatsView" style="display: none;">
+                <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Analytics</h2>
                 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 20px; height: 20px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">1</div>
-                        <div>
-                            <div style="font-size: 12px; font-weight: 500;">Sarah Chen</div>
-                            <div style="font-size: 10px; color: #6b7280;">12 visits</div>
-                        </div>
+                <div class="metric-card metric-blue">
+                    <div>
+                        <div class="metric-label">Total Revenue</div>
+                        <div class="metric-value">RM980</div>
                     </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 12px; font-weight: 500;">RM480</div>
-                        <div style="font-size: 10px; color: #6b7280;">450 pts</div>
-                    </div>
+                    <div class="metric-icon">📈</div>
                 </div>
 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 20px; height: 20px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">2</div>
-                        <div>
-                            <div style="font-size: 12px; font-weight: 500;">Ahmad Rahman</div>
-                            <div style="font-size: 10px; color: #6b7280;">8 visits</div>
-                        </div>
+                <div class="metric-card metric-green">
+                    <div>
+                        <div class="metric-label">Active Rate</div>
+                        <div class="metric-value">67%</div>
                     </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 12px; font-weight: 500;">RM320</div>
-                        <div style="font-size: 10px; color: #6b7280;">280 pts</div>
-                    </div>
+                    <div class="metric-icon">👥</div>
                 </div>
 
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 20px; height: 20px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">3</div>
-                        <div>
-                            <div style="font-size: 12px; font-weight: 500;">Priya Sharma</div>
-                            <div style="font-size: 10px; color: #6b7280;">5 visits</div>
+                <div class="metric-card metric-purple">
+                    <div>
+                        <div class="metric-label">Average Spent</div>
+                        <div class="metric-value">RM327</div>
+                    </div>
+                    <div class="metric-icon">💳</div>
+                </div>
+
+                <div class="card">
+                    <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Top Spenders</h3>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 20px; height: 20px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">1</div>
+                            <div>
+                                <div style="font-size: 12px; font-weight: 500;">Sarah Chen</div>
+                                <div style="font-size: 10px; color: #6b7280;">12 visits</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 12px; font-weight: 500;">RM480</div>
+                            <div style="font-size: 10px; color: #6b7280;">450 pts</div>
                         </div>
                     </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 12px; font-weight: 500;">RM180</div>
-                        <div style="font-size: 10px; color: #6b7280;">150 pts</div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 20px; height: 20px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">2</div>
+                            <div>
+                                <div style="font-size: 12px; font-weight: 500;">Ahmad Rahman</div>
+                                <div style="font-size: 10px; color: #6b7280;">8 visits</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 12px; font-weight: 500;">RM320</div>
+                            <div style="font-size: 10px; color: #6b7280;">280 pts</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 20px; height: 20px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; margin-right: 8px;">3</div>
+                            <div>
+                                <div style="font-size: 12px; font-weight: 500;">Priya Sharma</div>
+                                <div style="font-size: 10px; color: #6b7280;">5 visits</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 12px; font-weight: 500;">RM180</div>
+                            <div style="font-size: 10px; color: #6b7280;">150 pts</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -853,12 +923,33 @@
     <script>
         var selectedBranch = null;
         var currentStaff = null;
+        var userRole = null;
         var branchNames = {
             'shah-alam': 'Shah Alam Central',
             'pj-ss2': 'PJ SS2 Branch',
             'subang': 'Subang Parade',
             'klcc': 'KLCC Branch'
         };
+
+        function toggleLoginType() {
+            var role = document.getElementById('roleSelect').value;
+            var branchSection = document.getElementById('branchSection');
+            var masterSection = document.getElementById('masterSection');
+            
+            if (role === 'branch') {
+                branchSection.style.display = 'block';
+                masterSection.style.display = 'none';
+            } else if (role === 'master') {
+                branchSection.style.display = 'none';
+                masterSection.style.display = 'block';
+                selectedBranch = 'all'; // Master can see all branches
+            } else {
+                branchSection.style.display = 'none';
+                masterSection.style.display = 'none';
+            }
+            
+            checkLoginReady();
+        }
 
         function selectBranch(branchId) {
             // Remove previous selection
@@ -872,49 +963,115 @@
             selectedBtn.classList.add('selected');
             selectedBranch = branchId;
             
-            // Enable login button if staff name is also filled
             checkLoginReady();
         }
 
         function checkLoginReady() {
+            var role = document.getElementById('roleSelect').value;
             var staffName = document.getElementById('staffName').value.trim();
             var loginBtn = document.getElementById('loginBtn');
             
-            if (selectedBranch && staffName) {
-                loginBtn.disabled = false;
-            } else {
-                loginBtn.disabled = true;
+            var canLogin = false;
+            
+            if (role === 'branch' && selectedBranch && staffName) {
+                canLogin = true;
+            } else if (role === 'master' && staffName) {
+                var username = document.getElementById('masterUsername').value.trim();
+                var password = document.getElementById('masterPassword').value.trim();
+                canLogin = username && password;
             }
+            
+            loginBtn.disabled = !canLogin;
         }
 
         function login() {
+            var role = document.getElementById('roleSelect').value;
             var staffName = document.getElementById('staffName').value.trim();
-            if (selectedBranch && staffName) {
+            
+            if (role === 'master') {
+                var username = document.getElementById('masterUsername').value.trim();
+                var password = document.getElementById('masterPassword').value.trim();
+                
+                // Simple demo authentication
+                if (username === 'admin' && password === 'admin123') {
+                    userRole = 'master';
+                    currentStaff = staffName + ' (Director)';
+                    document.getElementById('currentBranch').textContent = 'All Branches - ' + currentStaff;
+                    document.getElementById('memberBranch').value = 'All Branches';
+                } else {
+                    alert('❌ Invalid username or password');
+                    return;
+                }
+            } else if (role === 'branch' && selectedBranch && staffName) {
+                userRole = 'branch';
                 currentStaff = staffName;
-                
-                // Update branch info in header
                 document.getElementById('currentBranch').textContent = branchNames[selectedBranch] + ' - ' + staffName;
-                
-                // Update member branch field
                 document.getElementById('memberBranch').value = branchNames[selectedBranch];
+            } else {
+                alert('❌ Please complete all login fields');
+                return;
+            }
+            
+            // Configure UI based on role
+            setupUserInterface();
+            
+            // Hide login screen and show main app
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').classList.add('active');
+        }
+
+        function setupUserInterface() {
+            if (userRole === 'branch') {
+                // Branch staff - only Add tab accessible
+                document.getElementById('listTab').style.opacity = '0.5';
+                document.getElementById('alertsTab').style.opacity = '0.5';
+                document.getElementById('statsTab').style.opacity = '0.5';
                 
-                // Hide login screen and show main app
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('mainApp').classList.add('active');
+                // Show restricted views
+                document.getElementById('branchListView').style.display = 'block';
+                document.getElementById('masterListView').style.display = 'none';
+                document.getElementById('branchAlertsView').style.display = 'block';
+                document.getElementById('masterAlertsView').style.display = 'none';
+                document.getElementById('branchStatsView').style.display = 'block';
+                document.getElementById('masterStatsView').style.display = 'none';
+                
+            } else if (userRole === 'master') {
+                // Master - full access
+                document.getElementById('listTab').style.opacity = '1';
+                document.getElementById('alertsTab').style.opacity = '1';
+                document.getElementById('statsTab').style.opacity = '1';
+                
+                // Show full views
+                document.getElementById('branchListView').style.display = 'none';
+                document.getElementById('masterListView').style.display = 'block';
+                document.getElementById('branchAlertsView').style.display = 'none';
+                document.getElementById('masterAlertsView').style.display = 'block';
+                document.getElementById('branchStatsView').style.display = 'none';
+                document.getElementById('masterStatsView').style.display = 'block';
             }
         }
 
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
-                // Reset login form
+                // Reset all variables
                 selectedBranch = null;
                 currentStaff = null;
+                userRole = null;
+                
+                // Reset form
+                document.getElementById('roleSelect').value = '';
                 document.getElementById('staffName').value = '';
+                document.getElementById('masterUsername').value = '';
+                document.getElementById('masterPassword').value = '';
                 
                 var branches = document.querySelectorAll('.branch-btn');
                 branches.forEach(function(btn) {
                     btn.classList.remove('selected');
                 });
+                
+                // Hide sections
+                document.getElementById('branchSection').style.display = 'none';
+                document.getElementById('masterSection').style.display = 'none';
                 
                 // Show login screen and hide main app
                 document.getElementById('loginScreen').style.display = 'flex';
@@ -924,10 +1081,18 @@
             }
         }
 
-        // Add event listener for staff name input
+        // Add event listeners
         document.getElementById('staffName').addEventListener('input', checkLoginReady);
+        document.getElementById('masterUsername').addEventListener('input', checkLoginReady);
+        document.getElementById('masterPassword').addEventListener('input', checkLoginReady);
 
         function showTab(tabName) {
+            // Check if branch staff is trying to access restricted tabs
+            if (userRole === 'branch' && (tabName === 'list' || tabName === 'alerts' || tabName === 'stats')) {
+                alert('🔒 Access restricted. Branch staff can only add new members.\n\nContact master/director for full access.');
+                return;
+            }
+            
             // Hide all sections
             var sections = document.querySelectorAll('.section');
             sections.forEach(function(section) {
