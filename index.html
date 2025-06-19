@@ -1316,6 +1316,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('✅ Branch "' + branchName + '" has been deleted successfully.\n\nBranch data has been removed from the system.');
             }
         }
+  function deleteBranch(branchId, branchName) {
+            // ... existing deleteBranch code ...
+        }
+
+        // 👇 ADD THESE NEW FUNCTIONS HERE 👇
+        
+        // Load saved members when page loads
+        function loadSavedMembers() {
+            var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
+            members.forEach(function(member) {
+                addMemberToDisplay(member);
+            });
+            updateStats();
+        }
+
+        // Add member card to display
+        function addMemberToDisplay(member) {
+            var membersList = document.getElementById('list').querySelector('.content');
+            // Add member card HTML here - simplified for now
+            console.log('Added member to display:', member.name);
+        }
+
+        // Update stats from saved data
+        function updateStats() {
+            var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
+            var now = new Date();
+            var activeMembers = members.filter(m => new Date(m.dueDate) > now);
+            var totalRevenue = members.reduce((sum, m) => sum + m.spent, 0);
+            
+            document.getElementById('totalMembers').textContent = members.length;
+            document.getElementById('activeMembers').textContent = activeMembers.length;
+            document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
+        }
+
     </script>
 </body>
 </html>
+   
