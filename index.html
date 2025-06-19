@@ -400,12 +400,12 @@
                 <div class="stat-label">Active</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="totalRevenue">RM980</div>
-                <div class="stat-label">Revenue</div>
+                <div class="stat-number" id="totalBranches">2</div>
+                <div class="stat-label">Branches</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="expiringCount">1</div>
-                <div class="stat-label">Expiring</div>
+                <div class="stat-number" id="totalRevenue">RM980</div>
+                <div class="stat-label">Revenue</div>
             </div>
         </div>
     </div>
@@ -415,6 +415,10 @@
         <button class="tab active" onclick="showTab('add')">
             <div class="tab-icon">➕</div>
             <div>Add</div>
+        </button>
+        <button class="tab" onclick="showTab('branches')">
+            <div class="tab-icon">🏪</div>
+            <div>Branches</div>
         </button>
         <button class="tab" onclick="showTab('list')">
             <div class="tab-icon">👥</div>
@@ -437,6 +441,17 @@
             <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Add New Member</h2>
             
             <div class="card">
+                <div class="form-group">
+                    <label class="form-label">Branch *</label>
+                    <select class="form-input" id="memberBranch" style="padding: 8px 12px; font-size: 13px;">
+                        <option value="main">🏪 Main Branch (Shah Alam)</option>
+                        <option value="kl">🏢 KL Branch (Coming Soon)</option>
+                    </select>
+                    <div style="font-size: 11px; color: #6b7280; margin-top: 4px;">
+                        💡 Select branch for this member
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="form-label">Name *</label>
                     <input type="text" class="form-input" id="memberName" placeholder="Customer name">
@@ -482,15 +497,124 @@
             </div>
         </div>
 
+        <!-- Branches Section -->
+        <div id="branches" class="section">
+            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Branch Management</h2>
+            
+            <!-- Add New Branch -->
+            <div class="card">
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Add New Branch</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Branch Name *</label>
+                    <input type="text" class="form-input" id="branchName" placeholder="e.g., KL Central, Subang Jaya">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Location *</label>
+                    <input type="text" class="form-input" id="branchLocation" placeholder="e.g., Kuala Lumpur, Selangor">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Manager Name</label>
+                    <input type="text" class="form-input" id="branchManager" placeholder="Branch manager name (optional)">
+                </div>
+
+                <button class="btn btn-primary" onclick="addBranch()">🏪 Add Branch</button>
+            </div>
+
+            <!-- Branch List -->
+            <div class="card">
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Active Branches (2)</h3>
+                
+                <div class="member-card" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">🏪 Main Branch</div>
+                            <div class="member-id">Shah Alam, Selangor</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    <div class="member-phone">👤 Manager: Sarah Lee</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">2</div>
+                            <div class="stat-label-small">Members</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM800</div>
+                            <div class="stat-label-small">Revenue</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label-small">Active Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="member-card" style="background: #fffbeb; border: 1px solid #fed7aa;">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">🏢 KL Branch</div>
+                            <div class="member-id">Kuala Lumpur</div>
+                        </div>
+                        <span class="status-badge" style="background: #fef3c7; color: #92400e;">Coming Soon</span>
+                    </div>
+                    <div class="member-phone">👤 Manager: Ahmad Rahman</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">1</div>
+                            <div class="stat-label-small">Members</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM180</div>
+                            <div class="stat-label-small">Revenue</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label-small">Active Rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-title">🏪 Branch Expansion Tips</div>
+                <div class="info-list">
+                    <strong>Before Opening:</strong><br>
+                    • Secure location and permits<br>
+                    • Train staff on membership system<br>
+                    • Set up POS integration<br><br>
+                    <strong>Launch Strategy:</strong><br>
+                    • Offer opening promotions<br>
+                    • Transfer nearby existing members<br>
+                    • Local marketing campaigns<br>
+                    • Staff training on customer service
+                </div>
+            </div>
+        </div>
+
         <!-- Members List Section -->
         <div id="list" class="section">
             <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">All Members (3)</h2>
             
-            <div class="member-card" id="member-1">
+            <!-- Branch Filter -->
+            <div class="card" style="margin-bottom: 16px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Filter by Branch</label>
+                    <select class="form-input" id="branchFilter" onchange="filterByBranch()" style="padding: 8px 12px; font-size: 13px;">
+                        <option value="all">🌐 All Branches</option>
+                        <option value="main">🏪 Main Branch (Shah Alam)</option>
+                        <option value="kl">🏢 KL Branch</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="member-card" id="member-1" data-branch="main">
                 <div class="member-header">
                     <div>
                         <div class="member-name">Sarah Chen</div>
-                        <div class="member-id">M001</div>
+                        <div class="member-id">M001 • 🏪 Main Branch</div>
                     </div>
                     <div style="display: flex; align-items: center;">
                         <span class="status-badge status-active">Active</span>
@@ -517,6 +641,10 @@
                     <input type="text" class="edit-input" id="edit-name-1" value="Sarah Chen" placeholder="Name">
                     <input type="tel" class="edit-input" id="edit-phone-1" value="+60123456789" placeholder="Phone">
                     <input type="number" class="edit-input" id="edit-points-1" value="450" placeholder="Points">
+                    <select class="edit-input" id="edit-branch-1">
+                        <option value="main" selected>🏪 Main Branch</option>
+                        <option value="kl">🏢 KL Branch</option>
+                    </select>
                     <div class="edit-buttons">
                         <button class="btn-save" onclick="saveMember('member-1')">💾 Save</button>
                         <button class="btn-cancel" onclick="cancelEdit('member-1')">❌ Cancel</button>
@@ -524,11 +652,11 @@
                 </div>
             </div>
 
-            <div class="member-card" id="member-2">
+            <div class="member-card" id="member-2" data-branch="main">
                 <div class="member-header">
                     <div>
                         <div class="member-name">Ahmad Rahman</div>
-                        <div class="member-id">M002</div>
+                        <div class="member-id">M002 • 🏪 Main Branch</div>
                     </div>
                     <div style="display: flex; align-items: center;">
                         <span class="status-badge status-expiring">Expiring Soon</span>
@@ -555,6 +683,10 @@
                     <input type="text" class="edit-input" id="edit-name-2" value="Ahmad Rahman" placeholder="Name">
                     <input type="tel" class="edit-input" id="edit-phone-2" value="+60198765432" placeholder="Phone">
                     <input type="number" class="edit-input" id="edit-points-2" value="280" placeholder="Points">
+                    <select class="edit-input" id="edit-branch-2">
+                        <option value="main" selected>🏪 Main Branch</option>
+                        <option value="kl">🏢 KL Branch</option>
+                    </select>
                     <div class="edit-buttons">
                         <button class="btn-save" onclick="saveMember('member-2')">💾 Save</button>
                         <button class="btn-cancel" onclick="cancelEdit('member-2')">❌ Cancel</button>
@@ -562,11 +694,11 @@
                 </div>
             </div>
 
-            <div class="member-card" id="member-3">
+            <div class="member-card" id="member-3" data-branch="kl">
                 <div class="member-header">
                     <div>
                         <div class="member-name">Priya Sharma</div>
-                        <div class="member-id">M003</div>
+                        <div class="member-id">M003 • 🏢 KL Branch</div>
                     </div>
                     <div style="display: flex; align-items: center;">
                         <span class="status-badge status-active">Active</span>
@@ -593,6 +725,10 @@
                     <input type="text" class="edit-input" id="edit-name-3" value="Priya Sharma" placeholder="Name">
                     <input type="tel" class="edit-input" id="edit-phone-3" value="+60167890123" placeholder="Phone">
                     <input type="number" class="edit-input" id="edit-points-3" value="150" placeholder="Points">
+                    <select class="edit-input" id="edit-branch-3">
+                        <option value="main">🏪 Main Branch</option>
+                        <option value="kl" selected>🏢 KL Branch</option>
+                    </select>
                     <div class="edit-buttons">
                         <button class="btn-save" onclick="saveMember('member-3')">💾 Save</button>
                         <button class="btn-cancel" onclick="cancelEdit('member-3')">❌ Cancel</button>
@@ -752,6 +888,9 @@
         function addMember() {
             var name = document.getElementById('memberName').value;
             var phone = document.getElementById('memberPhone').value;
+            var branchSelect = document.getElementById('memberBranch');
+            var branch = branchSelect.value;
+            var branchName = branchSelect.options[branchSelect.selectedIndex].text;
             var durationSelect = document.getElementById('memberDuration');
             var duration = durationSelect.value;
             var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
@@ -760,11 +899,12 @@
                 // Clear form
                 document.getElementById('memberName').value = '';
                 document.getElementById('memberPhone').value = '';
+                document.getElementById('memberBranch').value = 'main';
                 document.getElementById('memberDuration').value = '12';
                 updatePriceDisplay();
                 
                 // Show success message
-                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\n\nThank you for joining our Fried Rice Club! 🍚');
+                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\n\nWelcome to our Fried Rice Club! 🍚');
                 
                 // Update stats (simple increment)
                 var totalElement = document.getElementById('totalMembers');
@@ -782,6 +922,50 @@
             } else {
                 alert('❌ Please fill in Name and Phone fields');
             }
+        }
+
+        function addBranch() {
+            var branchName = document.getElementById('branchName').value;
+            var branchLocation = document.getElementById('branchLocation').value;
+            var branchManager = document.getElementById('branchManager').value || 'TBD';
+            
+            if (branchName && branchLocation) {
+                // Clear form
+                document.getElementById('branchName').value = '';
+                document.getElementById('branchLocation').value = '';
+                document.getElementById('branchManager').value = '';
+                
+                // Add to branch dropdown in add member form
+                var memberBranchSelect = document.getElementById('memberBranch');
+                var newOption = document.createElement('option');
+                var branchId = branchName.toLowerCase().replace(/\s+/g, '');
+                newOption.value = branchId;
+                newOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
+                memberBranchSelect.appendChild(newOption);
+                
+                // Update branch count
+                var branchCountElement = document.getElementById('totalBranches');
+                var currentCount = parseInt(branchCountElement.textContent);
+                branchCountElement.textContent = currentCount + 1;
+                
+                // Show success message
+                alert('✅ Branch added successfully!\n\nBranch: ' + branchName + '\nLocation: ' + branchLocation + '\nManager: ' + branchManager + '\n\nReady to accept new members! 🏪');
+            } else {
+                alert('❌ Please fill in Branch Name and Location fields');
+            }
+        }
+
+        function filterByBranch() {
+            var selectedBranch = document.getElementById('branchFilter').value;
+            var memberCards = document.querySelectorAll('.member-card[data-branch]');
+            
+            memberCards.forEach(function(card) {
+                if (selectedBranch === 'all' || card.getAttribute('data-branch') === selectedBranch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
         function updatePriceDisplay() {
@@ -817,6 +1001,7 @@
             var newName = document.getElementById('edit-name-' + memberNumber).value;
             var newPhone = document.getElementById('edit-phone-' + memberNumber).value;
             var newPoints = document.getElementById('edit-points-' + memberNumber).value;
+            var newBranch = document.getElementById('edit-branch-' + memberNumber).value;
             
             if (newName && newPhone && newPoints) {
                 // Update the display
@@ -825,11 +1010,16 @@
                 memberCard.querySelector('.member-phone').textContent = '📞 ' + newPhone;
                 memberCard.querySelector('.stat-value').textContent = '⭐ ' + newPoints;
                 
+                // Update branch info
+                var branchIcon = newBranch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
+                memberCard.querySelector('.member-id').textContent = memberCard.querySelector('.member-id').textContent.split(' • ')[0] + ' • ' + branchIcon;
+                memberCard.setAttribute('data-branch', newBranch);
+                
                 // Hide edit form
                 document.getElementById('edit-' + memberId).classList.remove('active');
                 
                 // Show success message
-                alert('✅ Member updated successfully!\n\nName: ' + newName + '\nPhone: ' + newPhone + '\nPoints: ' + newPoints);
+                alert('✅ Member updated successfully!\n\nName: ' + newName + '\nPhone: ' + newPhone + '\nPoints: ' + newPoints + '\nBranch: ' + branchIcon);
             } else {
                 alert('❌ Please fill in all fields');
             }
@@ -842,10 +1032,12 @@
             var originalName = memberCard.querySelector('.member-name').textContent;
             var originalPhone = memberCard.querySelector('.member-phone').textContent.replace('📞 ', '');
             var originalPoints = memberCard.querySelector('.stat-value').textContent.replace('⭐ ', '');
+            var originalBranch = memberCard.getAttribute('data-branch');
             
             document.getElementById('edit-name-' + memberNumber).value = originalName;
             document.getElementById('edit-phone-' + memberNumber).value = originalPhone;
             document.getElementById('edit-points-' + memberNumber).value = originalPoints;
+            document.getElementById('edit-branch-' + memberNumber).value = originalBranch;
             
             // Hide edit form
             document.getElementById('edit-' + memberId).classList.remove('active');
