@@ -2,340 +2,789 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Fried Rice Club</title>
+    <title>Fried Rice Club - Enhanced Membership System</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .slide-up { animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
 </head>
 <body class="bg-gray-50">
-    <div id="login" class="min-h-screen flex items-center justify-center">
-        <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-            <div class="text-center mb-6">
-                <div class="text-4xl mb-4">🍚</div>
-                <h1 class="text-2xl font-bold">Fried Rice Club</h1>
-                <p class="text-gray-600">Membership System</p>
-            </div>
+    <div class="max-w-7xl mx-auto p-6 min-h-screen">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl shadow-lg p-8 mb-6 text-white">
+            <h1 class="text-3xl font-bold mb-2">🍚 Fried Rice Shop - Membership Management</h1>
+            <p class="text-orange-100">Activate, track, and manage your customer memberships</p>
             
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium mb-2">Access Level</label>
-                    <select id="level" class="w-full p-3 border rounded-lg" onchange="showShop()">
-                        <option value="owner">Owner</option>
-                        <option value="staff">Staff</option>
-                    </select>
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                    <div class="text-2xl font-bold" id="totalMembers">0</div>
+                    <div class="text-sm text-orange-100">Total Members</div>
                 </div>
-                
-                <div id="shopDiv" style="display: none;">
-                    <label class="block text-sm font-medium mb-2">Select Shop</label>
-                    <select id="shop" class="w-full p-3 border rounded-lg">
-                        <option value="">Choose shop...</option>
-                        <option value="1">Shah Alam Central</option>
-                        <option value="2">PJ SS2 Branch</option>
-                        <option value="3">Subang Parade</option>
-                        <option value="4">KL Bukit Bintang</option>
-                        <option value="5">Klang Valley Mall</option>
-                    </select>
+                <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                    <div class="text-2xl font-bold" id="activeMembers">0</div>
+                    <div class="text-sm text-orange-100">Active Members</div>
                 </div>
-                
-                <button onclick="doLogin()" class="w-full bg-orange-500 text-white py-3 rounded-lg font-medium">
-                    Login
+                <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                    <div class="text-2xl font-bold" id="totalRevenue">RM0</div>
+                    <div class="text-sm text-orange-100">Total Revenue</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                    <div class="text-2xl font-bold" id="expiringCount">0</div>
+                    <div class="text-sm text-orange-100">Expiring Soon</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="bg-white rounded-lg shadow-md mb-6">
+            <div class="flex border-b overflow-x-auto">
+                <button onclick="setActiveTab('activation')" id="tab-activation" class="px-6 py-3 font-medium whitespace-nowrap border-b-2 border-orange-500 text-orange-600">
+                    👥 Member Activation
+                </button>
+                <button onclick="setActiveTab('tracking')" id="tab-tracking" class="px-6 py-3 font-medium whitespace-nowrap text-gray-500 hover:text-gray-700">
+                    📅 Membership Tracking
+                </button>
+                <button onclick="setActiveTab('renewals')" id="tab-renewals" class="px-6 py-3 font-medium whitespace-nowrap text-gray-500 hover:text-gray-700">
+                    🔔 Renewal Alerts (<span id="renewalCount">0</span>)
+                </button>
+                <button onclick="setActiveTab('analytics')" id="tab-analytics" class="px-6 py-3 font-medium whitespace-nowrap text-gray-500 hover:text-gray-700">
+                    📊 Analytics
                 </button>
             </div>
-        </div>
-    </div>
 
-    <div id="owner" style="display: none;" class="max-w-6xl mx-auto p-6">
-        <div class="bg-orange-500 text-white p-6 rounded-lg mb-6">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h1 class="text-2xl font-bold">🍚 Owner Dashboard</h1>
-                    <p>All Shops</p>
+            <!-- Tab Content -->
+            <div id="tabContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Member Details Modal -->
+        <div id="memberModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4 z-50" style="display: none;">
+            <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto slide-up">
+                <div class="p-6 border-b">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-gray-800">Member Details</h3>
+                        <button onclick="closeMemberModal()" class="text-gray-500 hover:text-gray-700 text-2xl">×</button>
+                    </div>
                 </div>
-                <button onclick="doLogout()" class="bg-white bg-opacity-20 px-4 py-2 rounded">Logout</button>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-semibold">Total Members</h3>
-                <p class="text-3xl font-bold text-blue-600" id="total">0</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-semibold">Total Revenue</h3>
-                <p class="text-3xl font-bold text-green-600" id="revenue">RM0</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-semibold">Active Shops</h3>
-                <p class="text-3xl font-bold text-purple-600">5</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-semibold">Today</h3>
-                <p class="text-3xl font-bold text-orange-600" id="today">0</p>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h3 class="text-xl font-bold mb-4">All Members</h3>
-            <table class="w-full">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="p-3 text-left">ID</th>
-                        <th class="p-3 text-left">Name</th>
-                        <th class="p-3 text-left">Phone</th>
-                        <th class="p-3 text-left">Shop</th>
-                        <th class="p-3 text-left">Amount</th>
-                    </tr>
-                </thead>
-                <tbody id="list">
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="staff" style="display: none;" class="max-w-4xl mx-auto p-6">
-        <div class="bg-orange-500 text-white p-6 rounded-lg mb-6">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h1 class="text-2xl font-bold">🍚 Member Registration</h1>
-                    <p id="shopname">Shop Name</p>
-                </div>
-                <button onclick="doLogout()" class="bg-white bg-opacity-20 px-4 py-2 rounded">Logout</button>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-xl font-bold mb-6">New Member</h2>
                 
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Customer Name</label>
-                        <input type="text" id="name" class="w-full p-3 border rounded-lg" placeholder="Enter name">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Phone Number</label>
-                        <input type="text" id="phone" class="w-full p-3 border rounded-lg" placeholder="+60123456789">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Email (Optional)</label>
-                        <input type="email" id="email" class="w-full p-3 border rounded-lg" placeholder="email@example.com">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Membership Plan</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div id="p1" class="border-2 border-gray-300 rounded-lg p-3 cursor-pointer text-center" onclick="pick(1, 30)">
-                                <div class="font-bold text-lg">RM30</div>
-                                <div class="text-sm">1 Month</div>
-                            </div>
-                            <div id="p3" class="border-2 border-gray-300 rounded-lg p-3 cursor-pointer text-center" onclick="pick(3, 80)">
-                                <div class="font-bold text-lg">RM80</div>
-                                <div class="text-sm">3 Months</div>
-                            </div>
-                            <div id="p6" class="border-2 border-gray-300 rounded-lg p-3 cursor-pointer text-center" onclick="pick(6, 150)">
-                                <div class="font-bold text-lg">RM150</div>
-                                <div class="text-sm">6 Months</div>
-                            </div>
-                            <div id="p12" class="border-2 border-orange-500 bg-orange-50 rounded-lg p-3 cursor-pointer text-center" onclick="pick(12, 250)">
-                                <div class="font-bold text-lg">RM250</div>
-                                <div class="text-sm">12 Months</div>
-                                <div class="text-xs text-green-600">Best Value</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="add()" class="w-full bg-orange-500 text-white py-4 rounded-lg font-bold text-lg">
-                        REGISTER MEMBER - RM<span id="price">250</span>
-                    </button>
+                <div id="memberModalContent" class="p-6">
+                    <!-- Member details will be loaded here -->
                 </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-xl font-bold mb-6">Today</h2>
-                <div id="todaylist">
-                    <p class="text-gray-500 text-center py-8">No registrations today</p>
+                
+                <div class="p-6 border-t bg-gray-50">
+                    <div class="flex justify-end space-x-3">
+                        <button onclick="closeMemberModal()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100">
+                            Close
+                        </button>
+                        <button class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                            Edit Member
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        var user = null;
-        var currentShop = null;
-        var plan = 12;
-        var cost = 250;
-        var members = [];
+        var activeTab = 'activation';
+        var searchTerm = '';
+        var selectedMember = null;
+        
+        var members = [
+            {
+                id: 'M001',
+                name: 'Sarah Chen',
+                phone: '+60123456789',
+                email: 'sarah@email.com',
+                address: 'Shah Alam, Selangor',
+                branch: 'Shah Alam Central',
+                joinDate: '2024-01-15',
+                expiryDate: '2025-01-15',
+                duration: '12 months',
+                price: 250,
+                status: 'Active',
+                points: 450,
+                visits: 12,
+                totalSpent: 480.50,
+                lastVisit: '2024-06-10',
+                favoriteItems: ['Special Fried Rice', 'Seafood Fried Rice']
+            },
+            {
+                id: 'M002',
+                name: 'Ahmad Rahman',
+                phone: '+60198765432',
+                email: 'ahmad@email.com',
+                address: 'Petaling Jaya, Selangor',
+                branch: 'PJ SS2 Branch',
+                joinDate: '2024-02-20',
+                expiryDate: '2025-02-20',
+                duration: '12 months',
+                price: 250,
+                status: 'Expiring Soon',
+                points: 280,
+                visits: 8,
+                totalSpent: 320.00,
+                lastVisit: '2024-06-05',
+                favoriteItems: ['Chicken Fried Rice']
+            },
+            {
+                id: 'M003',
+                name: 'Priya Sharma',
+                phone: '+60167890123',
+                email: 'priya@email.com',
+                address: 'Subang Jaya, Selangor',
+                branch: 'Subang Parade',
+                joinDate: '2024-03-10',
+                expiryDate: '2025-09-10',
+                duration: '18 months',
+                price: 375,
+                status: 'Active',
+                points: 150,
+                visits: 5,
+                totalSpent: 180.00,
+                lastVisit: '2024-06-12',
+                favoriteItems: ['Vegetable Fried Rice', 'Tom Yam Fried Rice']
+            }
+        ];
 
-        var shops = ["", "Shah Alam Central", "PJ SS2 Branch", "Subang Parade", "KL Bukit Bintang", "Klang Valley Mall"];
+        var membershipPlans = [
+            { duration: '1', months: 1, price: 30, label: '1 Month - RM30' },
+            { duration: '3', months: 3, price: 80, label: '3 Months - RM80', savings: 'Save RM10' },
+            { duration: '6', months: 6, price: 150, label: '6 Months - RM150', savings: 'Save RM30' },
+            { duration: '12', months: 12, price: 250, label: '12 Months - RM250', savings: 'Save RM110', popular: true }
+        ];
 
-        function load() {
-            var data = localStorage.getItem('data');
-            if (data) {
-                members = JSON.parse(data);
-            } else {
-                members = [
-                    {id: "M001", name: "Sarah Chen", phone: "+60123456789", email: "sarah@email.com", shop: 1, shopname: "Shah Alam Central", price: 250, date: "2024-06-01"},
-                    {id: "M002", name: "Ahmad Rahman", phone: "+60198765432", email: "ahmad@email.com", shop: 2, shopname: "PJ SS2 Branch", price: 150, date: "2024-05-15"}
-                ];
-                save();
+        var newMember = {
+            name: '',
+            phone: '',
+            email: '',
+            address: '',
+            branch: '',
+            duration: '12'
+        };
+
+        function loadData() {
+            var saved = localStorage.getItem('membershipData');
+            if (saved) {
+                members = JSON.parse(saved);
+            }
+            updateStats();
+            renderCurrentTab();
+        }
+
+        function saveData() {
+            localStorage.setItem('membershipData', JSON.stringify(members));
+        }
+
+        function updateStats() {
+            var totalMembers = members.length;
+            var activeMembers = members.filter(function(m) { return m.status === 'Active'; }).length;
+            var totalRevenue = members.reduce(function(sum, m) { return sum + (m.price || 0); }, 0);
+            var expiringMembers = getExpiringMembers();
+
+            document.getElementById('totalMembers').textContent = totalMembers;
+            document.getElementById('activeMembers').textContent = activeMembers;
+            document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
+            document.getElementById('expiringCount').textContent = expiringMembers.length;
+            document.getElementById('renewalCount').textContent = expiringMembers.length;
+        }
+
+        function getDaysToExpiry(expiryDate) {
+            var today = new Date();
+            var expiry = new Date(expiryDate);
+            var diffTime = expiry - today;
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        function getExpiringMembers() {
+            return members.filter(function(member) {
+                var daysToExpiry = getDaysToExpiry(member.expiryDate);
+                return daysToExpiry <= 30 && daysToExpiry > 0;
+            });
+        }
+
+        function getStatusColor(status) {
+            switch(status) {
+                case 'Active': return 'bg-green-100 text-green-800';
+                case 'Expiring Soon': return 'bg-yellow-100 text-yellow-800';
+                case 'Expired': return 'bg-red-100 text-red-800';
+                case 'Inactive': return 'bg-gray-100 text-gray-800';
+                default: return 'bg-gray-100 text-gray-800';
             }
         }
 
-        function save() {
-            localStorage.setItem('data', JSON.stringify(members));
-        }
-
-        function showShop() {
-            var level = document.getElementById('level').value;
-            var div = document.getElementById('shopDiv');
-            if (level === 'staff') {
-                div.style.display = 'block';
-            } else {
-                div.style.display = 'none';
-            }
-        }
-
-        function doLogin() {
-            var level = document.getElementById('level').value;
-            var shop = document.getElementById('shop').value;
-
-            if (level === 'staff' && !shop) {
-                alert('Please select shop');
-                return;
-            }
-
-            user = level;
-            currentShop = parseInt(shop);
-
-            document.getElementById('login').style.display = 'none';
-
-            if (level === 'owner') {
-                document.getElementById('owner').style.display = 'block';
-                showOwner();
-            } else {
-                document.getElementById('staff').style.display = 'block';
-                document.getElementById('shopname').innerHTML = shops[currentShop];
-                showToday();
-            }
-        }
-
-        function doLogout() {
-            user = null;
-            currentShop = null;
-            document.getElementById('login').style.display = 'flex';
-            document.getElementById('owner').style.display = 'none';
-            document.getElementById('staff').style.display = 'none';
-        }
-
-        function pick(months, amount) {
-            plan = months;
-            cost = amount;
-            document.getElementById('price').innerHTML = amount;
-
-            document.getElementById('p1').className = 'border-2 border-gray-300 rounded-lg p-3 cursor-pointer text-center';
-            document.getElementById('p3').className = 'border-2 border-gray-300 rounded-lg p-3 cursor-pointer text-center';
-            document.getElementById('p6').className = 'border-2 border-gray-300 rounded-lg p-3 cursor-pointer text-center';
-            document.getElementById('p12').className = 'border-2 border-gray-300 rounded-lg p-3 cursor-pointer text-center';
-
-            document.getElementById('p' + months).className = 'border-2 border-orange-500 bg-orange-50 rounded-lg p-3 cursor-pointer text-center';
-        }
-
-        function add() {
-            var name = document.getElementById('name').value;
-            var phone = document.getElementById('phone').value;
-            var email = document.getElementById('email').value;
-
-            if (!name || !phone) {
-                alert('Please enter name and phone');
-                return;
-            }
-
-            var id = 'M' + (members.length + 1).toString().padStart(3, '0');
-            var today = new Date().toISOString().split('T')[0];
-
-            var member = {
-                id: id,
-                name: name,
-                phone: phone,
-                email: email,
-                shop: currentShop,
-                shopname: shops[currentShop],
-                price: cost,
-                date: today
-            };
-
-            members.push(member);
-            save();
-
-            document.getElementById('name').value = '';
-            document.getElementById('phone').value = '';
-            document.getElementById('email').value = '';
-
-            showToday();
-            alert('Member registered!\nID: ' + id + '\nTotal: RM' + cost);
-        }
-
-        function showOwner() {
-            var total = members.length;
-            var revenue = 0;
-            var today = new Date().toISOString().split('T')[0];
-            var todayCount = 0;
-
-            for (var i = 0; i < members.length; i++) {
-                revenue = revenue + members[i].price;
-                if (members[i].date === today) {
-                    todayCount = todayCount + 1;
-                }
-            }
-
-            document.getElementById('total').innerHTML = total;
-            document.getElementById('revenue').innerHTML = 'RM' + revenue;
-            document.getElementById('today').innerHTML = todayCount;
-
-            var html = '';
-            for (var i = 0; i < members.length; i++) {
-                var m = members[i];
-                html = html + '<tr class="border-b">';
-                html = html + '<td class="p-3">' + m.id + '</td>';
-                html = html + '<td class="p-3">' + m.name + '</td>';
-                html = html + '<td class="p-3">' + m.phone + '</td>';
-                html = html + '<td class="p-3">' + m.shopname + '</td>';
-                html = html + '<td class="p-3">RM' + m.price + '</td>';
-                html = html + '</tr>';
-            }
-            document.getElementById('list').innerHTML = html;
-        }
-
-        function showToday() {
-            var today = new Date().toISOString().split('T')[0];
-            var todayMembers = [];
+        function setActiveTab(tab) {
+            activeTab = tab;
             
-            for (var i = 0; i < members.length; i++) {
-                if (members[i].date === today && members[i].shop === currentShop) {
-                    todayMembers.push(members[i]);
-                }
-            }
-
-            var html = '';
-            if (todayMembers.length === 0) {
-                html = '<p class="text-gray-500 text-center py-8">No registrations today</p>';
-            } else {
-                for (var i = 0; i < todayMembers.length; i++) {
-                    var m = todayMembers[i];
-                    html = html + '<div class="flex justify-between items-center p-3 bg-gray-50 rounded mb-2">';
-                    html = html + '<div>';
-                    html = html + '<div class="font-medium">' + m.name + '</div>';
-                    html = html + '<div class="text-sm text-gray-600">' + m.phone + '</div>';
-                    html = html + '</div>';
-                    html = html + '<div class="font-bold text-green-600">RM' + m.price + '</div>';
-                    html = html + '</div>';
+            // Update tab styles
+            var tabs = ['activation', 'tracking', 'renewals', 'analytics'];
+            for (var i = 0; i < tabs.length; i++) {
+                var tabElement = document.getElementById('tab-' + tabs[i]);
+                if (tabs[i] === tab) {
+                    tabElement.className = 'px-6 py-3 font-medium whitespace-nowrap border-b-2 border-orange-500 text-orange-600';
+                } else {
+                    tabElement.className = 'px-6 py-3 font-medium whitespace-nowrap text-gray-500 hover:text-gray-700';
                 }
             }
             
-            document.getElementById('todaylist').innerHTML = html;
+            renderCurrentTab();
         }
 
-        load();
+        function renderCurrentTab() {
+            var content = '';
+            switch(activeTab) {
+                case 'activation':
+                    content = renderActivationTab();
+                    break;
+                case 'tracking':
+                    content = renderTrackingTab();
+                    break;
+                case 'renewals':
+                    content = renderRenewalsTab();
+                    break;
+                case 'analytics':
+                    content = renderAnalyticsTab();
+                    break;
+            }
+            document.getElementById('tabContent').innerHTML = content;
+        }
+
+        function renderActivationTab() {
+            var selectedPlan = membershipPlans.find(function(plan) { return plan.duration === newMember.duration; });
+            
+            var html = '<div class="p-6">';
+            html += '<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">';
+            
+            // Activation Form
+            html += '<div class="space-y-6">';
+            html += '<h2 class="text-xl font-bold text-gray-800">New Member Registration</h2>';
+            html += '<div class="space-y-4">';
+            
+            html += '<div>';
+            html += '<label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>';
+            html += '<input type="text" id="memberName" value="' + newMember.name + '" onchange="updateNewMember(\'name\', this.value)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="Enter customer name">';
+            html += '</div>';
+
+            html += '<div>';
+            html += '<label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>';
+            html += '<input type="text" id="memberPhone" value="' + newMember.phone + '" onchange="updateNewMember(\'phone\', this.value)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="+60xxxxxxxxx">';
+            html += '</div>';
+
+            html += '<div>';
+            html += '<label class="block text-sm font-medium text-gray-700 mb-2">Branch Name *</label>';
+            html += '<input type="text" id="memberBranch" value="' + newMember.branch + '" onchange="updateNewMember(\'branch\', this.value)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="Enter branch name">';
+            html += '</div>';
+
+            html += '<div>';
+            html += '<label class="block text-sm font-medium text-gray-700 mb-2">Email (Optional)</label>';
+            html += '<input type="email" id="memberEmail" value="' + newMember.email + '" onchange="updateNewMember(\'email\', this.value)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="customer@email.com">';
+            html += '</div>';
+
+            html += '<div>';
+            html += '<label class="block text-sm font-medium text-gray-700 mb-2">Address (Optional)</label>';
+            html += '<input type="text" id="memberAddress" value="' + newMember.address + '" onchange="updateNewMember(\'address\', this.value)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500" placeholder="City, State">';
+            html += '</div>';
+
+            html += '<div>';
+            html += '<label class="block text-sm font-medium text-gray-700 mb-3">Membership Plan *</label>';
+            html += '<div class="space-y-3">';
+            
+            for (var i = 0; i < membershipPlans.length; i++) {
+                var plan = membershipPlans[i];
+                var isSelected = newMember.duration === plan.duration;
+                var borderClass = isSelected ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-gray-300';
+                var ringClass = plan.popular ? 'ring-2 ring-orange-200' : '';
+                
+                html += '<div class="relative border-2 rounded-lg p-4 cursor-pointer transition-all ' + borderClass + ' ' + ringClass + '" onclick="updateNewMember(\'duration\', \'' + plan.duration + '\')">';
+                if (plan.popular) {
+                    html += '<div class="absolute -top-2 left-4 bg-orange-500 text-white px-2 py-1 rounded text-xs font-medium">Most Popular</div>';
+                }
+                html += '<div class="flex items-center justify-between">';
+                html += '<div class="flex items-center">';
+                html += '<input type="radio" name="duration" value="' + plan.duration + '" ' + (isSelected ? 'checked' : '') + ' onchange="updateNewMember(\'duration\', this.value)" class="text-orange-500">';
+                html += '<div class="ml-3">';
+                html += '<div class="font-medium text-gray-800">' + plan.label + '</div>';
+                if (plan.savings) {
+                    html += '<div class="text-sm text-green-600 font-medium">' + plan.savings + '</div>';
+                }
+                html += '</div></div>';
+                html += '<div class="text-right">';
+                html += '<div class="text-lg font-bold text-orange-600">RM' + plan.price + '</div>';
+                html += '<div class="text-xs text-gray-500">RM' + Math.round(plan.price/plan.months) + '/month</div>';
+                html += '</div></div></div>';
+            }
+            
+            html += '</div></div>';
+
+            var buttonDisabled = !newMember.name || !newMember.phone || !newMember.branch;
+            var buttonClass = buttonDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600';
+            
+            html += '<button onclick="addNewMember()" ' + (buttonDisabled ? 'disabled' : '') + ' class="w-full ' + buttonClass + ' text-white py-3 px-4 rounded-lg font-medium transition-colors">';
+            html += '➕ Activate Membership - RM' + (selectedPlan ? selectedPlan.price : 0);
+            html += '</button>';
+
+            html += '</div></div>';
+
+            // Membership Info
+            html += '<div class="space-y-4">';
+            html += '<h2 class="text-xl font-bold text-gray-800">Membership Information</h2>';
+            html += '<div class="border rounded-lg p-6 bg-orange-50">';
+            html += '<div class="flex items-center mb-4">';
+            html += '<span class="text-2xl mr-3">🏆</span>';
+            html += '<h3 class="font-semibold text-gray-800 text-lg">Fried Rice Club Member</h3>';
+            html += '</div>';
+            html += '<p class="text-gray-700">Join our membership program to enjoy exclusive benefits and track your dining history with us.</p>';
+            html += '</div>';
+
+            html += '<div class="bg-blue-50 border border-blue-200 rounded-lg p-4">';
+            html += '<h4 class="font-medium text-blue-800 mb-2">💰 Membership Pricing:</h4>';
+            html += '<ul class="text-sm text-blue-700 space-y-1">';
+            html += '<li><strong>1 Month:</strong> RM30</li>';
+            html += '<li><strong>3 Months:</strong> RM80 (Save RM10)</li>';
+            html += '<li><strong>6 Months:</strong> RM150 (Save RM30)</li>';
+            html += '<li><strong>12 Months:</strong> RM250 (Save RM110) - Best Value!</li>';
+            html += '</ul></div>';
+            html += '</div>';
+
+            html += '</div></div>';
+            return html;
+        }
+
+        function renderTrackingTab() {
+            var filteredMembers = members.filter(function(member) {
+                return member.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+                       member.phone.indexOf(searchTerm) !== -1 ||
+                       member.id.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+            });
+
+            var html = '<div class="p-6">';
+            html += '<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">';
+            html += '<h2 class="text-xl font-bold text-gray-800">All Members (' + filteredMembers.length + ')</h2>';
+            html += '<div class="flex items-center space-x-4">';
+            html += '<div class="relative">';
+            html += '<span class="absolute left-3 top-3 text-gray-400">🔍</span>';
+            html += '<input type="text" placeholder="Search members..." value="' + searchTerm + '" onchange="updateSearchTerm(this.value)" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">';
+            html += '</div>';
+            html += '<button onclick="exportMembers()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">📥 Export</button>';
+            html += '</div></div>';
+
+            html += '<div class="overflow-x-auto">';
+            html += '<table class="w-full border-collapse bg-white rounded-lg shadow">';
+            html += '<thead class="bg-gray-50">';
+            html += '<tr>';
+            html += '<th class="p-4 text-left font-medium text-gray-700">Member</th>';
+            html += '<th class="p-4 text-left font-medium text-gray-700">Contact</th>';
+            html += '<th class="p-4 text-left font-medium text-gray-700">Status</th>';
+            html += '<th class="p-4 text-left font-medium text-gray-700">Stats</th>';
+            html += '<th class="p-4 text-left font-medium text-gray-700">Expiry</th>';
+            html += '<th class="p-4 text-left font-medium text-gray-700">Actions</th>';
+            html += '</tr></thead><tbody>';
+
+            for (var i = 0; i < filteredMembers.length; i++) {
+                var member = filteredMembers[i];
+                var daysToExpiry = getDaysToExpiry(member.expiryDate);
+                
+                html += '<tr class="border-t hover:bg-gray-50">';
+                html += '<td class="p-4">';
+                html += '<div>';
+                html += '<div class="font-medium text-gray-800">' + member.name + '</div>';
+                html += '<div class="text-sm text-gray-500 font-mono">' + member.id + '</div>';
+                if (member.branch) {
+                    html += '<div class="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded mt-1 inline-block">' + member.branch + '</div>';
+                }
+                html += '</div></td>';
+                
+                html += '<td class="p-4">';
+                html += '<div class="space-y-1">';
+                html += '<div class="text-sm text-gray-600">📞 ' + member.phone + '</div>';
+                if (member.email) {
+                    html += '<div class="text-sm text-gray-600">✉️ ' + member.email + '</div>';
+                }
+                if (member.address) {
+                    html += '<div class="text-sm text-gray-600">📍 ' + member.address + '</div>';
+                }
+                html += '</div></td>';
+                
+                html += '<td class="p-4">';
+                html += '<span class="px-2 py-1 rounded-full text-xs font-medium ' + getStatusColor(member.status) + '">' + member.status + '</span>';
+                html += '</td>';
+                
+                html += '<td class="p-4">';
+                html += '<div class="space-y-1 text-sm">';
+                html += '<div>⭐ ' + member.points + ' pts</div>';
+                html += '<div>🎯 ' + member.visits + ' visits</div>';
+                html += '<div class="font-medium">💰 RM' + member.totalSpent.toFixed(2) + '</div>';
+                html += '</div></td>';
+                
+                html += '<td class="p-4">';
+                html += '<div class="text-sm">';
+                html += '<div class="' + (daysToExpiry <= 30 ? 'text-orange-600 font-medium' : '') + '">' + member.expiryDate + '</div>';
+                html += '<div class="text-xs ' + (daysToExpiry <= 30 ? 'text-orange-500' : 'text-gray-500') + '">';
+                html += daysToExpiry > 0 ? daysToExpiry + ' days left' : 'Expired';
+                html += '</div></div></td>';
+                
+                html += '<td class="p-4">';
+                html += '<button onclick="viewMemberDetails(\'' + member.id + '\')" class="text-blue-600 hover:text-blue-800 p-1" title="View Details">👁️</button>';
+                html += '</td>';
+                html += '</tr>';
+            }
+
+            html += '</tbody></table></div></div>';
+            return html;
+        }
+
+        function renderRenewalsTab() {
+            var expiringMembers = getExpiringMembers();
+            
+            var html = '<div class="p-6">';
+            html += '<div class="flex justify-between items-center mb-6">';
+            html += '<h2 class="text-xl font-bold text-gray-800">Membership Renewal Alerts</h2>';
+            if (expiringMembers.length > 0) {
+                html += '<button onclick="sendAllReminders()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium">Send All Reminders</button>';
+            }
+            html += '</div>';
+
+            if (expiringMembers.length === 0) {
+                html += '<div class="text-center py-12">';
+                html += '<div class="text-6xl mb-4">✅</div>';
+                html += '<h3 class="text-lg font-medium text-gray-800 mb-2">All Good!</h3>';
+                html += '<p class="text-gray-600">No memberships expiring in the next 30 days.</p>';
+                html += '</div>';
+            } else {
+                html += '<div class="space-y-4">';
+                html += '<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">';
+                html += '<div class="flex items-center">';
+                html += '<span class="text-yellow-600 mr-2">⚠️</span>';
+                html += '<span class="font-medium text-yellow-800">' + expiringMembers.length + ' membership' + (expiringMembers.length > 1 ? 's' : '') + ' expiring soon</span>';
+                html += '</div></div>';
+
+                for (var i = 0; i < expiringMembers.length; i++) {
+                    var member = expiringMembers[i];
+                    var daysToExpiry = getDaysToExpiry(member.expiryDate);
+                    
+                    html += '<div class="bg-white border border-yellow-200 rounded-lg p-6 shadow-sm">';
+                    html += '<div class="flex items-center justify-between mb-4">';
+                    html += '<div class="flex items-center space-x-4">';
+                    html += '<div class="flex-shrink-0">';
+                    html += '<div class="w-10 h-10 rounded-full flex items-center justify-center ' + (daysToExpiry <= 7 ? 'bg-red-100' : 'bg-yellow-100') + '">';
+                    html += '<span class="' + (daysToExpiry <= 7 ? 'text-red-600' : 'text-yellow-600') + '">⏰</span>';
+                    html += '</div></div>';
+                    html += '<div>';
+                    html += '<h3 class="font-semibold text-gray-800 text-lg">' + member.name + '</h3>';
+                    html += '<div class="flex items-center space-x-4 text-sm text-gray-600 mt-1">';
+                    html += '<span>' + member.phone + '</span>';
+                    html += '<span>•</span>';
+                    html += '<span>' + member.duration + '</span>';
+                    if (member.branch) {
+                        html += '<span>• ' + member.branch + '</span>';
+                    }
+                    html += '</div></div></div>';
+                    html += '<div class="text-right">';
+                    html += '<div class="text-lg font-bold ' + (daysToExpiry <= 7 ? 'text-red-600' : 'text-yellow-600') + '">' + daysToExpiry + ' days</div>';
+                    html += '<div class="text-xs text-gray-500">until expiry</div>';
+                    html += '</div></div>';
+                    
+                    html += '<div class="bg-gray-50 rounded-lg p-4 mb-4">';
+                    html += '<div class="grid grid-cols-3 gap-4 text-sm">';
+                    html += '<div class="text-center">';
+                    html += '<div class="font-semibold text-gray-800">' + member.visits + '</div>';
+                    html += '<div class="text-gray-600">Total Visits</div>';
+                    html += '</div>';
+                    html += '<div class="text-center">';
+                    html += '<div class="font-semibold text-gray-800">RM' + member.totalSpent.toFixed(2) + '</div>';
+                    html += '<div class="text-gray-600">Total Spent</div>';
+                    html += '</div>';
+                    html += '<div class="text-center">';
+                    html += '<div class="font-semibold text-gray-800">' + member.points + '</div>';
+                    html += '<div class="text-gray-600">Points Balance</div>';
+                    html += '</div>';
+                    html += '</div></div>';
+                    
+                    html += '<div class="flex flex-wrap gap-2">';
+                    html += '<button onclick="sendReminder(\'' + member.id + '\')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-medium">🔔 Send Reminder</button>';
+                    html += '<button onclick="renewMembership(\'' + member.id + '\', 12)" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">✅ Renew 12 Months</button>';
+                    html += '<button onclick="specialOffer(\'' + member.id + '\')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium">🎁 Special Offer</button>';
+                    html += '</div></div>';
+                }
+                
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function renderAnalyticsTab() {
+            var totalMembers = members.length;
+            var activeMembers = members.filter(function(m) { return m.status === 'Active'; }).length;
+            var totalRevenue = members.reduce(function(sum, m) { return sum + (m.price || 0); }, 0);
+            var totalSpent = members.reduce(function(sum, m) { return sum + m.totalSpent; }, 0);
+            var averageSpent = totalSpent / totalMembers;
+            var expiringCount = getExpiringMembers().length;
+
+            var html = '<div class="p-6">';
+            html += '<h2 class="text-xl font-bold text-gray-800 mb-6">Membership Analytics</h2>';
+            
+            html += '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">';
+            
+            html += '<div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg">';
+            html += '<div class="flex items-center justify-between">';
+            html += '<div>';
+            html += '<p class="text-blue-100">Total Revenue</p>';
+            html += '<p class="text-2xl font-bold">RM' + totalRevenue + '</p>';
+            html += '</div>';
+            html += '<span class="text-4xl">📈</span>';
+            html += '</div></div>';
+
+            html += '<div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-lg">';
+            html += '<div class="flex items-center justify-between">';
+            html += '<div>';
+            html += '<p class="text-green-100">Active Rate</p>';
+            html += '<p class="text-2xl font-bold">' + ((activeMembers/totalMembers)*100).toFixed(1) + '%</p>';
+            html += '</div>';
+            html += '<span class="text-4xl">👥</span>';
+            html += '</div></div>';
+
+            html += '<div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-lg">';
+            html += '<div class="flex items-center justify-between">';
+            html += '<div>';
+            html += '<p class="text-purple-100">Avg. Spent</p>';
+            html += '<p class="text-2xl font-bold">RM' + averageSpent.toFixed(2) + '</p>';
+            html += '</div>';
+            html += '<span class="text-4xl">💳</span>';
+            html += '</div></div>';
+
+            html += '<div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-lg">';
+            html += '<div class="flex items-center justify-between">';
+            html += '<div>';
+            html += '<p class="text-orange-100">Retention Alert</p>';
+            html += '<p class="text-2xl font-bold">' + expiringCount + '</p>';
+            html += '</div>';
+            html += '<span class="text-4xl">🔔</span>';
+            html += '</div></div>';
+
+            html += '</div>';
+
+            html += '<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">';
+            
+            // Membership Status
+            html += '<div class="bg-white p-6 rounded-lg shadow">';
+            html += '<h3 class="text-lg font-semibold text-gray-800 mb-4">Membership Status</h3>';
+            html += '<div class="space-y-3">';
+            
+            var statuses = ['Active', 'Expiring Soon', 'Expired', 'Inactive'];
+            for (var i = 0; i < statuses.length; i++) {
+                var status = statuses[i];
+                var statusMembers = members.filter(function(m) { return m.status === status; }).length;
+                var percentage = (statusMembers / totalMembers * 100).toFixed(1);
+                
+                html += '<div class="flex items-center justify-between">';
+                html += '<div class="flex items-center">';
+                html += '<span class="px-3 py-1 rounded-full text-xs font-medium ' + getStatusColor(status) + '">' + status + '</span>';
+                html += '<span class="ml-3 text-sm text-gray-600">' + statusMembers + ' members</span>';
+                html += '</div>';
+                html += '<span class="text-sm font-semibold text-gray-800">' + percentage + '%</span>';
+                html += '</div>';
+            }
+            
+            html += '</div></div>';
+
+            // Top Spenders
+            html += '<div class="bg-white p-6 rounded-lg shadow">';
+            html += '<h3 class="text-lg font-semibold text-gray-800 mb-4">Top Spenders</h3>';
+            html += '<div class="space-y-3">';
+            
+            var topSpenders = members.sort(function(a, b) { return b.totalSpent - a.totalSpent; }).slice(0, 5);
+            for (var i = 0; i < topSpenders.length; i++) {
+                var member = topSpenders[i];
+                html += '<div class="flex items-center justify-between">';
+                html += '<div class="flex items-center">';
+                html += '<div class="w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-white text-sm font-bold">' + (i + 1) + '</div>';
+                html += '<div class="ml-3">';
+                html += '<div class="font-medium text-gray-800">' + member.name + '</div>';
+                html += '<div class="text-xs text-gray-500">' + member.visits + ' visits</div>';
+                html += '</div></div>';
+                html += '<div class="text-right">';
+                html += '<div class="font-semibold text-gray-800">RM' + member.totalSpent.toFixed(2) + '</div>';
+                html += '<div class="text-xs text-gray-500">' + member.points + ' pts</div>';
+                html += '</div></div>';
+            }
+            
+            html += '</div></div>';
+
+            html += '</div></div>';
+            return html;
+        }
+
+        function updateNewMember(field, value) {
+            newMember[field] = value;
+            renderCurrentTab();
+        }
+
+        function updateSearchTerm(value) {
+            searchTerm = value;
+            renderCurrentTab();
+        }
+
+        function addNewMember() {
+            if (newMember.name && newMember.phone && newMember.branch) {
+                var memberId = 'M' + String(members.length + 1).padStart(3, '0');
+                var today = new Date();
+                var expiry = new Date(today);
+                expiry.setMonth(expiry.getMonth() + parseInt(newMember.duration));
+
+                var selectedPlan = membershipPlans.find(function(plan) { return plan.duration === newMember.duration; });
+
+                var member = {
+                    id: memberId,
+                    name: newMember.name,
+                    phone: newMember.phone,
+                    email: newMember.email,
+                    address: newMember.address,
+                    branch: newMember.branch,
+                    joinDate: today.toISOString().split('T')[0],
+                    expiryDate: expiry.toISOString().split('T')[0],
+                    duration: newMember.duration + ' months',
+                    price: selectedPlan ? selectedPlan.price : 0,
+                    status: 'Active',
+                    points: 0,
+                    visits: 0,
+                    totalSpent: 0,
+                    lastVisit: null,
+                    favoriteItems: []
+                };
+
+                members.push(member);
+                newMember = { name: '', phone: '', email: '', address: '', branch: '', duration: '12' };
+                
+                saveData();
+                updateStats();
+                renderCurrentTab();
+                alert('✅ Membership activated successfully!\nMember ID: ' + memberId + '\nTotal: RM' + selectedPlan.price);
+            }
+        }
+
+        function viewMemberDetails(memberId) {
+            selectedMember = members.find(function(m) { return m.id === memberId; });
+            if (selectedMember) {
+                var html = '';
+                html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+                
+                html += '<div>';
+                html += '<h4 class="font-semibold text-gray-800 mb-3">Personal Information</h4>';
+                html += '<div class="space-y-2 text-sm">';
+                html += '<div><strong>ID:</strong> ' + selectedMember.id + '</div>';
+                html += '<div><strong>Name:</strong> ' + selectedMember.name + '</div>';
+                html += '<div><strong>Phone:</strong> ' + selectedMember.phone + '</div>';
+                html += '<div><strong>Email:</strong> ' + (selectedMember.email || 'Not provided') + '</div>';
+                html += '<div><strong>Address:</strong> ' + (selectedMember.address || 'Not provided') + '</div>';
+                html += '<div><strong>Branch:</strong> ' + (selectedMember.branch || 'Not specified') + '</div>';
+                html += '</div></div>';
+                
+                html += '<div>';
+                html += '<h4 class="font-semibold text-gray-800 mb-3">Membership Details</h4>';
+                html += '<div class="space-y-2 text-sm">';
+                html += '<div><strong>Join Date:</strong> ' + selectedMember.joinDate + '</div>';
+                html += '<div><strong>Expiry Date:</strong> ' + selectedMember.expiryDate + '</div>';
+                html += '<div><strong>Duration:</strong> ' + selectedMember.duration + '</div>';
+                html += '<div><strong>Price:</strong> RM' + (selectedMember.price || 0) + '</div>';
+                html += '<div><strong>Status:</strong> <span class="ml-2 px-2 py-1 rounded-full text-xs font-medium ' + getStatusColor(selectedMember.status) + '">' + selectedMember.status + '</span></div>';
+                html += '</div></div>';
+                
+                html += '</div>';
+                
+                html += '<div class="mt-6">';
+                html += '<h4 class="font-semibold text-gray-800 mb-3">Activity Summary</h4>';
+                html += '<div class="grid grid-cols-4 gap-4 text-center">';
+                html += '<div class="bg-blue-50 p-3 rounded-lg">';
+                html += '<div class="font-bold text-blue-600">' + selectedMember.points + '</div>';
+                html += '<div class="text-xs text-blue-600">Points</div>';
+                html += '</div>';
+                html += '<div class="bg-green-50 p-3 rounded-lg">';
+                html += '<div class="font-bold text-green-600">' + selectedMember.visits + '</div>';
+                html += '<div class="text-xs text-green-600">Visits</div>';
+                html += '</div>';
+                html += '<div class="bg-purple-50 p-3 rounded-lg">';
+                html += '<div class="font-bold text-purple-600">RM' + selectedMember.totalSpent.toFixed(2) + '</div>';
+                html += '<div class="text-xs text-purple-600">Total Spent</div>';
+                html += '</div>';
+                html += '<div class="bg-orange-50 p-3 rounded-lg">';
+                html += '<div class="font-bold text-orange-600">' + (selectedMember.lastVisit || 'Never') + '</div>';
+                html += '<div class="text-xs text-orange-600">Last Visit</div>';
+                html += '</div>';
+                html += '</div></div>';
+
+                document.getElementById('memberModalContent').innerHTML = html;
+                document.getElementById('memberModal').style.display = 'flex';
+            }
+        }
+
+        function closeMemberModal() {
+            document.getElementById('memberModal').style.display = 'none';
+        }
+
+        function renewMembership(memberId, duration) {
+            for (var i = 0; i < members.length; i++) {
+                if (members[i].id === memberId) {
+                    var newExpiry = new Date();
+                    newExpiry.setMonth(newExpiry.getMonth() + duration);
+                    members[i].expiryDate = newExpiry.toISOString().split('T')[0];
+                    members[i].status = 'Active';
+                    break;
+                }
+            }
+            saveData();
+            updateStats();
+            renderCurrentTab();
+            alert('Membership renewed successfully for ' + duration + ' months!');
+        }
+
+        function sendReminder(memberId) {
+            var member = members.find(function(m) { return m.id === memberId; });
+            if (member) {
+                alert('Reminder sent to ' + member.name + ' (' + member.phone + ')\n\nMessage: "Your membership expires on ' + member.expiryDate + '. Renew now to continue enjoying our services!"');
+            }
+        }
+
+        function sendAllReminders() {
+            var expiring = getExpiringMembers();
+            alert('Sending reminders to ' + expiring.length + ' members with expiring memberships.');
+        }
+
+        function specialOffer(memberId) {
+            var member = members.find(function(m) { return m.id === memberId; });
+            if (member) {
+                alert('Special offer sent to ' + member.name + '!\n\n"Renew your membership now and get 10% off! Limited time offer."');
+            }
+        }
+
+        function exportMembers() {
+            var data = members.map(function(m) {
+                return {
+                    ID: m.id,
+                    Name: m.name,
+                    Phone: m.phone,
+                    Email: m.email || '',
+                    Branch: m.branch || '',
+                    Status: m.status,
+                    ExpiryDate: m.expiryDate,
+                    TotalSpent: m.totalSpent,
+                    Points: m.points,
+                    Visits: m.visits
+                };
+            });
+            
+            console.log('Export data:', data);
+            alert('Member data exported to browser console. Open Developer Tools (F12) to view.');
+        }
+
+        // Initialize
+        loadData();
     </script>
 </body>
 </html>
