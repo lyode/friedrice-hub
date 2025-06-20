@@ -1039,29 +1039,62 @@
             }
         }
 
-        function addBranch() {
-            var branchName = document.getElementById('branchName').value;
-            var branchLocation = document.getElementById('branchLocation').value;
-            var branchManager = document.getElementById('branchManager').value || 'TBD';
-            
-            if (branchName && branchLocation) {
-                // Clear form
-                document.getElementById('branchName').value = '';
-                document.getElementById('branchLocation').value = '';
-                document.getElementById('branchManager').value = '';
-                
-                // Add to branch dropdown in add member form
-                var memberBranchSelect = document.getElementById('memberBranch');
-                var newOption = document.createElement('option');
-                var branchId = branchName.toLowerCase().replace(/\s+/g, '');
-                newOption.value = branchId;
-                newOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
-                memberBranchSelect.appendChild(newOption);
-                
-                // Show success message
-                alert('✅ Branch added successfully!\n\nBranch: ' + branchName + '\nLocation: ' + branchLocation + '\nManager: ' + branchManager + '\n\nReady to accept new members! 🏪');
-            } else {
-                alert('❌ Please fill in Branch Name and Location fields');
+      function addBranch() {
+    var branchName = document.getElementById('branchName').value;
+    var branchLocation = document.getElementById('branchLocation').value;
+    var branchManager = document.getElementById('branchManager').value || 'TBD';
+    
+    if (branchName && branchLocation) {
+        // Create branch object with unique ID
+        var branchId = branchName.toLowerCase().replace(/\s+/g, '');
+        var newBranch = {
+            id: 'branch-' + branchId,
+            code: branchId,
+            name: branchName,
+            location: branchLocation,
+            manager: branchManager,
+            dateAdded: new Date().toISOString(),
+            members: 0,
+            revenue: 0,
+            activeRate: 100
+        };
+        
+        // Save to localStorage
+        var branches = JSON.parse(localStorage.getItem('friedRiceBranches') || '[]');
+        branches.push(newBranch);
+        localStorage.setItem('friedRiceBranches', JSON.stringify(branches));
+        
+        // Add to branch dropdown in add member form immediately
+        var memberBranchSelect = document.getElementById('memberBranch');
+        var newOption = document.createElement('option');
+        newOption.value = branchId;
+        newOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
+        memberBranchSelect.appendChild(newOption);
+        
+        // Add to branch filter dropdown
+        var branchFilter = document.getElementById('branchFilter');
+        var filterOption = document.createElement('option');
+        filterOption.value = branchId;
+        filterOption.textContent = '🏪 ' + branchName;
+        branchFilter.appendChild(filterOption);
+        
+        // Add to branch list display immediately
+        addBranchCardToList(newBranch);
+        
+        // Update branch count in header
+        updateBranchListHeader();
+        
+        // Clear form
+        document.getElementById('branchName').value = '';
+        document.getElementById('branchLocation').value = '';
+        document.getElementById('branchManager').value = '';
+        
+        // Show success message
+        alert('✅ Branch added successfully!\n\nBranch: ' + branchName + '\nLocation: ' + branchLocation + '\nManager: ' + branchManager + '\n\nReady to accept new members! 🏪');
+    } else {
+        alert('❌ Please fill in Branch Name and Location fields');
+    }
+}
             }
         }
 
@@ -1088,7 +1121,8 @@
    // Update price when duration changes
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
-    loadAllSavedMembers(); // Use the new function name    
+    loadAllSavedMembers();
+    loadAllSavedBranches(); // Add this line; // Use the new function name    
     // Register service worker for PWA (Simple & Safe)
     if ('serviceWorker' in navigator) {
         var swCode = 'self.addEventListener("install", function(e) { e.waitUntil(self.skipWaiting()); }); self.addEventListener("fetch", function(e) { e.respondWith(fetch(e.request)); });';
@@ -1488,6 +1522,8 @@ function addMemberCardToList(member) {
     // Find the filter card and insert after it
     var filterCard = membersList.querySelector('.card');
     filterCard.insertAdjacentHTML('afterend', memberCardHTML);
+    // Update branch stats when new member is added
+updateBranchStats();
 }
 
 // Update stats display
@@ -1521,6 +1557,119 @@ function loadAllSavedMembers() {
         addMemberCardToList(member);
     });
     updateStatsDisplay();
+}
+   // Add branch card to the branch list display
+function addBranchCardToList(branch) {
+    var branchList = document.querySelector('#branches .card:last-of-type');
+    var icon = '🏪';
+    
+    var branchCardHTML = `
+        <div class="member-card" id="${branch.id}" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
+            <div class="member-header">
+                <div>
+                    <div class="member-name">${icon} ${branch.name}</div>
+                    <div class="member-id">${branch.location}</div>
+                </div>
+                <span class="status-badge status-active">Active</span>
+            </div>
+            <div class="member-phone">👤 Manager: ${branch.manager}</div>
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-value">${branch.members}</div>
+                    <div class="stat-label-small">Members</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">RM${branch.revenue}</div>
+                    <div class="stat-label-small">Revenue</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">${branch.activeRate}%</div>
+                    <div class="stat-label-small">Active Rate</div>
+                </div>
+            </div>
+            
+            <div class="branch-actions">
+                <button class="btn-small btn-blue" onclick="editBranch('${branch.id}')">✏️ Edit</button>
+                <button class="btn-small btn-delete" onclick="deleteBranch('${branch.id}', '${branch.name}')">🗑️ Delete</button>
+            </div>
+            
+            <div class="branch-edit-form" id="edit-${branch.id}">
+                <input type="text" class="edit-input" id="edit-branch-name-${branch.code}" value="${branch.name}" placeholder="Branch Name">
+                <input type="text" class="edit-input" id="edit-branch-location-${branch.code}" value="${branch.location}" placeholder="Location">
+                <input type="text" class="edit-input" id="edit-branch-manager-${branch.code}" value="${branch.manager}" placeholder="Manager">
+                <div class="edit-buttons">
+                    <button class="btn-save" onclick="saveBranch('${branch.id}')">💾 Save</button>
+                    <button class="btn-cancel" onclick="cancelBranchEdit('${branch.id}')">❌ Cancel</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    branchList.insertAdjacentHTML('afterend', branchCardHTML);
+}
+
+// Update branch list header count
+function updateBranchListHeader() {
+    var branches = JSON.parse(localStorage.getItem('friedRiceBranches') || '[]');
+    var defaultBranches = 2; // Main and KL branches
+    var totalBranches = defaultBranches + branches.length;
+    
+    var branchHeader = document.querySelector('#branches .card h3');
+    if (branchHeader) {
+        branchHeader.textContent = 'Active Branches (' + totalBranches + ')';
+    }
+}
+
+// Load all saved branches when page loads
+function loadAllSavedBranches() {
+    var branches = JSON.parse(localStorage.getItem('friedRiceBranches') || '[]');
+    branches.forEach(function(branch) {
+        // Add to dropdowns
+        var memberBranchSelect = document.getElementById('memberBranch');
+        var newOption = document.createElement('option');
+        newOption.value = branch.code;
+        newOption.textContent = '🏪 ' + branch.name + ' (' + branch.location + ')';
+        memberBranchSelect.appendChild(newOption);
+        
+        var branchFilter = document.getElementById('branchFilter');
+        var filterOption = document.createElement('option');
+        filterOption.value = branch.code;
+        filterOption.textContent = '🏪 ' + branch.name;
+        branchFilter.appendChild(filterOption);
+        
+        // Add to display
+        addBranchCardToList(branch);
+    });
+    
+    updateBranchListHeader();
+}
+
+// Update branch statistics based on members
+function updateBranchStats() {
+    var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
+    var branches = JSON.parse(localStorage.getItem('friedRiceBranches') || '[]');
+    
+    // Update custom branch stats
+    branches.forEach(function(branch) {
+        var branchMembers = members.filter(m => m.branch === branch.code);
+        var branchRevenue = branchMembers.reduce((sum, m) => sum + m.spent, 0);
+        
+        branch.members = branchMembers.length;
+        branch.revenue = branchRevenue;
+        branch.activeRate = branchMembers.length > 0 ? 100 : 100; // Simplified
+        
+        // Update display
+        var branchCard = document.getElementById(branch.id);
+        if (branchCard) {
+            var stats = branchCard.querySelectorAll('.stat-value');
+            if (stats[0]) stats[0].textContent = branch.members;
+            if (stats[1]) stats[1].textContent = 'RM' + branch.revenue;
+            if (stats[2]) stats[2].textContent = branch.activeRate + '%';
+        }
+    });
+    
+    // Save updated branch stats
+    localStorage.setItem('friedRiceBranches', JSON.stringify(branches));
 }
     </script>
 </body>
