@@ -1,4 +1,92 @@
-<!DOCTYPE html>
+<!-- Delete Member Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🗑️ Delete Member</h3>
+                <span class="close" onclick="closeDeleteModal()">&times;</span>
+            </div>
+            
+            <p style="margin-bottom: 16px; color: #6b7280; font-size: 14px;">
+                Are you sure you want to delete this member? This action cannot be undone.
+            </p>
+            
+            <div id="deleteMemberInfo" style="background: #fef2f2; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+                <!-- Member info will be populated here -->
+            </div>
+
+            <div class="btn-row-modal">
+                <button class="btn btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn btn-confirm-delete" onclick="confirmDelete()">Delete Member</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Branch Modal -->
+    <div id="editBranchModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🏪 Edit Branch</h3>
+                <span class="close" onclick="closeEditBranchModal()">&times;</span>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Branch Name *</label>
+                <input type="text" class="form-input" id="editBranchName" placeholder="Branch name">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Location *</label>
+                <input type="text" class="form-input" id="editBranchLocation" placeholder="Location">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Manager Name</label>
+                <input type="text" class="form-input" id="editBranchManager" placeholder="Manager name">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Status</label>
+                <select class="form-input" id="editBranchStatus" style="padding: 8px 12px; font-size: 13px;">
+                    <option value="active">Active</option>
+                    <option value="coming_soon">Coming Soon</option>
+                    <option value="closed">Temporarily Closed</option>
+                </select>
+            </div>
+
+            <div class="btn-row-modal">
+                <button class="btn btn-cancel" onclick="closeEditBranchModal()">Cancel</button>
+                <button class="btn btn-save" onclick="saveEditBranch()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Branch Confirmation Modal -->
+    <div id="deleteBranchModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🗑️ Delete Branch</h3>
+                <span class="close" onclick="closeDeleteBranchModal()">&times;</span>
+            </div>
+            
+            <p style="margin-bottom: 16px; color: #6b7280; font-size: 14px;">
+                Are you sure you want to delete this branch? This action cannot be undone.
+            </p>
+            
+            <div class="alert-warning" style="margin-bottom: 16px;">
+                <span>⚠️</span>
+                <span class="alert-text">All members in this branch will need to be reassigned!</span>
+            </div>
+            
+            <div id="deleteBranchInfo" style="background: #fef2f2; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+                <!-- Branch info will be populated here -->
+            </div>
+
+            <div class="btn-row-modal">
+                <button class="btn btn-cancel" onclick="closeDeleteBranchModal()">Cancel</button>
+                <button class="btn btn-confirm-delete" onclick="confirmDeleteBranch()">Delete Branch</button>
+            </div>
+        </div>
+    </div><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -429,103 +517,9 @@
             background: #ef4444;
             color: white;
         }
-
-        /* Data Management Styles */
-        .data-section {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .data-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: #1e293b;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .data-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .btn-data {
-            padding: 10px 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .btn-export {
-            background: #059669;
-            color: white;
-        }
-
-        .btn-import {
-            background: #dc2626;
-            color: white;
-        }
-
-        .btn-backup {
-            background: #7c3aed;
-            color: white;
-        }
-
-        .btn-restore {
-            background: #ea580c;
-            color: white;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .data-status {
-            font-size: 11px;
-            color: #64748b;
-            text-align: center;
-            padding: 8px;
-            background: #f1f5f9;
-            border-radius: 4px;
-        }
-
-        .auto-save-indicator {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: #10b981;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 500;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1001;
-        }
-
-        .auto-save-indicator.show {
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
-    <!-- Auto-save indicator -->
-    <div id="autoSaveIndicator" class="auto-save-indicator">💾 Auto-saved</div>
-
     <!-- Header -->
     <div class="header">
         <h1>🍚 Fried Rice Shop</h1>
@@ -533,19 +527,19 @@
         
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number" id="totalMembers">0</div>
+                <div class="stat-number" id="totalMembers">3</div>
                 <div class="stat-label">Total</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="activeMembers">0</div>
+                <div class="stat-number" id="activeMembers">2</div>
                 <div class="stat-label">Active</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="expiringCount">0</div>
+                <div class="stat-number" id="expiringCount">1</div>
                 <div class="stat-label">Expiring</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="totalRevenue">RM0</div>
+                <div class="stat-number" id="totalRevenue">RM980</div>
                 <div class="stat-label">Revenue</div>
             </div>
         </div>
@@ -553,29 +547,25 @@
 
     <!-- Tabs -->
     <div class="tabs">
-        <button class="tab active" onclick="showTab('add', this)">
+        <button class="tab active" onclick="showTab('add')">
             <div class="tab-icon">➕</div>
             <div>Add</div>
         </button>
-        <button class="tab" onclick="showTab('branches', this)">
+        <button class="tab" onclick="showTab('branches')">
             <div class="tab-icon">🏪</div>
             <div>Branches</div>
         </button>
-        <button class="tab" onclick="showTab('list', this)">
+        <button class="tab" onclick="showTab('list')">
             <div class="tab-icon">👥</div>
             <div>List</div>
         </button>
-        <button class="tab" onclick="showTab('alerts', this)">
+        <button class="tab" onclick="showTab('alerts')">
             <div class="tab-icon">🔔</div>
             <div>Alerts</div>
         </button>
-        <button class="tab" onclick="showTab('stats', this)">
+        <button class="tab" onclick="showTab('stats')">
             <div class="tab-icon">📊</div>
             <div>Stats</div>
-        </button>
-        <button class="tab" onclick="showTab('data', this)">
-            <div class="tab-icon">💾</div>
-            <div>Data</div>
         </button>
     </div>
 
@@ -589,7 +579,8 @@
                 <div class="form-group">
                     <label class="form-label">Branch *</label>
                     <select class="form-input" id="memberBranch" style="padding: 8px 12px; font-size: 13px;">
-                        <option value="">Select a branch first</option>
+                        <option value="main">🏪 Main Branch (Shah Alam)</option>
+                        <option value="kl">🏢 KL Branch (Coming Soon)</option>
                     </select>
                 </div>
 
@@ -664,29 +655,164 @@
             </div>
 
             <div class="card">
-                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;" id="branchListHeader">Active Branches (0)</h3>
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;" id="branchListHeader">Active Branches (2)</h3>
                 
                 <div id="branchList">
-                    <!-- Branches will be populated here -->
+                    <div class="member-card" style="background: #f0fdf4; border: 1px solid #bbf7d0;" data-branch-id="main">
+                        <div class="member-header">
+                            <div>
+                                <div class="member-name">🏪 Main Branch</div>
+                                <div class="member-id">Shah Alam, Selangor</div>
+                            </div>
+                            <span class="status-badge status-active">Active</span>
+                        </div>
+                        <div class="member-phone">👤 Manager: Sarah Lee</div>
+                        <div class="member-actions" style="margin-top: 12px;">
+                            <button class="action-btn btn-edit" onclick="editBranch('main')">
+                                ✏️ Edit
+                            </button>
+                            <button class="action-btn btn-delete" onclick="deleteBranch('main')">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="member-card" style="background: #fffbeb; border: 1px solid #fed7aa;" data-branch-id="kl">
+                        <div class="member-header">
+                            <div>
+                                <div class="member-name">🏢 KL Branch</div>
+                                <div class="member-id">Kuala Lumpur</div>
+                            </div>
+                            <span class="status-badge" style="background: #fef3c7; color: #92400e;">Coming Soon</span>
+                        </div>
+                        <div class="member-phone">👤 Manager: Ahmad Rahman</div>
+                        <div class="member-actions" style="margin-top: 12px;">
+                            <button class="action-btn btn-edit" onclick="editBranch('kl')">
+                                ✏️ Edit
+                            </button>
+                            <button class="action-btn btn-delete" onclick="deleteBranch('kl')">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Members List Section -->
         <div id="list" class="section">
-            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;" id="memberListHeader">All Members (0)</h2>
+            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;" id="memberListHeader">All Members (3)</h2>
             
             <div class="card" style="margin-bottom: 16px;">
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label">Filter by Branch</label>
                     <select class="form-input" id="branchFilter" onchange="filterByBranch()" style="padding: 8px 12px; font-size: 13px;">
                         <option value="all">🌐 All Branches</option>
+                        <option value="main">🏪 Main Branch</option>
+                        <option value="kl">🏢 KL Branch</option>
                     </select>
                 </div>
             </div>
             
             <div id="membersList">
-                <!-- Members will be populated here -->
+                <div class="member-card" data-branch="main" data-member-id="1">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">Sarah Chen</div>
+                            <div class="member-id">M001 • 🏪 Main Branch</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    <div class="member-phone">📞 +60123456789</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">⭐ 450</div>
+                            <div class="stat-label-small">Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label-small">Visits</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM480</div>
+                            <div class="stat-label-small">Spent</div>
+                        </div>
+                    </div>
+                    <div class="member-actions">
+                        <button class="action-btn btn-edit" onclick="editMember(1)">
+                            ✏️ Edit
+                        </button>
+                        <button class="action-btn btn-delete" onclick="deleteMember(1)">
+                            🗑️ Delete
+                        </button>
+                    </div>
+                </div>
+
+                <div class="member-card" data-branch="main" data-member-id="2">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">Ahmad Rahman</div>
+                            <div class="member-id">M002 • 🏪 Main Branch</div>
+                        </div>
+                        <span class="status-badge status-expiring">Expiring Soon</span>
+                    </div>
+                    <div class="member-phone">📞 +60198765432</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">⭐ 280</div>
+                            <div class="stat-label-small">Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label-small">Visits</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM320</div>
+                            <div class="stat-label-small">Spent</div>
+                        </div>
+                    </div>
+                    <div class="member-actions">
+                        <button class="action-btn btn-edit" onclick="editMember(2)">
+                            ✏️ Edit
+                        </button>
+                        <button class="action-btn btn-delete" onclick="deleteMember(2)">
+                            🗑️ Delete
+                        </button>
+                    </div>
+                </div>
+
+                <div class="member-card" data-branch="kl" data-member-id="3">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">Priya Sharma</div>
+                            <div class="member-id">M003 • 🏢 KL Branch</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    <div class="member-phone">📞 +60167890123</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">⭐ 150</div>
+                            <div class="stat-label-small">Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label-small">Visits</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM180</div>
+                            <div class="stat-label-small">Spent</div>
+                        </div>
+                    </div>
+                    <div class="member-actions">
+                        <button class="action-btn btn-edit" onclick="editMember(3)">
+                            ✏️ Edit
+                        </button>
+                        <button class="action-btn btn-delete" onclick="deleteMember(3)">
+                            🗑️ Delete
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -694,8 +820,50 @@
         <div id="alerts" class="section">
             <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Renewal Alerts</h2>
             
-            <div id="alertsList">
-                <!-- Alerts will be populated here -->
+            <div class="alert-warning">
+                <span>⚠️</span>
+                <span class="alert-text">1 membership expiring soon</span>
+            </div>
+
+            <div class="member-card" style="border: 1px solid #fbbf24;">
+                <div class="member-header">
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 32px; height: 32px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <span style="color: #f59e0b;">⏰</span>
+                        </div>
+                        <div>
+                            <div class="member-name">Ahmad Rahman</div>
+                            <div class="member-id">+60198765432</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 16px; font-weight: bold; color: #f59e0b;">15</div>
+                        <div style="font-size: 10px; color: #6b7280;">days</div>
+                    </div>
+                </div>
+                
+                <div class="stats-row" style="margin: 12px 0;">
+                    <div class="stat">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label-small">Visits</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">RM320</div>
+                        <div class="stat-label-small">Spent</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">280</div>
+                        <div class="stat-label-small">Points</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-small btn-yellow" style="width: 100%; margin-bottom: 8px;">
+                    🔔 Send Reminder
+                </button>
+                <div class="btn-row">
+                    <button class="btn-small btn-green">✅ Renew</button>
+                    <button class="btn-small btn-blue">🎁 Offer</button>
+                </div>
             </div>
         </div>
 
@@ -706,7 +874,7 @@
             <div class="metric-card metric-blue">
                 <div>
                     <div class="metric-label">Total Revenue</div>
-                    <div class="metric-value" id="statsRevenue">RM0</div>
+                    <div class="metric-value" id="statsRevenue">RM980</div>
                 </div>
                 <div class="metric-icon">📈</div>
             </div>
@@ -714,7 +882,7 @@
             <div class="metric-card metric-green">
                 <div>
                     <div class="metric-label">Active Rate</div>
-                    <div class="metric-value" id="activeRate">0%</div>
+                    <div class="metric-value">67%</div>
                 </div>
                 <div class="metric-icon">👥</div>
             </div>
@@ -722,7 +890,7 @@
             <div class="metric-card metric-purple">
                 <div>
                     <div class="metric-label">Average Spent</div>
-                    <div class="metric-value" id="averageSpent">RM0</div>
+                    <div class="metric-value">RM327</div>
                 </div>
                 <div class="metric-icon">💳</div>
             </div>
@@ -735,71 +903,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Data Management Section -->
-        <div id="data" class="section">
-            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Data Management</h2>
-            
-            <div class="data-section">
-                <div class="data-title">
-                    💾 Data Operations
-                </div>
-                <div class="data-actions">
-                    <button class="btn-data btn-export" onclick="exportData()">
-                        📤 Export Data
-                    </button>
-                    <button class="btn-data btn-import" onclick="document.getElementById('importFile').click()">
-                        📥 Import Data
-                    </button>
-                    <button class="btn-data btn-backup" onclick="createBackup()">
-                        🔄 Create Backup
-                    </button>
-                    <button class="btn-data btn-restore" onclick="document.getElementById('restoreFile').click()">
-                        ↩️ Restore Backup
-                    </button>
-                </div>
-                <div class="data-status" id="dataStatus">
-                    Auto-save enabled • Last saved: Never
-                </div>
-            </div>
-
-            <div class="card">
-                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">System Information</h3>
-                <div style="font-size: 12px; color: #6b7280; line-height: 1.6;">
-                    <div style="margin-bottom: 8px;">
-                        <strong>Data Storage:</strong> Persistent in-memory storage
-                    </div>
-                    <div style="margin-bottom: 8px;">
-                        <strong>Auto-save:</strong> Enabled (saves every change)
-                    </div>
-                    <div style="margin-bottom: 8px;">
-                        <strong>Backup Format:</strong> JSON with timestamp
-                    </div>
-                    <div style="margin-bottom: 8px;">
-                        <strong>Data Validation:</strong> Active
-                    </div>
-                    <div>
-                        <strong>Session Persistence:</strong> Full data retention
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Quick Actions</h3>
-                <div class="btn-row">
-                    <button class="btn-small btn-yellow" onclick="clearAllData()">
-                        🗑️ Clear All
-                    </button>
-                    <button class="btn-small btn-green" onclick="loadSampleData()">
-                        📋 Sample Data
-                    </button>
-                </div>
-            </div>
-
-            <!-- Hidden file inputs -->
-            <input type="file" id="importFile" class="file-input" accept=".json" onchange="importData(event)">
-            <input type="file" id="restoreFile" class="file-input" accept=".json" onchange="restoreBackup(event)">
         </div>
     </div>
 
@@ -824,35 +927,14 @@
             <div class="form-group">
                 <label class="form-label">Branch *</label>
                 <select class="form-input" id="editMemberBranch" style="padding: 8px 12px; font-size: 13px;">
+                    <option value="main">🏪 Main Branch (Shah Alam)</option>
+                    <option value="kl">🏢 KL Branch (Coming Soon)</option>
                 </select>
             </div>
 
             <div class="btn-row-modal">
                 <button class="btn btn-cancel" onclick="closeEditModal()">Cancel</button>
                 <button class="btn btn-save" onclick="saveEditMember()">Save Changes</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Member Confirmation Modal -->
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🗑️ Delete Member</h3>
-                <span class="close" onclick="closeDeleteModal()">&times;</span>
-            </div>
-            
-            <p style="margin-bottom: 16px; color: #6b7280; font-size: 14px;">
-                Are you sure you want to delete this member? This action cannot be undone.
-            </p>
-            
-            <div id="deleteMemberInfo" style="background: #fef2f2; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
-                <!-- Member info will be populated here -->
-            </div>
-
-            <div class="btn-row-modal">
-                <button class="btn btn-cancel" onclick="closeDeleteModal()">Cancel</button>
-                <button class="btn btn-confirm-delete" onclick="confirmDelete()">Delete Member</button>
             </div>
         </div>
     </div>
@@ -925,348 +1007,43 @@
     </div>
 
     <script>
-        // ===========================
-        // GLOBAL VARIABLES
-        // ===========================
-
-        var memberCount = 0;
-        var memberCounter = 1;
-        var totalRevenue = 0;
+        // Global variables
+        var memberCount = 3;
+        var memberCounter = 4;
+        var totalRevenue = 980;
         var currentEditingMemberId = null;
         var currentDeletingMemberId = null;
         var currentEditingBranchId = null;
         var currentDeletingBranchId = null;
         var branchCounter = 1;
 
-        // Data storage objects
-        var membersData = {};
-        var branchesData = {};
+        // Member data storage (simulating a database)
+        var membersData = {
+            1: { name: 'Sarah Chen', phone: '+60123456789', branch: 'main', spent: 480 },
+            2: { name: 'Ahmad Rahman', phone: '+60198765432', branch: 'main', spent: 320 },
+            3: { name: 'Priya Sharma', phone: '+60167890123', branch: 'kl', spent: 180 }
+        };
 
-        // ===========================
-        // DATA PERSISTENCE SYSTEM
-        // ===========================
-
-        class DataManager {
-            constructor() {
-                this.storageKey = 'fried_rice_shop_data';
-                this.lastSaveTime = null;
-                this.autoSaveEnabled = true;
-                this.initialize();
+        // Branch data storage
+        var branchesData = {
+            'main': { 
+                name: 'Main Branch', 
+                location: 'Shah Alam, Selangor', 
+                manager: 'Sarah Lee', 
+                status: 'active',
+                icon: '🏪'
+            },
+            'kl': { 
+                name: 'KL Branch', 
+                location: 'Kuala Lumpur', 
+                manager: 'Ahmad Rahman', 
+                status: 'coming_soon',
+                icon: '🏢'
             }
+        };
 
-            initialize() {
-                this.loadData();
-                this.setupAutoSave();
-                console.log('Data Manager initialized');
-            }
-
-            saveData() {
-                if (!this.autoSaveEnabled) return;
-
-                const data = {
-                    timestamp: new Date().toISOString(),
-                    version: '1.0',
-                    members: membersData || {},
-                    branches: branchesData || {},
-                    counters: {
-                        memberCounter: memberCounter || 1,
-                        branchCounter: branchCounter || 1
-                    },
-                    stats: {
-                        totalRevenue: totalRevenue || 0,
-                        memberCount: memberCount || 0
-                    }
-                };
-
-                // Store in persistent data
-                window.persistentData = data;
-                this.lastSaveTime = new Date();
-                
-                this.showAutoSaveIndicator();
-                this.updateDataStatus();
-                
-                console.log('Data saved successfully', data);
-            }
-
-            loadData() {
-                try {
-                    const data = window.persistentData;
-                    
-                    if (data && data.version) {
-                        console.log('Loading saved data...', data);
-                        
-                        // Restore data
-                        membersData = data.members || {};
-                        branchesData = data.branches || {};
-                        memberCounter = data.counters?.memberCounter || 1;
-                        branchCounter = data.counters?.branchCounter || 1;
-                        totalRevenue = data.stats?.totalRevenue || 0;
-                        memberCount = data.stats?.memberCount || 0;
-                        
-                        this.lastSaveTime = new Date(data.timestamp);
-                        
-                        // Rebuild UI
-                        this.rebuildUI();
-                        
-                        console.log('Data loaded successfully');
-                        return true;
-                    } else {
-                        console.log('No saved data found, loading sample data');
-                        this.loadDefaultData();
-                        return false;
-                    }
-                } catch (error) {
-                    console.error('Error loading data:', error);
-                    this.loadDefaultData();
-                    return false;
-                }
-            }
-
-            loadDefaultData() {
-                // Initialize with sample data
-                membersData = {
-                    1: { name: 'Sarah Chen', phone: '+60123456789', branch: 'main', spent: 480, joinDate: '2024-01-15', status: 'active' },
-                    2: { name: 'Ahmad Rahman', phone: '+60198765432', branch: 'main', spent: 320, joinDate: '2024-02-20', status: 'expiring' },
-                    3: { name: 'Priya Sharma', phone: '+60167890123', branch: 'kl', spent: 180, joinDate: '2024-03-10', status: 'active' }
-                };
-
-                branchesData = {
-                    'main': { 
-                        name: 'Main Branch', 
-                        location: 'Shah Alam, Selangor', 
-                        manager: 'Sarah Lee', 
-                        status: 'active',
-                        icon: '🏪'
-                    },
-                    'kl': { 
-                        name: 'KL Branch', 
-                        location: 'Kuala Lumpur', 
-                        manager: 'Ahmad Rahman', 
-                        status: 'coming_soon',
-                        icon: '🏢'
-                    }
-                };
-
-                memberCounter = 4;
-                branchCounter = 1;
-                totalRevenue = 980;
-                memberCount = 3;
-
-                this.rebuildUI();
-                this.saveData();
-            }
-
-            rebuildUI() {
-                this.rebuildBranches();
-                this.rebuildMembers();
-                this.updateAllStats();
-                this.updateAllDropdowns();
-            }
-
-            rebuildBranches() {
-                const branchList = document.getElementById('branchList');
-                branchList.innerHTML = '';
-
-                Object.entries(branchesData || {}).forEach(([branchId, branchData]) => {
-                    addBranchToList(branchId, branchData.name, branchData.location, branchData.manager, branchData.status);
-                });
-
-                updateBranchCount();
-            }
-
-            rebuildMembers() {
-                const membersList = document.getElementById('membersList');
-                membersList.innerHTML = '';
-
-                Object.entries(membersData || {}).forEach(([memberId, memberData]) => {
-                    addToMemberListFromData(memberData.name, memberData.phone, memberData.branch, memberData.spent, parseInt(memberId));
-                });
-            }
-
-            updateAllStats() {
-                document.getElementById('totalMembers').textContent = memberCount || 0;
-                document.getElementById('activeMembers').textContent = memberCount || 0;
-                document.getElementById('totalRevenue').textContent = 'RM' + (totalRevenue || 0);
-                document.getElementById('statsRevenue').textContent = 'RM' + (totalRevenue || 0);
-                document.getElementById('memberListHeader').textContent = 'All Members (' + (memberCount || 0) + ')';
-                
-                const activeRate = memberCount > 0 ? Math.round((memberCount / memberCount) * 100) : 0;
-                const averageSpent = memberCount > 0 ? Math.round(totalRevenue / memberCount) : 0;
-                
-                document.getElementById('activeRate').textContent = activeRate + '%';
-                document.getElementById('averageSpent').textContent = 'RM' + averageSpent;
-
-                // Update expiring count
-                const expiringMembers = Object.values(membersData).filter(member => member.status === 'expiring').length;
-                document.getElementById('expiringCount').textContent = expiringMembers;
-            }
-
-            updateAllDropdowns() {
-                const memberBranchSelect = document.getElementById('memberBranch');
-                const editMemberBranchSelect = document.getElementById('editMemberBranch');
-                const branchFilter = document.getElementById('branchFilter');
-
-                // Clear existing options
-                memberBranchSelect.innerHTML = '<option value="">Select a branch first</option>';
-                editMemberBranchSelect.innerHTML = '';
-                branchFilter.innerHTML = '<option value="all">🌐 All Branches</option>';
-
-                // Add branches to dropdowns
-                Object.entries(branchesData || {}).forEach(([branchId, branchData]) => {
-                    const memberOption = document.createElement('option');
-                    memberOption.value = branchId;
-                    memberOption.textContent = branchData.icon + ' ' + branchData.name + ' (' + branchData.location + ')';
-                    memberBranchSelect.appendChild(memberOption);
-
-                    const editOption = memberOption.cloneNode(true);
-                    editMemberBranchSelect.appendChild(editOption);
-
-                    const filterOption = document.createElement('option');
-                    filterOption.value = branchId;
-                    filterOption.textContent = branchData.icon + ' ' + branchData.name;
-                    branchFilter.appendChild(filterOption);
-                });
-            }
-
-            setupAutoSave() {
-                setInterval(() => {
-                    if (this.autoSaveEnabled) {
-                        this.saveData();
-                    }
-                }, 5000);
-            }
-
-            showAutoSaveIndicator() {
-                const indicator = document.getElementById('autoSaveIndicator');
-                indicator.classList.add('show');
-                setTimeout(() => {
-                    indicator.classList.remove('show');
-                }, 2000);
-            }
-
-            updateDataStatus() {
-                const status = document.getElementById('dataStatus');
-                if (status && this.lastSaveTime) {
-                    const timeStr = this.lastSaveTime.toLocaleTimeString();
-                    status.textContent = `Auto-save enabled • Last saved: ${timeStr}`;
-                }
-            }
-
-            getCurrentData() {
-                return {
-                    timestamp: new Date().toISOString(),
-                    version: '1.0',
-                    members: membersData || {},
-                    branches: branchesData || {},
-                    counters: {
-                        memberCounter: memberCounter || 1,
-                        branchCounter: branchCounter || 1
-                    },
-                    stats: {
-                        totalRevenue: totalRevenue || 0,
-                        memberCount: memberCount || 0
-                    }
-                };
-            }
-
-            exportData() {
-                const data = window.persistentData || this.getCurrentData();
-                const dataStr = JSON.stringify(data, null, 2);
-                const blob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `fried_rice_shop_data_${new Date().toISOString().split('T')[0]}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                alert('✅ Data exported successfully!');
-            }
-
-            createBackup() {
-                const data = this.getCurrentData();
-                data.backup = true;
-                data.backupDate = new Date().toISOString();
-                
-                const dataStr = JSON.stringify(data, null, 2);
-                const blob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `fried_rice_backup_${new Date().toISOString().split('T')[0]}_${Date.now()}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                alert('✅ Backup created successfully!');
-            }
-
-            importData(file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    try {
-                        const data = JSON.parse(e.target.result);
-                        
-                        if (this.validateData(data)) {
-                            window.persistentData = data;
-                            this.loadData();
-                            alert('✅ Data imported successfully!');
-                        } else {
-                            alert('❌ Invalid data format. Please check your file.');
-                        }
-                    } catch (error) {
-                        console.error('Import error:', error);
-                        alert('❌ Error importing data. Please check your file format.');
-                    }
-                };
-                reader.readAsText(file);
-            }
-
-            validateData(data) {
-                return data && 
-                       data.version && 
-                       typeof data.members === 'object' && 
-                       typeof data.branches === 'object';
-            }
-
-            clearAllData() {
-                if (confirm('⚠️ Are you sure you want to clear ALL data?\n\nThis will delete all members, branches, and reset all statistics.\n\nThis action cannot be undone!')) {
-                    window.persistentData = null;
-                    membersData = {};
-                    branchesData = {};
-                    memberCounter = 1;
-                    branchCounter = 1;
-                    totalRevenue = 0;
-                    memberCount = 0;
-                    
-                    this.rebuildUI();
-                    this.saveData();
-                    
-                    alert('✅ All data cleared successfully!');
-                }
-            }
-
-            loadSampleData() {
-                if (confirm('Load sample data? This will replace current data.')) {
-                    this.loadDefaultData();
-                    alert('✅ Sample data loaded successfully!');
-                }
-            }
-        }
-
-        // Initialize data manager
-        var dataManager = new DataManager();
-
-        // ===========================
-        // UTILITY FUNCTIONS
-        // ===========================
-
-        function showTab(tabName, tabElement) {
+        // Tab switching function
+        function showTab(tabName) {
             // Hide all sections
             var sections = document.querySelectorAll('.section');
             sections.forEach(function(section) {
@@ -1283,220 +1060,57 @@
             document.getElementById(tabName).classList.add('active');
             
             // Add active class to clicked tab
-            tabElement.classList.add('active');
-
-            // Refresh content based on tab
-            if (tabName === 'alerts') {
-                refreshAlerts();
-            } else if (tabName === 'stats') {
-                refreshStats();
-            }
+            event.target.closest('.tab').classList.add('active');
         }
 
-        function updatePriceDisplay() {
-            var durationSelect = document.getElementById('memberDuration');
-            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
-            document.getElementById('priceDisplay').textContent = 'RM' + price;
-            document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
-        }
-
-        function updateStats(price) {
-            memberCount++;
-            totalRevenue += price;
-            dataManager.updateAllStats();
-        }
-
-        function updateBranchCount() {
-            const currentCount = document.querySelectorAll('#branchList .member-card').length;
-            document.getElementById('branchListHeader').textContent = 'Active Branches (' + currentCount + ')';
-        }
-
-        function filterByBranch() {
-            var selectedBranch = document.getElementById('branchFilter').value;
-            var memberCards = document.querySelectorAll('#membersList .member-card');
-            
-            memberCards.forEach(function(card) {
-                if (selectedBranch === 'all' || card.getAttribute('data-branch') === selectedBranch) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        function refreshAlerts() {
-            const alertsList = document.getElementById('alertsList');
-            alertsList.innerHTML = '';
-
-            // Find expiring members
-            const expiringMembers = Object.entries(membersData).filter(([id, member]) => member.status === 'expiring');
-
-            if (expiringMembers.length === 0) {
-                alertsList.innerHTML = `
-                    <div class="card" style="text-align: center; padding: 40px;">
-                        <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
-                        <h3 style="font-size: 16px; color: #10b981; margin-bottom: 8px;">All Good!</h3>
-                        <p style="font-size: 14px; color: #6b7280;">No memberships expiring soon.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            // Show warning
-            alertsList.innerHTML = `
-                <div class="alert-warning">
-                    <span>⚠️</span>
-                    <span class="alert-text">${expiringMembers.length} membership(s) expiring soon</span>
-                </div>
-            `;
-
-            // Show each expiring member
-            expiringMembers.forEach(([memberId, memberData]) => {
-                const branchData = branchesData[memberData.branch];
-                const branchName = branchData ? branchData.name : 'Unknown Branch';
-
-                alertsList.innerHTML += `
-                    <div class="member-card" style="border: 1px solid #fbbf24;">
-                        <div class="member-header">
-                            <div style="display: flex; align-items: center;">
-                                <div style="width: 32px; height: 32px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
-                                    <span style="color: #f59e0b;">⏰</span>
-                                </div>
-                                <div>
-                                    <div class="member-name">${memberData.name}</div>
-                                    <div class="member-id">${memberData.phone} • ${branchName}</div>
-                                </div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div style="font-size: 16px; font-weight: bold; color: #f59e0b;">15</div>
-                                <div style="font-size: 10px; color: #6b7280;">days</div>
-                            </div>
-                        </div>
-                        
-                        <div class="stats-row" style="margin: 12px 0;">
-                            <div class="stat">
-                                <div class="stat-value">${Math.max(1, Math.round(memberData.spent / 40))}</div>
-                                <div class="stat-label-small">Visits</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">RM${memberData.spent}</div>
-                                <div class="stat-label-small">Spent</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">${Math.round(memberData.spent * 0.5)}</div>
-                                <div class="stat-label-small">Points</div>
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-small btn-yellow" style="width: 100%; margin-bottom: 8px;">
-                            🔔 Send Reminder
-                        </button>
-                        <div class="btn-row">
-                            <button class="btn-small btn-green">✅ Renew</button>
-                            <button class="btn-small btn-blue">🎁 Offer</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function refreshStats() {
-            const recentList = document.getElementById('recentMembers');
-            
-            // Get recent members (last 5 added)
-            const sortedMembers = Object.entries(membersData)
-                .sort((a, b) => parseInt(b[0]) - parseInt(a[0]))
-                .slice(0, 5);
-
-            if (sortedMembers.length === 0) {
-                recentList.innerHTML = `
-                    <div style="font-size: 12px; color: #6b7280; text-align: center; padding: 20px;">
-                        New members you add will appear here
-                    </div>
-                `;
-                return;
-            }
-
-            recentList.innerHTML = '';
-            sortedMembers.forEach(([memberId, memberData]) => {
-                recentList.innerHTML += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
-                        <div>
-                            <div style="font-size: 12px; font-weight: 500;">${memberData.name}</div>
-                            <div style="font-size: 10px; color: #6b7280;">${memberData.phone}</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 12px; font-weight: 500; color: #ec4899;">RM${memberData.spent}</div>
-                            <div style="font-size: 10px; color: #6b7280;">${memberData.joinDate || 'Recent'}</div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // ===========================
-        // MEMBER MANAGEMENT
-        // ===========================
-
+        // Add member function
         function addMember() {
-            var name = document.getElementById('memberName').value.trim();
-            var phone = document.getElementById('memberPhone').value.trim();
+            var name = document.getElementById('memberName').value;
+            var phone = document.getElementById('memberPhone').value;
             var branchSelect = document.getElementById('memberBranch');
             var branch = branchSelect.value;
+            var branchText = branchSelect.options[branchSelect.selectedIndex].text;
             var durationSelect = document.getElementById('memberDuration');
             var duration = parseInt(durationSelect.value);
             var price = parseInt(durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price'));
             
-            if (!name || !phone || !branch) {
-                alert('❌ Please fill in all required fields (Name, Phone, and Branch)');
-                return;
+            if (name && phone) {
+                // Store member data
+                membersData[memberCounter] = { 
+                    name: name, 
+                    phone: phone, 
+                    branch: branch, 
+                    spent: price 
+                };
+                
+                // Add to member list immediately
+                addToMemberList(name, phone, branch, price, memberCounter);
+                
+                // Update stats
+                updateStats(price);
+                
+                // Clear form
+                document.getElementById('memberName').value = '';
+                document.getElementById('memberPhone').value = '';
+                document.getElementById('memberBranch').value = 'main';
+                document.getElementById('memberDuration').value = '12';
+                updatePriceDisplay();
+                
+                // Increment counter
+                memberCounter++;
+                
+                // Show success message
+                alert('✅ Member Added Successfully!\n\nName: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchText + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\n\nWelcome to Fried Rice Club! 🍚');
+                
+            } else {
+                alert('❌ Please fill in Name and Phone fields');
             }
-
-            // Check if phone already exists
-            var existingMember = Object.values(membersData).find(member => member.phone === phone);
-            if (existingMember) {
-                alert('❌ A member with this phone number already exists!');
-                return;
-            }
-            
-            // Store member data
-            membersData[memberCounter] = { 
-                name: name, 
-                phone: phone, 
-                branch: branch, 
-                spent: price,
-                joinDate: new Date().toISOString().split('T')[0],
-                status: 'active'
-            };
-            
-            // Add to member list
-            addToMemberList(name, phone, branch, price, memberCounter);
-            
-            // Update stats
-            updateStats(price);
-            
-            // Clear form
-            document.getElementById('memberName').value = '';
-            document.getElementById('memberPhone').value = '';
-            document.getElementById('memberBranch').value = '';
-            document.getElementById('memberDuration').value = '12';
-            updatePriceDisplay();
-            
-            // Increment counter
-            memberCounter++;
-            
-            // Save data
-            dataManager.saveData();
-            
-            // Show success message
-            var branchText = branchSelect.options[branchSelect.selectedIndex].text;
-            alert('✅ Member Added Successfully!\n\nName: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchText + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\n\nWelcome to Fried Rice Club! 🍚');
         }
 
+        // Add member to the list display
         function addToMemberList(name, phone, branch, price, memberId) {
             var membersList = document.getElementById('membersList');
-            var branchData = branchesData[branch];
-            var branchIcon = branchData ? branchData.icon + ' ' + branchData.name : '🏪 Unknown Branch';
+            var branchIcon = branch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
             var memberIdStr = 'M' + String(memberId).padStart(3, '0');
             
             var memberHTML = 
@@ -1534,50 +1148,497 @@
                 '</div>';
             
             membersList.insertAdjacentHTML('beforeend', memberHTML);
+            
+            // Add to recent members in stats
+            addToRecentMembers(name, phone, price);
         }
 
-        function addToMemberListFromData(name, phone, branch, price, memberId) {
-            var membersList = document.getElementById('membersList');
-            var branchData = branchesData[branch];
-            var branchIcon = branchData ? branchData.icon + ' ' + branchData.name : '🏪 Unknown Branch';
-            var memberIdStr = 'M' + String(memberId).padStart(3, '0');
-            var memberInfo = membersData[memberId];
-            var status = memberInfo?.status || 'active';
-            var statusClass = status === 'active' ? 'status-active' : 'status-expiring';
-            var statusText = status === 'active' ? 'Active' : 'Expiring Soon';
+        // Edit member function
+        function editMember(memberId) {
+            currentEditingMemberId = memberId;
+            var memberData = membersData[memberId];
             
-            var memberHTML = 
-                '<div class="member-card" data-branch="' + branch + '" data-member-id="' + memberId + '">' +
+            if (memberData) {
+                // Populate the edit form
+                document.getElementById('editMemberName').value = memberData.name;
+                document.getElementById('editMemberPhone').value = memberData.phone;
+                document.getElementById('editMemberBranch').value = memberData.branch;
+                
+                // Show the edit modal
+                document.getElementById('editModal').style.display = 'block';
+            }
+        }
+
+        // Save edited member
+        function saveEditMember() {
+            var name = document.getElementById('editMemberName').value;
+            var phone = document.getElementById('editMemberPhone').value;
+            var branch = document.getElementById('editMemberBranch').value;
+            
+            if (name && phone && currentEditingMemberId) {
+                // Update stored data
+                membersData[currentEditingMemberId].name = name;
+                membersData[currentEditingMemberId].phone = phone;
+                membersData[currentEditingMemberId].branch = branch;
+                
+                // Update the display
+                var memberCard = document.querySelector('[data-member-id="' + currentEditingMemberId + '"]');
+                if (memberCard) {
+                    var branchIcon = branch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
+                    var memberIdStr = 'M' + String(currentEditingMemberId).padStart(3, '0');
+                    
+                    memberCard.querySelector('.member-name').textContent = name;
+                    memberCard.querySelector('.member-id').textContent = memberIdStr + ' • ' + branchIcon;
+                    memberCard.querySelector('.member-phone').textContent = '📞 ' + phone;
+                    memberCard.setAttribute('data-branch', branch);
+                }
+                
+                // Close modal
+                closeEditModal();
+                
+                alert('✅ Member updated successfully!\n\nName: ' + name + '\nPhone: ' + phone + '\nBranch: ' + (branch === 'main' ? 'Main Branch' : 'KL Branch'));
+            } else {
+                alert('❌ Please fill in all required fields');
+            }
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            currentEditingMemberId = null;
+        }
+
+        // Delete member function
+        function deleteMember(memberId) {
+            currentDeletingMemberId = memberId;
+            var memberData = membersData[memberId];
+            
+            if (memberData) {
+                // Populate the delete confirmation info
+                var memberIdStr = 'M' + String(memberId).padStart(3, '0');
+                var branchText = memberData.branch === 'main' ? 'Main Branch' : 'KL Branch';
+                
+                document.getElementById('deleteMemberInfo').innerHTML = 
+                    '<div style="font-weight: 500; margin-bottom: 4px;">' + memberData.name + '</div>' +
+                    '<div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">' + memberIdStr + ' • ' + branchText + '</div>' +
+                    '<div style="font-size: 12px; color: #6b7280;">' + memberData.phone + '</div>';
+                
+                // Show the delete modal
+                document.getElementById('deleteModal').style.display = 'block';
+            }
+        }
+
+        // Confirm delete
+        function confirmDelete() {
+            if (currentDeletingMemberId && membersData[currentDeletingMemberId]) {
+                var memberData = membersData[currentDeletingMemberId];
+                
+                // Remove from display
+                var memberCard = document.querySelector('[data-member-id="' + currentDeletingMemberId + '"]');
+                if (memberCard) {
+                    memberCard.remove();
+                }
+                
+                // Update stats
+                memberCount--;
+                totalRevenue -= memberData.spent;
+                
+                document.getElementById('totalMembers').textContent = memberCount;
+                document.getElementById('activeMembers').textContent = memberCount;
+                document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
+                document.getElementById('statsRevenue').textContent = 'RM' + totalRevenue;
+                document.getElementById('memberListHeader').textContent = 'All Members (' + memberCount + ')';
+                
+                // Remove from stored data
+                delete membersData[currentDeletingMemberId];
+                
+                // Close modal
+                closeDeleteModal();
+                
+                alert('✅ Member deleted successfully!');
+            }
+        }
+
+        // Close delete modal
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            currentDeletingMemberId = null;
+        }
+
+        // Update stats display
+        function updateStats(price) {
+            memberCount++;
+            totalRevenue += price;
+            
+            document.getElementById('totalMembers').textContent = memberCount;
+            document.getElementById('activeMembers').textContent = memberCount;
+            document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
+            document.getElementById('statsRevenue').textContent = 'RM' + totalRevenue;
+            document.getElementById('memberListHeader').textContent = 'All Members (' + memberCount + ')';
+        }
+
+        // Add to recent members in stats tab
+        function addToRecentMembers(name, phone, price) {
+            var recentList = document.getElementById('recentMembers');
+            
+            // Clear placeholder text
+            if (recentList.children.length === 1 && recentList.children[0].textContent.includes('New members')) {
+                recentList.innerHTML = '';
+            }
+            
+            var recentHTML = 
+                '<div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">' +
+                    '<div>' +
+                        '<div style="font-size: 12px; font-weight: 500;">' + name + '</div>' +
+                        '<div style="font-size: 10px; color: #6b7280;">' + phone + '</div>' +
+                    '</div>' +
+                    '<div style="text-align: right;">' +
+                        '<div style="font-size: 12px; font-weight: 500; color: #ec4899;">RM' + price + '</div>' +
+                        '<div style="font-size: 10px; color: #6b7280;">Just now</div>' +
+                    '</div>' +
+                '</div>';
+            
+            recentList.insertAdjacentHTML('afterbegin', recentHTML);
+            
+            // Keep only last 5 members
+            while (recentList.children.length > 5) {
+                recentList.removeChild(recentList.lastChild);
+            }
+        }
+
+        // Add branch function
+        function addBranch() {
+            var branchName = document.getElementById('branchName').value;
+            var branchLocation = document.getElementById('branchLocation').value;
+            var branchManager = document.getElementById('branchManager').value || 'TBD';
+            
+            if (branchName && branchLocation) {
+                // Generate unique branch ID
+                var branchId = branchName.toLowerCase().replace(/\s+/g, '') + branchCounter;
+                branchCounter++;
+                
+                // Store branch data
+                branchesData[branchId] = {
+                    name: branchName,
+                    location: branchLocation,
+                    manager: branchManager,
+                    status: 'active',
+                    icon: '🏪'
+                };
+                
+                // Add to dropdowns
+                addBranchToDropdowns(branchId, branchName, branchLocation);
+                
+                // Add to branch list display
+                addBranchToList(branchId, branchName, branchLocation, branchManager, 'active');
+                
+                // Update header
+                updateBranchCount();
+                
+                // Clear form
+                document.getElementById('branchName').value = '';
+                document.getElementById('branchLocation').value = '';
+                document.getElementById('branchManager').value = '';
+                
+                alert('✅ Branch added successfully!\n\nBranch: ' + branchName + '\nLocation: ' + branchLocation + '\nManager: ' + branchManager);
+            } else {
+                alert('❌ Please fill in Branch Name and Location');
+            }
+        }
+
+        // Add branch to all dropdowns
+        function addBranchToDropdowns(branchId, branchName, branchLocation) {
+            // Add to member branch select
+            var memberBranchSelect = document.getElementById('memberBranch');
+            var newOption = document.createElement('option');
+            newOption.value = branchId;
+            newOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
+            memberBranchSelect.appendChild(newOption);
+            
+            // Add to edit modal dropdown
+            var editBranchSelect = document.getElementById('editMemberBranch');
+            var editOption = document.createElement('option');
+            editOption.value = branchId;
+            editOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
+            editBranchSelect.appendChild(editOption);
+            
+            // Add to filter
+            var branchFilter = document.getElementById('branchFilter');
+            var filterOption = document.createElement('option');
+            filterOption.value = branchId;
+            filterOption.textContent = '🏪 ' + branchName;
+            branchFilter.appendChild(filterOption);
+        }
+
+        // Add branch to display list
+        function addBranchToList(branchId, branchName, branchLocation, branchManager, status) {
+            var branchList = document.getElementById('branchList');
+            var statusClass = status === 'active' ? 'status-active' : (status === 'coming_soon' ? 'status-expiring' : 'status-badge');
+            var statusText = status === 'active' ? 'Active' : (status === 'coming_soon' ? 'Coming Soon' : 'Closed');
+            var bgClass = status === 'active' ? 'background: #f0fdf4; border: 1px solid #bbf7d0;' : 'background: #fffbeb; border: 1px solid #fed7aa;';
+            
+            var branchHTML = 
+                '<div class="member-card" style="' + bgClass + '" data-branch-id="' + branchId + '">' +
                     '<div class="member-header">' +
                         '<div>' +
-                            '<div class="member-name">' + name + '</div>' +
-                            '<div class="member-id">' + memberIdStr + ' • ' + branchIcon + '</div>' +
+                            '<div class="member-name">🏪 ' + branchName + '</div>' +
+                            '<div class="member-id">' + branchLocation + '</div>' +
                         '</div>' +
                         '<span class="status-badge ' + statusClass + '">' + statusText + '</span>' +
                     '</div>' +
-                    '<div class="member-phone">📞 ' + phone + '</div>' +
-                    '<div class="stats-row">' +
-                        '<div class="stat">' +
-                            '<div class="stat-value">⭐ ' + Math.round(price * 0.5) + '</div>' +
-                            '<div class="stat-label-small">Points</div>' +
-                        '</div>' +
-                        '<div class="stat">' +
-                            '<div class="stat-value">' + Math.max(1, Math.round(price / 40)) + '</div>' +
-                            '<div class="stat-label-small">Visits</div>' +
-                        '</div>' +
-                        '<div class="stat">' +
-                            '<div class="stat-value">RM' + price + '</div>' +
-                            '<div class="stat-label-small">Spent</div>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="member-actions">' +
-                        '<button class="action-btn btn-edit" onclick="editMember(' + memberId + ')">' +
+                    '<div class="member-phone">👤 Manager: ' + branchManager + '</div>' +
+                    '<div class="member-actions" style="margin-top: 12px;">' +
+                        '<button class="action-btn btn-edit" onclick="editBranch(\'' + branchId + '\')">' +
                             '✏️ Edit' +
                         '</button>' +
-                        '<button class="action-btn btn-delete" onclick="deleteMember(' + memberId + ')">' +
+                        '<button class="action-btn btn-delete" onclick="deleteBranch(\'' + branchId + '\')">' +
                             '🗑️ Delete' +
                         '</button>' +
                     '</div>' +
                 '</div>';
             
-            membersList.insertA
+            branchList.insertAdjacentHTML('beforeend', branchHTML);
+        }
+
+        // Update branch count in header
+        function updateBranchCount() {
+            var currentCount = document.querySelectorAll('#branchList .member-card').length;
+            document.getElementById('branchListHeader').textContent = 'Active Branches (' + currentCount + ')';
+        }
+
+        // Edit branch function
+        function editBranch(branchId) {
+            currentEditingBranchId = branchId;
+            var branchData = branchesData[branchId];
+            
+            if (branchData) {
+                // Populate the edit form
+                document.getElementById('editBranchName').value = branchData.name;
+                document.getElementById('editBranchLocation').value = branchData.location;
+                document.getElementById('editBranchManager').value = branchData.manager;
+                document.getElementById('editBranchStatus').value = branchData.status;
+                
+                // Show the edit modal
+                document.getElementById('editBranchModal').style.display = 'block';
+            }
+        }
+
+        // Save edited branch
+        function saveEditBranch() {
+            var name = document.getElementById('editBranchName').value;
+            var location = document.getElementById('editBranchLocation').value;
+            var manager = document.getElementById('editBranchManager').value || 'TBD';
+            var status = document.getElementById('editBranchStatus').value;
+            
+            if (name && location && currentEditingBranchId) {
+                // Update stored data
+                branchesData[currentEditingBranchId].name = name;
+                branchesData[currentEditingBranchId].location = location;
+                branchesData[currentEditingBranchId].manager = manager;
+                branchesData[currentEditingBranchId].status = status;
+                
+                // Update the display
+                var branchCard = document.querySelector('[data-branch-id="' + currentEditingBranchId + '"]');
+                if (branchCard) {
+                    // Update branch card content
+                    branchCard.querySelector('.member-name').textContent = '🏪 ' + name;
+                    branchCard.querySelector('.member-id').textContent = location;
+                    branchCard.querySelector('.member-phone').textContent = '👤 Manager: ' + manager;
+                    
+                    // Update status badge
+                    var statusBadge = branchCard.querySelector('.status-badge');
+                    var statusText = status === 'active' ? 'Active' : (status === 'coming_soon' ? 'Coming Soon' : 'Temporarily Closed');
+                    statusBadge.textContent = statusText;
+                    
+                    // Update status styling
+                    statusBadge.className = 'status-badge';
+                    if (status === 'active') {
+                        statusBadge.classList.add('status-active');
+                        branchCard.style.background = '#f0fdf4';
+                        branchCard.style.border = '1px solid #bbf7d0';
+                    } else if (status === 'coming_soon') {
+                        statusBadge.style.background = '#fef3c7';
+                        statusBadge.style.color = '#92400e';
+                        branchCard.style.background = '#fffbeb';
+                        branchCard.style.border = '1px solid #fed7aa';
+                    } else {
+                        statusBadge.style.background = '#fee2e2';
+                        statusBadge.style.color = '#dc2626';
+                        branchCard.style.background = '#fef2f2';
+                        branchCard.style.border = '1px solid #fecaca';
+                    }
+                }
+                
+                // Update dropdowns
+                updateBranchInDropdowns(currentEditingBranchId, name, location);
+                
+                // Close modal
+                closeEditBranchModal();
+                
+                alert('✅ Branch updated successfully!\n\nName: ' + name + '\nLocation: ' + location + '\nManager: ' + manager + '\nStatus: ' + statusText);
+            } else {
+                alert('❌ Please fill in all required fields');
+            }
+        }
+
+        // Update branch in all dropdowns
+        function updateBranchInDropdowns(branchId, name, location) {
+            // Update member branch select
+            var memberBranchOption = document.querySelector('#memberBranch option[value="' + branchId + '"]');
+            if (memberBranchOption) {
+                memberBranchOption.textContent = '🏪 ' + name + ' (' + location + ')';
+            }
+            
+            // Update edit member branch select
+            var editMemberBranchOption = document.querySelector('#editMemberBranch option[value="' + branchId + '"]');
+            if (editMemberBranchOption) {
+                editMemberBranchOption.textContent = '🏪 ' + name + ' (' + location + ')';
+            }
+            
+            // Update filter
+            var filterOption = document.querySelector('#branchFilter option[value="' + branchId + '"]');
+            if (filterOption) {
+                filterOption.textContent = '🏪 ' + name;
+            }
+        }
+
+        // Close edit branch modal
+        function closeEditBranchModal() {
+            document.getElementById('editBranchModal').style.display = 'none';
+            currentEditingBranchId = null;
+        }
+
+        // Delete branch function
+        function deleteBranch(branchId) {
+            // Check if branch can be deleted (not main branch and no members)
+            if (branchId === 'main') {
+                alert('❌ Cannot delete the Main Branch!');
+                return;
+            }
+            
+            // Check if branch has members
+            var membersInBranch = Object.values(membersData).filter(member => member.branch === branchId);
+            if (membersInBranch.length > 0) {
+                alert('❌ Cannot delete branch with active members!\n\nPlease reassign ' + membersInBranch.length + ' member(s) to another branch first.');
+                return;
+            }
+            
+            currentDeletingBranchId = branchId;
+            var branchData = branchesData[branchId];
+            
+            if (branchData) {
+                // Populate the delete confirmation info
+                document.getElementById('deleteBranchInfo').innerHTML = 
+                    '<div style="font-weight: 500; margin-bottom: 4px;">🏪 ' + branchData.name + '</div>' +
+                    '<div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">' + branchData.location + '</div>' +
+                    '<div style="font-size: 12px; color: #6b7280;">Manager: ' + branchData.manager + '</div>';
+                
+                // Show the delete modal
+                document.getElementById('deleteBranchModal').style.display = 'block';
+            }
+        }
+
+        // Confirm delete branch
+        function confirmDeleteBranch() {
+            if (currentDeletingBranchId && branchesData[currentDeletingBranchId]) {
+                var branchData = branchesData[currentDeletingBranchId];
+                
+                // Remove from display
+                var branchCard = document.querySelector('[data-branch-id="' + currentDeletingBranchId + '"]');
+                if (branchCard) {
+                    branchCard.remove();
+                }
+                
+                // Remove from dropdowns
+                removeBranchFromDropdowns(currentDeletingBranchId);
+                
+                // Update branch count
+                updateBranchCount();
+                
+                // Remove from stored data
+                delete branchesData[currentDeletingBranchId];
+                
+                // Close modal
+                closeDeleteBranchModal();
+                
+                alert('✅ Branch "' + branchData.name + '" deleted successfully!');
+            }
+        }
+
+        // Remove branch from all dropdowns
+        function removeBranchFromDropdowns(branchId) {
+            // Remove from member branch select
+            var memberBranchOption = document.querySelector('#memberBranch option[value="' + branchId + '"]');
+            if (memberBranchOption) {
+                memberBranchOption.remove();
+            }
+            
+            // Remove from edit member branch select
+            var editMemberBranchOption = document.querySelector('#editMemberBranch option[value="' + branchId + '"]');
+            if (editMemberBranchOption) {
+                editMemberBranchOption.remove();
+            }
+            
+            // Remove from filter
+            var filterOption = document.querySelector('#branchFilter option[value="' + branchId + '"]');
+            if (filterOption) {
+                filterOption.remove();
+            }
+        }
+
+        // Close delete branch modal
+        function closeDeleteBranchModal() {
+            document.getElementById('deleteBranchModal').style.display = 'none';
+            currentDeletingBranchId = null;
+        }
+
+        // Filter members by branch
+        function filterByBranch() {
+            var selectedBranch = document.getElementById('branchFilter').value;
+            var memberCards = document.querySelectorAll('#membersList .member-card');
+            
+            memberCards.forEach(function(card) {
+                if (selectedBranch === 'all' || card.getAttribute('data-branch') === selectedBranch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Update price display
+        function updatePriceDisplay() {
+            var durationSelect = document.getElementById('memberDuration');
+            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
+            document.getElementById('priceDisplay').textContent = 'RM' + price;
+            document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            var editModal = document.getElementById('editModal');
+            var deleteModal = document.getElementById('deleteModal');
+            var editBranchModal = document.getElementById('editBranchModal');
+            var deleteBranchModal = document.getElementById('deleteBranchModal');
+            
+            if (event.target == editModal) {
+                closeEditModal();
+            }
+            if (event.target == deleteModal) {
+                closeDeleteModal();
+            }
+            if (event.target == editBranchModal) {
+                closeEditBranchModal();
+            }
+            if (event.target == deleteBranchModal) {
+                closeDeleteBranchModal();
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
+        });
+    </script>
+</body>
+</html>
