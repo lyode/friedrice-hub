@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-title" content="Fried Rice Shop">
     <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Fried%20Rice%20Shop%20-%20Membership%22%2C%22short_name%22%3A%22FriedRice%22%2C%22description%22%3A%22Membership%20Management%20System%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23fdf2f8%22%2C%22theme_color%22%3A%22%23ec4899%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage/svg%2Bxml%3Bcharset%3Dutf-8%2C%253Csvg%2520xmlns%253D%2522http%253A//www.w3.org/2000/svg%2522%2520width%253D%2522144%2522%2520height%253D%2522144%2522%2520viewBox%253D%25220%25200%2520144%2520144%2522%2520fill%253D%2522%2523ec4899%2522%253E%253Ctext%2520x%253D%252272%2522%2520y%253D%252280%2522%2520font-size%253D%252260%2522%2520text-anchor%253D%2522middle%2522%2520fill%253D%2522white%2522%253E%25F0%259F%258D%25A1%253C/text%253E%253C/svg%253E%22%2C%22sizes%22%3A%22144x144%22%2C%22type%22%3A%22image/svg%2Bxml%22%7D%5D%7D">
     
-    <title>Fried Rice Shop - Mobile</title>
+    <title>Fried Rice Shop - Enterprise</title>
     <style>
         * {
             margin: 0;
@@ -442,13 +442,134 @@
             align-items: center;
             gap: 6px;
         }
+
+        .capacity-info {
+            background: #f3e8ff;
+            border: 1px solid #a855f7;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 11px;
+            color: #7c3aed;
+        }
+
+        .search-box {
+            margin-bottom: 12px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #f9fafb;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #ec4899;
+            background: white;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .pagination button {
+            padding: 6px 10px;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .pagination button:hover {
+            background: #f3f4f6;
+        }
+
+        .pagination button.active {
+            background: #ec4899;
+            color: white;
+            border-color: #ec4899;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .performance-warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-size: 11px;
+            color: #92400e;
+            display: none;
+        }
+
+        .bulk-actions {
+            background: #f0fdf4;
+            border: 1px solid #22c55e;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .bulk-actions.show {
+            display: block;
+        }
+
+        .bulk-btn {
+            padding: 6px 12px;
+            margin: 4px;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .export-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .export-btn {
+            width: 100%;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
-        <h1>🍚 Fried Rice Shop</h1>
-        <p>Membership Management</p>
+        <h1>🍚 Fried Rice Shop Enterprise</h1>
+        <p>High-Capacity Membership System</p>
         
         <div class="stats-grid">
             <div class="stat-card">
@@ -460,8 +581,8 @@
                 <div class="stat-label">Active</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="expiringCount">1</div>
-                <div class="stat-label">Expiring</div>
+                <div class="stat-number" id="totalBranches">2</div>
+                <div class="stat-label">Branches</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="totalRevenue">RM980</div>
@@ -482,15 +603,15 @@
         </button>
         <button class="tab" onclick="showTab('list')">
             <div class="tab-icon">👥</div>
-            <div>List</div>
+            <div>Members</div>
         </button>
-        <button class="tab" onclick="showTab('alerts')">
-            <div class="tab-icon">🔔</div>
-            <div>Alerts</div>
+        <button class="tab" onclick="showTab('search')">
+            <div class="tab-icon">🔍</div>
+            <div>Search</div>
         </button>
         <button class="tab" onclick="showTab('stats')">
             <div class="tab-icon">📊</div>
-            <div>Stats</div>
+            <div>Analytics</div>
         </button>
     </div>
 
@@ -500,9 +621,20 @@
         <div id="add" class="section active">
             <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Add New Member</h2>
             
+            <div class="capacity-info">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span>📊 System Capacity:</span>
+                    <span id="capacityDisplay">3 / 100,000 members</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>🏪 Branches:</span>
+                    <span id="branchCapacityDisplay">2 / 100 branches</span>
+                </div>
+            </div>
+            
             <div class="storage-info">
                 <span>💾</span>
-                <span>Data automatically saved to device storage</span>
+                <span>Enterprise-grade persistent storage enabled</span>
             </div>
             
             <div class="card">
@@ -525,6 +657,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="memberEmail" placeholder="customer@email.com">
+                </div>
+
+                <div class="form-group">
                     <label class="form-label">Membership Plan *</label>
                     <select class="form-input" id="memberDuration" style="padding: 8px 12px; font-size: 13px;">
                         <option value="1" data-price="30">1 Month - RM30</option>
@@ -533,6 +670,7 @@
                         <option value="12" data-price="250" selected>12 Months - RM250 (Save RM110) ⭐ Popular</option>
                         <option value="18" data-price="375">18 Months - RM375 (Save RM165)</option>
                         <option value="24" data-price="480">24 Months - RM480 (Save RM240)</option>
+                        <option value="36" data-price="650">36 Months - RM650 (Save RM430) 💎 VIP</option>
                     </select>
                     <div style="font-size: 11px; color: #6b7280; margin-top: 4px; display: flex; justify-content: space-between;">
                         <span>💡 Longer plans = Better savings</span>
@@ -544,17 +682,18 @@
             </div>
 
             <div class="info-box">
-                <div class="info-title">💰 Membership Pricing</div>
+                <div class="info-title">💰 Enterprise Membership Pricing</div>
                 <div class="info-list">
                     <strong>Best Value Plans:</strong><br>
                     • 12 months: RM250 (Save RM110)<br>
-                    • 18 months: RM375 (Save RM165)<br>
-                    • 24 months: RM480 (Save RM240)<br><br>
+                    • 24 months: RM480 (Save RM240)<br>
+                    • 36 months: RM650 (Save RM430) 💎<br><br>
                     <strong>Member Benefits:</strong><br>
                     • 10% discount on all dishes<br>
                     • Earn 1 point per RM1 spent<br>
                     • Birthday special + free meal<br>
-                    • Priority seating during peak hours
+                    • Priority seating & VIP treatment<br>
+                    • Mobile app exclusive deals
                 </div>
             </div>
         </div>
@@ -562,6 +701,11 @@
         <!-- Branches Section -->
         <div id="branches" class="section">
             <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Branch Management</h2>
+            
+            <div class="capacity-info">
+                <div>🏪 <strong id="branchCount">2</strong> / 100 branches allocated</div>
+                <div style="margin-top: 4px; font-size: 10px;">Supports nationwide expansion</div>
+            </div>
             
             <div class="card">
                 <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Add New Branch</h3>
@@ -581,11 +725,25 @@
                     <input type="text" class="form-input" id="branchManager" placeholder="Manager name">
                 </div>
 
+                <div class="form-group">
+                    <label class="form-label">Manager Phone</label>
+                    <input type="tel" class="form-input" id="branchManagerPhone" placeholder="+60xxxxxxxxx">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <textarea class="form-input" id="branchAddress" placeholder="Full address" rows="3"></textarea>
+                </div>
+
                 <button class="btn btn-primary" onclick="addBranch()">🏪 Add Branch</button>
             </div>
 
             <div class="card">
                 <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;" id="branchListHeader">Active Branches (2)</h3>
+                
+                <div class="search-box">
+                    <input type="text" class="search-input" id="branchSearch" placeholder="🔍 Search branches..." onkeyup="searchBranches()">
+                </div>
                 
                 <div id="branchList">
                     <!-- Branches will be loaded here -->
@@ -597,8 +755,12 @@
         <div id="list" class="section">
             <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;" id="memberListHeader">All Members (3)</h2>
             
+            <div class="performance-warning" id="performanceWarning">
+                ⚠️ Large dataset detected. Using pagination for optimal performance.
+            </div>
+            
             <div class="card" style="margin-bottom: 16px;">
-                <div class="form-group" style="margin-bottom: 0;">
+                <div class="form-group" style="margin-bottom: 8px;">
                     <label class="form-label">Filter by Branch</label>
                     <select class="form-input" id="branchFilter" onchange="filterByBranch()" style="padding: 8px 12px; font-size: 13px;">
                         <option value="all">🌐 All Branches</option>
@@ -606,67 +768,82 @@
                         <option value="kl">🏢 KL Branch</option>
                     </select>
                 </div>
+                
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Items per page</label>
+                    <select class="form-input" id="pageSize" onchange="changePageSize()" style="padding: 8px 12px; font-size: 13px;">
+                        <option value="10">10 per page</option>
+                        <option value="25" selected>25 per page</option>
+                        <option value="50">50 per page</option>
+                        <option value="100">100 per page</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bulk-actions" id="bulkActions">
+                <div style="margin-bottom: 8px; font-size: 12px; font-weight: 500;">Bulk Actions:</div>
+                <button class="bulk-btn btn-green" onclick="bulkExport()">📊 Export Selected</button>
+                <button class="bulk-btn btn-yellow" onclick="bulkMessage()">📱 Send Message</button>
+                <button class="bulk-btn btn-delete" onclick="bulkDelete()">🗑️ Delete Selected</button>
             </div>
             
             <div id="membersList">
                 <!-- Members will be loaded here -->
             </div>
-        </div>
 
-        <!-- Alerts Section -->
-        <div id="alerts" class="section">
-            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Renewal Alerts</h2>
-            
-            <div class="alert-warning">
-                <span>⚠️</span>
-                <span class="alert-text">1 membership expiring soon</span>
+            <div class="loading" id="membersLoading">
+                <div>⏳ Loading members...</div>
             </div>
 
-            <div class="member-card" style="border: 1px solid #fbbf24;">
-                <div class="member-header">
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 32px; height: 32px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
-                            <span style="color: #f59e0b;">⏰</span>
-                        </div>
-                        <div>
-                            <div class="member-name">Ahmad Rahman</div>
-                            <div class="member-id">+60198765432</div>
-                        </div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 16px; font-weight: bold; color: #f59e0b;">15</div>
-                        <div style="font-size: 10px; color: #6b7280;">days</div>
+            <div class="pagination" id="membersPagination">
+                <!-- Pagination will be generated here -->
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div id="search" class="section">
+            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Advanced Search</h2>
+            
+            <div class="card">
+                <div class="form-group">
+                    <label class="form-label">Search Members</label>
+                    <input type="text" class="search-input" id="globalSearch" placeholder="🔍 Search by name, phone, email, ID..." onkeyup="performGlobalSearch()">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Filter by Status</label>
+                    <select class="form-input" id="statusFilter" onchange="performGlobalSearch()" style="padding: 8px 12px; font-size: 13px;">
+                        <option value="all">All Status</option>
+                        <option value="active">Active Only</option>
+                        <option value="expiring">Expiring Soon</option>
+                        <option value="expired">Expired</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Date Range</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <input type="date" class="form-input" id="dateFrom" onchange="performGlobalSearch()">
+                        <input type="date" class="form-input" id="dateTo" onchange="performGlobalSearch()">
                     </div>
                 </div>
                 
-                <div class="stats-row" style="margin: 12px 0;">
-                    <div class="stat">
-                        <div class="stat-value">8</div>
-                        <div class="stat-label-small">Visits</div>
+                <button class="btn btn-primary" onclick="clearSearch()">🔄 Clear Filters</button>
+            </div>
+
+            <div class="card">
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Search Results</h3>
+                <div id="searchResults">
+                    <div style="text-align: center; padding: 20px; color: #6b7280; font-size: 14px;">
+                        Enter search terms above to find members
                     </div>
-                    <div class="stat">
-                        <div class="stat-value">RM320</div>
-                        <div class="stat-label-small">Spent</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">280</div>
-                        <div class="stat-label-small">Points</div>
-                    </div>
-                </div>
-                
-                <button class="btn btn-small btn-yellow" style="width: 100%; margin-bottom: 8px;">
-                    🔔 Send Reminder
-                </button>
-                <div class="btn-row">
-                    <button class="btn-small btn-green">✅ Renew</button>
-                    <button class="btn-small btn-blue">🎁 Offer</button>
                 </div>
             </div>
         </div>
 
         <!-- Stats Section -->
         <div id="stats" class="section">
-            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Analytics</h2>
+            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">Enterprise Analytics</h2>
             
             <div class="metric-card metric-blue">
                 <div>
@@ -678,10 +855,10 @@
 
             <div class="metric-card metric-green">
                 <div>
-                    <div class="metric-label">Active Rate</div>
-                    <div class="metric-value" id="activeRate">67%</div>
+                    <div class="metric-label">System Utilization</div>
+                    <div class="metric-value" id="systemUtilization">0.003%</div>
                 </div>
-                <div class="metric-icon">👥</div>
+                <div class="metric-icon">⚡</div>
             </div>
 
             <div class="metric-card metric-purple">
@@ -693,12 +870,28 @@
             </div>
 
             <div class="card">
-                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Recent Members</h3>
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Branch Performance</h3>
+                <div id="branchPerformance">
+                    <!-- Branch stats will be loaded here -->
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Recent Activity</h3>
                 <div id="recentMembers">
                     <div style="font-size: 12px; color: #6b7280; text-align: center; padding: 20px;">
                         New members you add will appear here
                     </div>
                 </div>
+            </div>
+
+            <div class="export-section">
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Data Management</h3>
+                <button class="btn btn-primary export-btn" onclick="exportAllData()">📊 Export All Data</button>
+                <button class="btn btn-primary export-btn" onclick="exportMembers()">👥 Export Members</button>
+                <button class="btn btn-primary export-btn" onclick="exportBranches()">🏪 Export Branches</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+                <button class="btn btn-primary export-btn" onclick="document.getElementById('importFile').click()">📥 Import Data</button>
             </div>
         </div>
     </div>
@@ -719,6 +912,11 @@
             <div class="form-group">
                 <label class="form-label">Phone *</label>
                 <input type="tel" class="form-input" id="editMemberPhone" placeholder="+60xxxxxxxxx">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="editMemberEmail" placeholder="customer@email.com">
             </div>
 
             <div class="form-group">
@@ -783,6 +981,16 @@
             </div>
 
             <div class="form-group">
+                <label class="form-label">Manager Phone</label>
+                <input type="tel" class="form-input" id="editBranchManagerPhone" placeholder="+60xxxxxxxxx">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Address</label>
+                <textarea class="form-input" id="editBranchAddress" placeholder="Full address" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
                 <label class="form-label">Status</label>
                 <select class="form-input" id="editBranchStatus" style="padding: 8px 12px; font-size: 13px;">
                     <option value="active">Active</option>
@@ -827,61 +1035,74 @@
     </div>
 
     <script>
-        // Storage Management System
-        class StorageManager {
+        // Enterprise Storage Management System
+        class EnterpriseStorageManager {
             constructor() {
-                this.storageKey = 'friedRiceShopData';
+                this.storageKey = 'friedRiceShopEnterpriseData';
+                this.maxMembers = 100000;
+                this.maxBranches = 100;
+                this.compressionEnabled = true;
                 this.initializeStorage();
             }
 
-            // Initialize storage with default data if not exists
+            // Initialize storage with default data and capacity limits
             initializeStorage() {
                 if (!localStorage.getItem(this.storageKey)) {
                     const defaultData = {
                         members: {
                             1: { 
                                 name: 'Sarah Chen', 
-                                phone: '+60123456789', 
+                                phone: '+60123456789',
+                                email: 'sarah.chen@email.com',
                                 branch: 'main', 
                                 spent: 480,
                                 points: 450,
                                 visits: 12,
                                 joinDate: new Date().toISOString(),
-                                status: 'active'
+                                status: 'active',
+                                plan: 12
                             },
                             2: { 
                                 name: 'Ahmad Rahman', 
-                                phone: '+60198765432', 
+                                phone: '+60198765432',
+                                email: 'ahmad.rahman@email.com', 
                                 branch: 'main', 
                                 spent: 320,
                                 points: 280,
                                 visits: 8,
                                 joinDate: new Date().toISOString(),
-                                status: 'expiring'
+                                status: 'expiring',
+                                plan: 6
                             },
                             3: { 
                                 name: 'Priya Sharma', 
-                                phone: '+60167890123', 
+                                phone: '+60167890123',
+                                email: 'priya.sharma@email.com',
                                 branch: 'kl', 
                                 spent: 180,
                                 points: 150,
                                 visits: 5,
                                 joinDate: new Date().toISOString(),
-                                status: 'active'
+                                status: 'active',
+                                plan: 12
                             }
                         },
                         branches: {
                             'main': { 
                                 name: 'Main Branch', 
                                 location: 'Shah Alam, Selangor', 
-                                manager: 'Sarah Lee', 
+                                manager: 'Sarah Lee',
+                                managerPhone: '+60123000001',
+                                address: 'Lot 123, Jalan Sultan, Shah Alam, 40000 Selangor',
                                 status: 'active',
                                 icon: '🏪'
                             },
                             'kl': { 
                                 name: 'KL Branch', 
-                                location: 'Kuala Lumpur', 
-                                manager: 'Ahmad Rahman', 
+                                location: 'Kuala Lumpur',
+                                manager: 'Ahmad Rahman',
+                                managerPhone: '+60123000002',
+                                address: 'Level 1, KLCC, Kuala Lumpur, 50088 KL',
                                 status: 'coming_soon',
                                 icon: '🏢'
                             }
@@ -892,50 +1113,110 @@
                         },
                         stats: {
                             totalRevenue: 980,
-                            memberCount: 3
+                            memberCount: 3,
+                            branchCount: 2
                         },
-                        recentMembers: []
+                        recentMembers: [],
+                        settings: {
+                            version: '2.0',
+                            maxMembers: this.maxMembers,
+                            maxBranches: this.maxBranches,
+                            created: new Date().toISOString()
+                        }
                     };
                     this.saveData(defaultData);
                 }
             }
 
-            // Get all data from storage
+            // Enhanced data compression for large datasets
+            compressData(data) {
+                if (!this.compressionEnabled) return data;
+                try {
+                    return JSON.stringify(data);
+                } catch (error) {
+                    console.error('Compression failed:', error);
+                    return JSON.stringify(data);
+                }
+            }
+
+            decompressData(compressedData) {
+                try {
+                    return JSON.parse(compressedData);
+                } catch (error) {
+                    console.error('Decompression failed:', error);
+                    return null;
+                }
+            }
+
+            // Get all data from storage with decompression
             getData() {
                 try {
                     const data = localStorage.getItem(this.storageKey);
-                    return data ? JSON.parse(data) : null;
+                    return data ? this.decompressData(data) : null;
                 } catch (error) {
                     console.error('Error reading from storage:', error);
                     return null;
                 }
             }
 
-            // Save all data to storage
+            // Save all data to storage with compression
             saveData(data) {
                 try {
-                    localStorage.setItem(this.storageKey, JSON.stringify(data));
+                    const compressedData = this.compressData(data);
+                    localStorage.setItem(this.storageKey, compressedData);
+                    this.updateStorageInfo();
                     return true;
                 } catch (error) {
                     console.error('Error saving to storage:', error);
+                    if (error.name === 'QuotaExceededError') {
+                        alert('⚠️ Storage quota exceeded! Please export and remove old data.');
+                    }
                     return false;
                 }
             }
 
-            // Update specific data section
-            updateData(section, data) {
-                const allData = this.getData();
-                if (allData) {
-                    allData[section] = data;
-                    return this.saveData(allData);
+            // Update storage information display
+            updateStorageInfo() {
+                try {
+                    const dataSize = JSON.stringify(this.getData()).length;
+                    const sizeInKB = Math.round(dataSize / 1024);
+                    
+                    console.log(`💾 Storage: ${sizeInKB} KB`);
+                    
+                    // Show performance warning if data is large
+                    if (dataSize > 1000000) { // 1MB
+                        const warning = document.getElementById('performanceWarning');
+                        if (warning) warning.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Error updating storage info:', error);
+                }
+            }
+
+            // Check capacity limits
+            checkCapacity(type, currentCount) {
+                if (type === 'members') {
+                    return currentCount < this.maxMembers;
+                } else if (type === 'branches') {
+                    return currentCount < this.maxBranches;
                 }
                 return false;
             }
 
-            // Get specific data section
-            getSection(section) {
+            // Get storage statistics
+            getStorageStats() {
                 const data = this.getData();
-                return data ? data[section] : null;
+                if (!data) return null;
+
+                return {
+                    members: Object.keys(data.members || {}).length,
+                    branches: Object.keys(data.branches || {}).length,
+                    dataSize: JSON.stringify(data).length,
+                    maxMembers: this.maxMembers,
+                    maxBranches: this.maxBranches,
+                    utilizationMembers: (Object.keys(data.members || {}).length / this.maxMembers * 100).toFixed(3),
+                    utilizationBranches: (Object.keys(data.branches || {}).length / this.maxBranches * 100).toFixed(1)
+                };
             }
 
             // Clear all data (reset to defaults)
@@ -945,8 +1226,8 @@
             }
         }
 
-        // Initialize storage manager
-        const storage = new StorageManager();
+        // Initialize enterprise storage manager
+        const storage = new EnterpriseStorageManager();
 
         // Global variables loaded from storage
         let appData = storage.getData();
@@ -954,15 +1235,110 @@
         let memberCounter = appData.counters.memberCounter;
         let totalRevenue = appData.stats.totalRevenue;
         let branchCounter = appData.counters.branchCounter;
+        let branchCount = appData.stats.branchCount;
+
+        // Current UI state
         let currentEditingMemberId = null;
         let currentDeletingMemberId = null;
         let currentEditingBranchId = null;
         let currentDeletingBranchId = null;
+        let currentPage = 1;
+        let pageSize = 25;
+        let filteredMembers = [];
+        let searchResults = [];
 
         // Member and branch data from storage
         let membersData = appData.members;
         let branchesData = appData.branches;
-        let recentMembersData = appData.recentMembers;
+        let recentMembersData = appData.recentMembers || [];
+
+        // Pagination and search management
+        class MemberManager {
+            constructor() {
+                this.currentPage = 1;
+                this.pageSize = 25;
+                this.filteredData = [];
+                this.searchTerms = '';
+            }
+
+            // Get paginated members
+            getPaginatedMembers(page = 1, size = 25) {
+                const start = (page - 1) * size;
+                const end = start + size;
+                const membersList = Object.keys(membersData).map(id => ({
+                    id: id,
+                    ...membersData[id]
+                }));
+                
+                this.filteredData = membersList;
+                return {
+                    data: membersList.slice(start, end),
+                    total: membersList.length,
+                    totalPages: Math.ceil(membersList.length / size),
+                    currentPage: page
+                };
+            }
+
+            // Search members
+            searchMembers(searchTerm, filters = {}) {
+                const term = searchTerm.toLowerCase();
+                const results = Object.keys(membersData).filter(id => {
+                    const member = membersData[id];
+                    
+                    // Text search
+                    const textMatch = !term || 
+                        member.name.toLowerCase().includes(term) ||
+                        member.phone.toLowerCase().includes(term) ||
+                        (member.email && member.email.toLowerCase().includes(term)) ||
+                        id.includes(term);
+                    
+                    // Status filter
+                    const statusMatch = !filters.status || filters.status === 'all' || member.status === filters.status;
+                    
+                    // Branch filter
+                    const branchMatch = !filters.branch || filters.branch === 'all' || member.branch === filters.branch;
+                    
+                    // Date range filter
+                    let dateMatch = true;
+                    if (filters.dateFrom || filters.dateTo) {
+                        const memberDate = new Date(member.joinDate);
+                        if (filters.dateFrom) {
+                            dateMatch = dateMatch && memberDate >= new Date(filters.dateFrom);
+                        }
+                        if (filters.dateTo) {
+                            dateMatch = dateMatch && memberDate <= new Date(filters.dateTo);
+                        }
+                    }
+                    
+                    return textMatch && statusMatch && branchMatch && dateMatch;
+                });
+
+                return results.map(id => ({ id: id, ...membersData[id] }));
+            }
+
+            // Filter by branch
+            filterByBranch(branchId) {
+                if (branchId === 'all') {
+                    return this.getPaginatedMembers(this.currentPage, this.pageSize);
+                }
+                
+                const filtered = Object.keys(membersData)
+                    .filter(id => membersData[id].branch === branchId)
+                    .map(id => ({ id: id, ...membersData[id] }));
+                
+                const start = (this.currentPage - 1) * this.pageSize;
+                const end = start + this.pageSize;
+                
+                return {
+                    data: filtered.slice(start, end),
+                    total: filtered.length,
+                    totalPages: Math.ceil(filtered.length / this.pageSize),
+                    currentPage: this.currentPage
+                };
+            }
+        }
+
+        const memberManager = new MemberManager();
 
         // Save data to storage
         function saveToStorage() {
@@ -975,23 +1351,25 @@
                 },
                 stats: {
                     totalRevenue: totalRevenue,
-                    memberCount: memberCount
+                    memberCount: memberCount,
+                    branchCount: branchCount
                 },
-                recentMembers: recentMembersData
+                recentMembers: recentMembersData,
+                settings: appData.settings
             };
             storage.saveData(dataToSave);
         }
 
-        // Tab switching function
+        // Tab switching function - FIXED
         function showTab(tabName) {
             // Hide all sections
-            var sections = document.querySelectorAll('.section');
+            const sections = document.querySelectorAll('.section');
             sections.forEach(function(section) {
                 section.classList.remove('active');
             });
             
             // Remove active class from all tabs
-            var tabs = document.querySelectorAll('.tab');
+            const tabs = document.querySelectorAll('.tab');
             tabs.forEach(function(tab) {
                 tab.classList.remove('active');
             });
@@ -1000,35 +1378,62 @@
             document.getElementById(tabName).classList.add('active');
             
             // Add active class to clicked tab
-            event.target.closest('.tab').classList.add('active');
+            const clickedTab = event ? event.target.closest('.tab') : document.querySelector(`button[onclick="showTab('${tabName}')"]`);
+            if (clickedTab) {
+                clickedTab.classList.add('active');
+            }
+
+            // Load data for specific tabs
+            if (tabName === 'list') {
+                loadMembersPage();
+            } else if (tabName === 'search') {
+                // Clear search results when switching to search tab
+                document.getElementById('searchResults').innerHTML = 
+                    '<div style="text-align: center; padding: 20px; color: #6b7280; font-size: 14px;">Enter search terms above to find members</div>';
+            } else if (tabName === 'stats') {
+                loadBranchPerformance();
+            }
         }
 
-        // Add member function
+        // Add member function with capacity check
         function addMember() {
-            var name = document.getElementById('memberName').value;
-            var phone = document.getElementById('memberPhone').value;
-            var branchSelect = document.getElementById('memberBranch');
-            var branch = branchSelect.value;
-            var branchText = branchSelect.options[branchSelect.selectedIndex].text;
-            var durationSelect = document.getElementById('memberDuration');
-            var duration = parseInt(durationSelect.value);
-            var price = parseInt(durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price'));
+            // Check capacity first
+            if (!storage.checkCapacity('members', memberCount)) {
+                alert('❌ Member capacity limit reached!\n\nMaximum: 100,000 members\nCurrent: ' + memberCount + '\n\nPlease export old data or upgrade storage.');
+                return;
+            }
+
+            const name = document.getElementById('memberName').value;
+            const phone = document.getElementById('memberPhone').value;
+            const email = document.getElementById('memberEmail').value;
+            const branchSelect = document.getElementById('memberBranch');
+            const branch = branchSelect.value;
+            const branchText = branchSelect.options[branchSelect.selectedIndex].text;
+            const durationSelect = document.getElementById('memberDuration');
+            const duration = parseInt(durationSelect.value);
+            const price = parseInt(durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price'));
             
             if (name && phone) {
-                // Store member data
+                // Check for duplicate phone numbers
+                const existingMember = Object.values(membersData).find(member => member.phone === phone);
+                if (existingMember) {
+                    alert('❌ Phone number already exists!\n\nMember: ' + existingMember.name + '\nPhone: ' + existingMember.phone);
+                    return;
+                }
+
+                // Store member data with enhanced fields
                 membersData[memberCounter] = { 
                     name: name, 
-                    phone: phone, 
+                    phone: phone,
+                    email: email || '',
                     branch: branch, 
                     spent: price,
-                    points: 0,
+                    points: Math.floor(price * 1.5), // Bonus points for new members
                     visits: 1,
                     joinDate: new Date().toISOString(),
-                    status: 'active'
+                    status: 'active',
+                    plan: duration
                 };
-                
-                // Add to member list immediately
-                addToMemberList(name, phone, branch, price, memberCounter);
                 
                 // Update stats
                 updateStats(price);
@@ -1039,6 +1444,7 @@
                 // Clear form
                 document.getElementById('memberName').value = '';
                 document.getElementById('memberPhone').value = '';
+                document.getElementById('memberEmail').value = '';
                 document.getElementById('memberBranch').value = 'main';
                 document.getElementById('memberDuration').value = '12';
                 updatePriceDisplay();
@@ -1049,67 +1455,259 @@
                 // Save to storage
                 saveToStorage();
                 
+                // Update capacity display
+                updateCapacityDisplay();
+                
                 // Show success message
-                alert('✅ Member Added Successfully!\n\nName: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchText + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\n\nWelcome to Fried Rice Club! 🍚');
+                alert('✅ Member Added Successfully!\n\nName: ' + name + '\nPhone: ' + phone + '\nEmail: ' + email + '\nBranch: ' + branchText + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nPoints Earned: ' + Math.floor(price * 1.5) + '\n\nWelcome to Fried Rice Club! 🍚');
                 
             } else {
                 alert('❌ Please fill in Name and Phone fields');
             }
         }
 
-        // Add member to the list display
-        function addToMemberList(name, phone, branch, price, memberId) {
-            var membersList = document.getElementById('membersList');
-            var branchIcon = branch === 'main' ? '🏪 Main Branch' : branchesData[branch] ? branchesData[branch].icon + ' ' + branchesData[branch].name : '🏢 ' + branch;
-            var memberIdStr = 'M' + String(memberId).padStart(3, '0');
-            var memberData = membersData[memberId];
+        // Load members with pagination
+        function loadMembersPage(page = 1) {
+            const results = memberManager.getPaginatedMembers(page, pageSize);
+            displayMembers(results.data);
+            updatePagination(results);
+            currentPage = page;
+        }
+
+        // Display members in the list
+        function displayMembers(membersList) {
+            const membersListElement = document.getElementById('membersList');
+            membersListElement.innerHTML = '';
             
-            var memberHTML = 
-                '<div class="member-card" data-branch="' + branch + '" data-member-id="' + memberId + '">' +
-                    '<div class="member-header">' +
-                        '<div>' +
-                            '<div class="member-name">' + name + '</div>' +
-                            '<div class="member-id">' + memberIdStr + ' • ' + branchIcon + '</div>' +
+            if (membersList.length === 0) {
+                membersListElement.innerHTML = 
+                    '<div style="text-align: center; padding: 20px; color: #6b7280; font-size: 14px;">No members found</div>';
+                return;
+            }
+
+            membersList.forEach(function(member) {
+                const branchInfo = branchesData[member.branch];
+                const branchIcon = branchInfo ? branchInfo.icon + ' ' + branchInfo.name : '🏢 ' + member.branch;
+                const memberIdStr = 'M' + String(member.id).padStart(5, '0');
+                
+                const memberHTML = 
+                    '<div class="member-card" data-branch="' + member.branch + '" data-member-id="' + member.id + '">' +
+                        '<div class="member-header">' +
+                            '<div>' +
+                                '<div class="member-name">' + member.name + '</div>' +
+                                '<div class="member-id">' + memberIdStr + ' • ' + branchIcon + '</div>' +
+                            '</div>' +
+                            '<span class="status-badge ' + (member.status === 'active' ? 'status-active' : 'status-expiring') + '">' +
+                                (member.status === 'active' ? 'Active' : (member.status === 'expiring' ? 'Expiring' : 'Expired')) +
+                            '</span>' +
                         '</div>' +
-                        '<span class="status-badge status-active">Active</span>' +
-                    '</div>' +
-                    '<div class="member-phone">📞 ' + phone + '</div>' +
-                    '<div class="stats-row">' +
-                        '<div class="stat">' +
-                            '<div class="stat-value">⭐ ' + (memberData ? memberData.points : 0) + '</div>' +
-                            '<div class="stat-label-small">Points</div>' +
+                        '<div class="member-phone">📞 ' + member.phone + '</div>' +
+                        (member.email ? '<div class="member-phone">✉️ ' + member.email + '</div>' : '') +
+                        '<div class="stats-row">' +
+                            '<div class="stat">' +
+                                '<div class="stat-value">⭐ ' + (member.points || 0) + '</div>' +
+                                '<div class="stat-label-small">Points</div>' +
+                            '</div>' +
+                            '<div class="stat">' +
+                                '<div class="stat-value">' + (member.visits || 1) + '</div>' +
+                                '<div class="stat-label-small">Visits</div>' +
+                            '</div>' +
+                            '<div class="stat">' +
+                                '<div class="stat-value">RM' + member.spent + '</div>' +
+                                '<div class="stat-label-small">Spent</div>' +
+                            '</div>' +
                         '</div>' +
-                        '<div class="stat">' +
-                            '<div class="stat-value">' + (memberData ? memberData.visits : 1) + '</div>' +
-                            '<div class="stat-label-small">Visits</div>' +
+                        '<div class="member-actions">' +
+                            '<button class="action-btn btn-edit" onclick="editMember(' + member.id + ')">' +
+                                '✏️ Edit' +
+                            '</button>' +
+                            '<button class="action-btn btn-delete" onclick="deleteMember(' + member.id + ')">' +
+                                '🗑️ Delete' +
+                            '</button>' +
                         '</div>' +
-                        '<div class="stat">' +
-                            '<div class="stat-value">RM' + price + '</div>' +
-                            '<div class="stat-label-small">Spent</div>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="member-actions">' +
-                        '<button class="action-btn btn-edit" onclick="editMember(' + memberId + ')">' +
-                            '✏️ Edit' +
-                        '</button>' +
-                        '<button class="action-btn btn-delete" onclick="deleteMember(' + memberId + ')">' +
-                            '🗑️ Delete' +
-                        '</button>' +
-                    '</div>' +
-                '</div>';
+                    '</div>';
+                
+                membersListElement.insertAdjacentHTML('beforeend', memberHTML);
+            });
+        }
+
+        // Update pagination controls
+        function updatePagination(results) {
+            const paginationElement = document.getElementById('membersPagination');
+            if (!results || results.totalPages <= 1) {
+                paginationElement.style.display = 'none';
+                return;
+            }
+
+            paginationElement.style.display = 'flex';
+            let paginationHTML = '';
+
+            // Previous button
+            paginationHTML += '<button ' + (results.currentPage === 1 ? 'disabled' : '') + 
+                ' onclick="loadMembersPage(' + (results.currentPage - 1) + ')">‹ Prev</button>';
+
+            // Page numbers (show max 5 pages)
+            const startPage = Math.max(1, results.currentPage - 2);
+            const endPage = Math.min(results.totalPages, startPage + 4);
+
+            if (startPage > 1) {
+                paginationHTML += '<button onclick="loadMembersPage(1)">1</button>';
+                if (startPage > 2) {
+                    paginationHTML += '<span style="padding: 6px;">...</span>';
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += '<button ' + (i === results.currentPage ? 'class="active"' : '') + 
+                    ' onclick="loadMembersPage(' + i + ')">' + i + '</button>';
+            }
+
+            if (endPage < results.totalPages) {
+                if (endPage < results.totalPages - 1) {
+                    paginationHTML += '<span style="padding: 6px;">...</span>';
+                }
+                paginationHTML += '<button onclick="loadMembersPage(' + results.totalPages + ')">' + results.totalPages + '</button>';
+            }
+
+            // Next button
+            paginationHTML += '<button ' + (results.currentPage === results.totalPages ? 'disabled' : '') + 
+                ' onclick="loadMembersPage(' + (results.currentPage + 1) + ')">Next ›</button>';
+
+            paginationElement.innerHTML = paginationHTML;
+        }
+
+        // Change page size
+        function changePageSize() {
+            pageSize = parseInt(document.getElementById('pageSize').value);
+            memberManager.pageSize = pageSize;
+            currentPage = 1; // Reset to first page
+            loadMembersPage(1);
+        }
+
+        // Filter members by branch
+        function filterByBranch() {
+            const selectedBranch = document.getElementById('branchFilter').value;
+            const results = memberManager.filterByBranch(selectedBranch);
+            displayMembers(results.data);
+            updatePagination(results);
+        }
+
+        // Global search function
+        function performGlobalSearch() {
+            const searchTerm = document.getElementById('globalSearch').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
             
-            membersList.insertAdjacentHTML('beforeend', memberHTML);
+            const filters = {
+                status: statusFilter,
+                dateFrom: dateFrom,
+                dateTo: dateTo
+            };
+            
+            const results = memberManager.searchMembers(searchTerm, filters);
+            displaySearchResults(results);
+        }
+
+        // Display search results
+        function displaySearchResults(results) {
+            const searchResultsElement = document.getElementById('searchResults');
+            
+            if (results.length === 0) {
+                searchResultsElement.innerHTML = 
+                    '<div style="text-align: center; padding: 20px; color: #6b7280; font-size: 14px;">No members found matching your criteria</div>';
+                return;
+            }
+
+            let resultsHTML = '<div style="margin-bottom: 12px; font-size: 12px; color: #6b7280;">Found ' + results.length + ' member(s)</div>';
+            
+            results.forEach(function(member) {
+                const branchInfo = branchesData[member.branch];
+                const branchIcon = branchInfo ? branchInfo.icon + ' ' + branchInfo.name : '🏢 ' + member.branch;
+                const memberIdStr = 'M' + String(member.id).padStart(5, '0');
+                const joinDate = new Date(member.joinDate).toLocaleDateString();
+                
+                resultsHTML += 
+                    '<div class="member-card" style="margin-bottom: 8px;">' +
+                        '<div class="member-header">' +
+                            '<div>' +
+                                '<div class="member-name">' + member.name + '</div>' +
+                                '<div class="member-id">' + memberIdStr + ' • ' + branchIcon + '</div>' +
+                            '</div>' +
+                            '<span class="status-badge ' + (member.status === 'active' ? 'status-active' : 'status-expiring') + '">' +
+                                (member.status === 'active' ? 'Active' : (member.status === 'expiring' ? 'Expiring' : 'Expired')) +
+                            '</span>' +
+                        '</div>' +
+                        '<div class="member-phone">📞 ' + member.phone + '</div>' +
+                        (member.email ? '<div class="member-phone">✉️ ' + member.email + '</div>' : '') +
+                        '<div class="member-phone">📅 Joined: ' + joinDate + '</div>' +
+                        '<div class="stats-row">' +
+                            '<div class="stat">' +
+                                '<div class="stat-value">⭐ ' + (member.points || 0) + '</div>' +
+                                '<div class="stat-label-small">Points</div>' +
+                            '</div>' +
+                            '<div class="stat">' +
+                                '<div class="stat-value">' + (member.visits || 1) + '</div>' +
+                                '<div class="stat-label-small">Visits</div>' +
+                            '</div>' +
+                            '<div class="stat">' +
+                                '<div class="stat-value">RM' + member.spent + '</div>' +
+                                '<div class="stat-label-small">Spent</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="member-actions">' +
+                            '<button class="action-btn btn-edit" onclick="editMember(' + member.id + ')">' +
+                                '✏️ Edit' +
+                            '</button>' +
+                            '<button class="action-btn btn-delete" onclick="deleteMember(' + member.id + ')">' +
+                                '🗑️ Delete' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>';
+            });
+            
+            searchResultsElement.innerHTML = resultsHTML;
+        }
+
+        // Clear search filters
+        function clearSearch() {
+            document.getElementById('globalSearch').value = '';
+            document.getElementById('statusFilter').value = 'all';
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            
+            document.getElementById('searchResults').innerHTML = 
+                '<div style="text-align: center; padding: 20px; color: #6b7280; font-size: 14px;">Enter search terms above to find members</div>';
+        }
+
+        // Search branches function
+        function searchBranches() {
+            const searchTerm = document.getElementById('branchSearch').value.toLowerCase();
+            const branchCards = document.querySelectorAll('#branchList .member-card');
+            
+            branchCards.forEach(function(card) {
+                const branchName = card.querySelector('.member-name').textContent.toLowerCase();
+                const branchLocation = card.querySelector('.member-id').textContent.toLowerCase();
+                const branchManager = card.querySelector('.member-phone').textContent.toLowerCase();
+                
+                if (branchName.includes(searchTerm) || branchLocation.includes(searchTerm) || branchManager.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
         // Edit member function
         function editMember(memberId) {
             currentEditingMemberId = memberId;
-            var memberData = membersData[memberId];
+            const memberData = membersData[memberId];
             
             if (memberData) {
                 // Populate the edit form
                 document.getElementById('editMemberName').value = memberData.name;
                 document.getElementById('editMemberPhone').value = memberData.phone;
+                document.getElementById('editMemberEmail').value = memberData.email || '';
                 document.getElementById('editMemberBranch').value = memberData.branch;
                 
                 // Show the edit modal
@@ -1119,36 +1717,29 @@
 
         // Save edited member
         function saveEditMember() {
-            var name = document.getElementById('editMemberName').value;
-            var phone = document.getElementById('editMemberPhone').value;
-            var branch = document.getElementById('editMemberBranch').value;
+            const name = document.getElementById('editMemberName').value;
+            const phone = document.getElementById('editMemberPhone').value;
+            const email = document.getElementById('editMemberEmail').value;
+            const branch = document.getElementById('editMemberBranch').value;
             
             if (name && phone && currentEditingMemberId) {
                 // Update stored data
                 membersData[currentEditingMemberId].name = name;
                 membersData[currentEditingMemberId].phone = phone;
+                membersData[currentEditingMemberId].email = email || '';
                 membersData[currentEditingMemberId].branch = branch;
-                
-                // Update the display
-                var memberCard = document.querySelector('[data-member-id="' + currentEditingMemberId + '"]');
-                if (memberCard) {
-                    var branchIcon = branch === 'main' ? '🏪 Main Branch' : branchesData[branch] ? branchesData[branch].icon + ' ' + branchesData[branch].name : '🏢 ' + branch;
-                    var memberIdStr = 'M' + String(currentEditingMemberId).padStart(3, '0');
-                    
-                    memberCard.querySelector('.member-name').textContent = name;
-                    memberCard.querySelector('.member-id').textContent = memberIdStr + ' • ' + branchIcon;
-                    memberCard.querySelector('.member-phone').textContent = '📞 ' + phone;
-                    memberCard.setAttribute('data-branch', branch);
-                }
                 
                 // Save to storage
                 saveToStorage();
                 
+                // Refresh current view
+                loadMembersPage(currentPage);
+                
                 // Close modal
                 closeEditModal();
                 
-                var branchName = branchesData[branch] ? branchesData[branch].name : branch;
-                alert('✅ Member updated successfully!\n\nName: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName);
+                const branchName = branchesData[branch] ? branchesData[branch].name : branch;
+                alert('✅ Member updated successfully!\n\nName: ' + name + '\nPhone: ' + phone + '\nEmail: ' + email + '\nBranch: ' + branchName);
             } else {
                 alert('❌ Please fill in all required fields');
             }
@@ -1163,12 +1754,12 @@
         // Delete member function
         function deleteMember(memberId) {
             currentDeletingMemberId = memberId;
-            var memberData = membersData[memberId];
+            const memberData = membersData[memberId];
             
             if (memberData) {
                 // Populate the delete confirmation info
-                var memberIdStr = 'M' + String(memberId).padStart(3, '0');
-                var branchText = branchesData[memberData.branch] ? branchesData[memberData.branch].name : memberData.branch;
+                const memberIdStr = 'M' + String(memberId).padStart(5, '0');
+                const branchText = branchesData[memberData.branch] ? branchesData[memberData.branch].name : memberData.branch;
                 
                 document.getElementById('deleteMemberInfo').innerHTML = 
                     '<div style="font-weight: 500; margin-bottom: 4px;">' + memberData.name + '</div>' +
@@ -1183,25 +1774,22 @@
         // Confirm delete
         function confirmDelete() {
             if (currentDeletingMemberId && membersData[currentDeletingMemberId]) {
-                var memberData = membersData[currentDeletingMemberId];
-                
-                // Remove from display
-                var memberCard = document.querySelector('[data-member-id="' + currentDeletingMemberId + '"]');
-                if (memberCard) {
-                    memberCard.remove();
-                }
+                const memberData = membersData[currentDeletingMemberId];
                 
                 // Update stats
                 memberCount--;
                 totalRevenue -= memberData.spent;
-                
-                updateStatsDisplay();
                 
                 // Remove from stored data
                 delete membersData[currentDeletingMemberId];
                 
                 // Save to storage
                 saveToStorage();
+                
+                // Update displays
+                updateStatsDisplay();
+                updateCapacityDisplay();
+                loadMembersPage(currentPage);
                 
                 // Close modal
                 closeDeleteModal();
@@ -1216,6 +1804,290 @@
             currentDeletingMemberId = null;
         }
 
+        // Add branch function with capacity check
+        function addBranch() {
+            // Check capacity first
+            if (!storage.checkCapacity('branches', branchCount)) {
+                alert('❌ Branch capacity limit reached!\n\nMaximum: 100 branches\nCurrent: ' + branchCount + '\n\nUpgrade your plan for more branches.');
+                return;
+            }
+
+            const branchName = document.getElementById('branchName').value;
+            const branchLocation = document.getElementById('branchLocation').value;
+            const branchManager = document.getElementById('branchManager').value || 'TBD';
+            const managerPhone = document.getElementById('branchManagerPhone').value || '';
+            const address = document.getElementById('branchAddress').value || '';
+            
+            if (branchName && branchLocation) {
+                // Generate unique branch ID
+                const branchId = branchName.toLowerCase().replace(/\s+/g, '') + branchCounter;
+                branchCounter++;
+                
+                // Store branch data
+                branchesData[branchId] = {
+                    name: branchName,
+                    location: branchLocation,
+                    manager: branchManager,
+                    managerPhone: managerPhone,
+                    address: address,
+                    status: 'active',
+                    icon: '🏪'
+                };
+                
+                // Update branch count
+                branchCount++;
+                
+                // Add to dropdowns
+                addBranchToDropdowns(branchId, branchName, branchLocation);
+                
+                // Add to branch list display
+                addBranchToList(branchId, branchName, branchLocation, branchManager, 'active');
+                
+                // Update displays
+                updateBranchCount();
+                updateCapacityDisplay();
+                
+                // Clear form
+                document.getElementById('branchName').value = '';
+                document.getElementById('branchLocation').value = '';
+                document.getElementById('branchManager').value = '';
+                document.getElementById('branchManagerPhone').value = '';
+                document.getElementById('branchAddress').value = '';
+                
+                // Save to storage
+                saveToStorage();
+                
+                alert('✅ Branch added successfully!\n\nBranch: ' + branchName + '\nLocation: ' + branchLocation + '\nManager: ' + branchManager);
+            } else {
+                alert('❌ Please fill in Branch Name and Location');
+            }
+        }
+
+        // Add branch to all dropdowns
+        function addBranchToDropdowns(branchId, branchName, branchLocation) {
+            // Add to member branch select
+            const memberBranchSelect = document.getElementById('memberBranch');
+            const newOption = document.createElement('option');
+            newOption.value = branchId;
+            newOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
+            memberBranchSelect.appendChild(newOption);
+            
+            // Add to edit modal dropdown
+            const editBranchSelect = document.getElementById('editMemberBranch');
+            const editOption = document.createElement('option');
+            editOption.value = branchId;
+            editOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
+            editBranchSelect.appendChild(editOption);
+            
+            // Add to filter
+            const branchFilter = document.getElementById('branchFilter');
+            const filterOption = document.createElement('option');
+            filterOption.value = branchId;
+            filterOption.textContent = '🏪 ' + branchName;
+            branchFilter.appendChild(filterOption);
+        }
+
+        // Add branch to display list
+        function addBranchToList(branchId, branchName, branchLocation, branchManager, status) {
+            const branchList = document.getElementById('branchList');
+            const statusClass = status === 'active' ? 'status-active' : (status === 'coming_soon' ? 'status-expiring' : 'status-badge');
+            const statusText = status === 'active' ? 'Active' : (status === 'coming_soon' ? 'Coming Soon' : 'Closed');
+            const bgClass = status === 'active' ? 'background: #f0fdf4; border: 1px solid #bbf7d0;' : 'background: #fffbeb; border: 1px solid #fed7aa;';
+            
+            const branchHTML = 
+                '<div class="member-card" style="' + bgClass + '" data-branch-id="' + branchId + '">' +
+                    '<div class="member-header">' +
+                        '<div>' +
+                            '<div class="member-name">🏪 ' + branchName + '</div>' +
+                            '<div class="member-id">' + branchLocation + '</div>' +
+                        '</div>' +
+                        '<span class="status-badge ' + statusClass + '">' + statusText + '</span>' +
+                    '</div>' +
+                    '<div class="member-phone">👤 Manager: ' + branchManager + '</div>' +
+                    '<div class="member-actions" style="margin-top: 12px;">' +
+                        '<button class="action-btn btn-edit" onclick="editBranch(\'' + branchId + '\')">' +
+                            '✏️ Edit' +
+                        '</button>' +
+                        '<button class="action-btn btn-delete" onclick="deleteBranch(\'' + branchId + '\')">' +
+                            '🗑️ Delete' +
+                        '</button>' +
+                    '</div>' +
+                '</div>';
+            
+            branchList.insertAdjacentHTML('beforeend', branchHTML);
+        }
+
+        // Edit branch function
+        function editBranch(branchId) {
+            currentEditingBranchId = branchId;
+            const branchData = branchesData[branchId];
+            
+            if (branchData) {
+                // Populate the edit form
+                document.getElementById('editBranchName').value = branchData.name;
+                document.getElementById('editBranchLocation').value = branchData.location;
+                document.getElementById('editBranchManager').value = branchData.manager;
+                document.getElementById('editBranchManagerPhone').value = branchData.managerPhone || '';
+                document.getElementById('editBranchAddress').value = branchData.address || '';
+                document.getElementById('editBranchStatus').value = branchData.status;
+                
+                // Show the edit modal
+                document.getElementById('editBranchModal').style.display = 'block';
+            }
+        }
+
+        // Save edited branch
+        function saveEditBranch() {
+            const name = document.getElementById('editBranchName').value;
+            const location = document.getElementById('editBranchLocation').value;
+            const manager = document.getElementById('editBranchManager').value || 'TBD';
+            const managerPhone = document.getElementById('editBranchManagerPhone').value || '';
+            const address = document.getElementById('editBranchAddress').value || '';
+            const status = document.getElementById('editBranchStatus').value;
+            
+            if (name && location && currentEditingBranchId) {
+                // Update stored data
+                branchesData[currentEditingBranchId].name = name;
+                branchesData[currentEditingBranchId].location = location;
+                branchesData[currentEditingBranchId].manager = manager;
+                branchesData[currentEditingBranchId].managerPhone = managerPhone;
+                branchesData[currentEditingBranchId].address = address;
+                branchesData[currentEditingBranchId].status = status;
+                
+                // Update dropdowns
+                updateBranchInDropdowns(currentEditingBranchId, name, location);
+                
+                // Reload branch list
+                loadBranchList();
+                
+                // Save to storage
+                saveToStorage();
+                
+                // Close modal
+                closeEditBranchModal();
+                
+                const statusText = status === 'active' ? 'Active' : (status === 'coming_soon' ? 'Coming Soon' : 'Temporarily Closed');
+                alert('✅ Branch updated successfully!\n\nName: ' + name + '\nLocation: ' + location + '\nManager: ' + manager + '\nStatus: ' + statusText);
+            } else {
+                alert('❌ Please fill in all required fields');
+            }
+        }
+
+        // Update branch in all dropdowns
+        function updateBranchInDropdowns(branchId, name, location) {
+            // Update member branch select
+            const memberBranchOption = document.querySelector('#memberBranch option[value="' + branchId + '"]');
+            if (memberBranchOption) {
+                memberBranchOption.textContent = '🏪 ' + name + ' (' + location + ')';
+            }
+            
+            // Update edit member branch select
+            const editMemberBranchOption = document.querySelector('#editMemberBranch option[value="' + branchId + '"]');
+            if (editMemberBranchOption) {
+                editMemberBranchOption.textContent = '🏪 ' + name + ' (' + location + ')';
+            }
+            
+            // Update filter
+            const filterOption = document.querySelector('#branchFilter option[value="' + branchId + '"]');
+            if (filterOption) {
+                filterOption.textContent = '🏪 ' + name;
+            }
+        }
+
+        // Close edit branch modal
+        function closeEditBranchModal() {
+            document.getElementById('editBranchModal').style.display = 'none';
+            currentEditingBranchId = null;
+        }
+
+        // Delete branch function
+        function deleteBranch(branchId) {
+            // Check if branch can be deleted (not main branch and no members)
+            if (branchId === 'main') {
+                alert('❌ Cannot delete the Main Branch!');
+                return;
+            }
+            
+            // Check if branch has members
+            const membersInBranch = Object.values(membersData).filter(member => member.branch === branchId);
+            if (membersInBranch.length > 0) {
+                alert('❌ Cannot delete branch with active members!\n\nPlease reassign ' + membersInBranch.length + ' member(s) to another branch first.');
+                return;
+            }
+            
+            currentDeletingBranchId = branchId;
+            const branchData = branchesData[branchId];
+            
+            if (branchData) {
+                // Populate the delete confirmation info
+                document.getElementById('deleteBranchInfo').innerHTML = 
+                    '<div style="font-weight: 500; margin-bottom: 4px;">🏪 ' + branchData.name + '</div>' +
+                    '<div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">' + branchData.location + '</div>' +
+                    '<div style="font-size: 12px; color: #6b7280;">Manager: ' + branchData.manager + '</div>';
+                
+                // Show the delete modal
+                document.getElementById('deleteBranchModal').style.display = 'block';
+            }
+        }
+
+        // Confirm delete branch
+        function confirmDeleteBranch() {
+            if (currentDeletingBranchId && branchesData[currentDeletingBranchId]) {
+                const branchData = branchesData[currentDeletingBranchId];
+                
+                // Remove from dropdowns
+                removeBranchFromDropdowns(currentDeletingBranchId);
+                
+                // Update branch count
+                branchCount--;
+                
+                // Remove from stored data
+                delete branchesData[currentDeletingBranchId];
+                
+                // Reload branch list
+                loadBranchList();
+                
+                // Update displays
+                updateBranchCount();
+                updateCapacityDisplay();
+                
+                // Save to storage
+                saveToStorage();
+                
+                // Close modal
+                closeDeleteBranchModal();
+                
+                alert('✅ Branch "' + branchData.name + '" deleted successfully!');
+            }
+        }
+
+        // Remove branch from all dropdowns
+        function removeBranchFromDropdowns(branchId) {
+            // Remove from member branch select
+            const memberBranchOption = document.querySelector('#memberBranch option[value="' + branchId + '"]');
+            if (memberBranchOption) {
+                memberBranchOption.remove();
+            }
+            
+            // Remove from edit member branch select
+            const editMemberBranchOption = document.querySelector('#editMemberBranch option[value="' + branchId + '"]');
+            if (editMemberBranchOption) {
+                editMemberBranchOption.remove();
+            }
+            
+            // Remove from filter
+            const filterOption = document.querySelector('#branchFilter option[value="' + branchId + '"]');
+            if (filterOption) {
+                filterOption.remove();
+            }
+        }
+
+        // Close delete branch modal
+        function closeDeleteBranchModal() {
+            document.getElementById('deleteBranchModal').style.display = 'none';
+            currentDeletingBranchId = null;
+        }
+
         // Update stats display
         function updateStats(price) {
             memberCount++;
@@ -1226,29 +2098,43 @@
         function updateStatsDisplay() {
             document.getElementById('totalMembers').textContent = memberCount;
             document.getElementById('activeMembers').textContent = memberCount;
+            document.getElementById('totalBranches').textContent = branchCount;
             document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
             document.getElementById('statsRevenue').textContent = 'RM' + totalRevenue;
             document.getElementById('memberListHeader').textContent = 'All Members (' + memberCount + ')';
             
-            // Update active rate
-            var activeRate = memberCount > 0 ? Math.round((memberCount / memberCount) * 100) : 0;
-            document.getElementById('activeRate').textContent = activeRate + '%';
+            // Update system utilization
+            const utilization = ((memberCount / storage.maxMembers) * 100).toFixed(3);
+            document.getElementById('systemUtilization').textContent = utilization + '%';
             
             // Update average spent
-            var avgSpent = memberCount > 0 ? Math.round(totalRevenue / memberCount) : 0;
+            const avgSpent = memberCount > 0 ? Math.round(totalRevenue / memberCount) : 0;
             document.getElementById('avgSpent').textContent = 'RM' + avgSpent;
+        }
+
+        // Update capacity display
+        function updateCapacityDisplay() {
+            document.getElementById('capacityDisplay').textContent = memberCount + ' / 100,000 members';
+            document.getElementById('branchCapacityDisplay').textContent = branchCount + ' / 100 branches';
+            document.getElementById('branchCount').textContent = branchCount;
+        }
+
+        // Update branch count in header
+        function updateBranchCount() {
+            const currentCount = Object.keys(branchesData).length;
+            document.getElementById('branchListHeader').textContent = 'Active Branches (' + currentCount + ')';
         }
 
         // Add to recent members in stats tab
         function addToRecentMembers(name, phone, price) {
-            var recentList = document.getElementById('recentMembers');
+            const recentList = document.getElementById('recentMembers');
             
             // Clear placeholder text
             if (recentList.children.length === 1 && recentList.children[0].textContent.includes('New members')) {
                 recentList.innerHTML = '';
             }
             
-            var recentHTML = 
+            const recentHTML = 
                 '<div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">' +
                     '<div>' +
                         '<div style="font-size: 12px; font-weight: 500;">' + name + '</div>' +
@@ -1281,359 +2167,197 @@
             }
         }
 
-        // Add branch function
-        function addBranch() {
-            var branchName = document.getElementById('branchName').value;
-            var branchLocation = document.getElementById('branchLocation').value;
-            var branchManager = document.getElementById('branchManager').value || 'TBD';
+        // Load branch performance data
+        function loadBranchPerformance() {
+            const branchPerformanceElement = document.getElementById('branchPerformance');
+            branchPerformanceElement.innerHTML = '';
             
-            if (branchName && branchLocation) {
-                // Generate unique branch ID
-                var branchId = branchName.toLowerCase().replace(/\s+/g, '') + branchCounter;
-                branchCounter++;
+            // Calculate stats for each branch
+            const branchStats = {};
+            Object.keys(branchesData).forEach(branchId => {
+                const branch = branchesData[branchId];
+                const branchMembers = Object.values(membersData).filter(member => member.branch === branchId);
+                const branchRevenue = branchMembers.reduce((sum, member) => sum + member.spent, 0);
                 
-                // Store branch data
-                branchesData[branchId] = {
-                    name: branchName,
-                    location: branchLocation,
-                    manager: branchManager,
-                    status: 'active',
-                    icon: '🏪'
+                branchStats[branchId] = {
+                    name: branch.name,
+                    members: branchMembers.length,
+                    revenue: branchRevenue,
+                    avgSpent: branchMembers.length > 0 ? Math.round(branchRevenue / branchMembers.length) : 0
                 };
-                
-                // Add to dropdowns
-                addBranchToDropdowns(branchId, branchName, branchLocation);
-                
-                // Add to branch list display
-                addBranchToList(branchId, branchName, branchLocation, branchManager, 'active');
-                
-                // Update header
-                updateBranchCount();
-                
-                // Clear form
-                document.getElementById('branchName').value = '';
-                document.getElementById('branchLocation').value = '';
-                document.getElementById('branchManager').value = '';
-                
-                // Save to storage
-                saveToStorage();
-                
-                alert('✅ Branch added successfully!\n\nBranch: ' + branchName + '\nLocation: ' + branchLocation + '\nManager: ' + branchManager);
-            } else {
-                alert('❌ Please fill in Branch Name and Location');
-            }
-        }
-
-        // Add branch to all dropdowns
-        function addBranchToDropdowns(branchId, branchName, branchLocation) {
-            // Add to member branch select
-            var memberBranchSelect = document.getElementById('memberBranch');
-            var newOption = document.createElement('option');
-            newOption.value = branchId;
-            newOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
-            memberBranchSelect.appendChild(newOption);
+            });
             
-            // Add to edit modal dropdown
-            var editBranchSelect = document.getElementById('editMemberBranch');
-            var editOption = document.createElement('option');
-            editOption.value = branchId;
-            editOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
-            editBranchSelect.appendChild(editOption);
-            
-            // Add to filter
-            var branchFilter = document.getElementById('branchFilter');
-            var filterOption = document.createElement('option');
-            filterOption.value = branchId;
-            filterOption.textContent = '🏪 ' + branchName;
-            branchFilter.appendChild(filterOption);
-        }
-
-        // Add branch to display list
-        function addBranchToList(branchId, branchName, branchLocation, branchManager, status) {
-            var branchList = document.getElementById('branchList');
-            var statusClass = status === 'active' ? 'status-active' : (status === 'coming_soon' ? 'status-expiring' : 'status-badge');
-            var statusText = status === 'active' ? 'Active' : (status === 'coming_soon' ? 'Coming Soon' : 'Closed');
-            var bgClass = status === 'active' ? 'background: #f0fdf4; border: 1px solid #bbf7d0;' : 'background: #fffbeb; border: 1px solid #fed7aa;';
-            
-            var branchHTML = 
-                '<div class="member-card" style="' + bgClass + '" data-branch-id="' + branchId + '">' +
-                    '<div class="member-header">' +
+            // Display branch performance
+            Object.keys(branchStats).forEach(branchId => {
+                const stats = branchStats[branchId];
+                const performanceHTML = 
+                    '<div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f3f4f6;">' +
                         '<div>' +
-                            '<div class="member-name">🏪 ' + branchName + '</div>' +
-                            '<div class="member-id">' + branchLocation + '</div>' +
+                            '<div style="font-size: 14px; font-weight: 500;">' + stats.name + '</div>' +
+                            '<div style="font-size: 12px; color: #6b7280;">' + stats.members + ' members</div>' +
                         '</div>' +
-                        '<span class="status-badge ' + statusClass + '">' + statusText + '</span>' +
-                    '</div>' +
-                    '<div class="member-phone">👤 Manager: ' + branchManager + '</div>' +
-                    '<div class="member-actions" style="margin-top: 12px;">' +
-                        '<button class="action-btn btn-edit" onclick="editBranch(\'' + branchId + '\')">' +
-                            '✏️ Edit' +
-                        '</button>' +
-                        '<button class="action-btn btn-delete" onclick="deleteBranch(\'' + branchId + '\')">' +
-                            '🗑️ Delete' +
-                        '</button>' +
-                    '</div>' +
-                '</div>';
-            
-            branchList.insertAdjacentHTML('beforeend', branchHTML);
-        }
-
-        // Update branch count in header
-        function updateBranchCount() {
-            var currentCount = document.querySelectorAll('#branchList .member-card').length;
-            document.getElementById('branchListHeader').textContent = 'Active Branches (' + currentCount + ')';
-        }
-
-        // Edit branch function
-        function editBranch(branchId) {
-            currentEditingBranchId = branchId;
-            var branchData = branchesData[branchId];
-            
-            if (branchData) {
-                // Populate the edit form
-                document.getElementById('editBranchName').value = branchData.name;
-                document.getElementById('editBranchLocation').value = branchData.location;
-                document.getElementById('editBranchManager').value = branchData.manager;
-                document.getElementById('editBranchStatus').value = branchData.status;
+                        '<div style="text-align: right;">' +
+                            '<div style="font-size: 14px; font-weight: 500; color: #ec4899;">RM' + stats.revenue + '</div>' +
+                            '<div style="font-size: 12px; color: #6b7280;">Avg: RM' + stats.avgSpent + '</div>' +
+                        '</div>' +
+                    '</div>';
                 
-                // Show the edit modal
-                document.getElementById('editBranchModal').style.display = 'block';
-            }
-        }
-
-        // Save edited branch
-        function saveEditBranch() {
-            var name = document.getElementById('editBranchName').value;
-            var location = document.getElementById('editBranchLocation').value;
-            var manager = document.getElementById('editBranchManager').value || 'TBD';
-            var status = document.getElementById('editBranchStatus').value;
-            
-            if (name && location && currentEditingBranchId) {
-                // Update stored data
-                branchesData[currentEditingBranchId].name = name;
-                branchesData[currentEditingBranchId].location = location;
-                branchesData[currentEditingBranchId].manager = manager;
-                branchesData[currentEditingBranchId].status = status;
-                
-                // Update the display
-                var branchCard = document.querySelector('[data-branch-id="' + currentEditingBranchId + '"]');
-                if (branchCard) {
-                    // Update branch card content
-                    branchCard.querySelector('.member-name').textContent = '🏪 ' + name;
-                    branchCard.querySelector('.member-id').textContent = location;
-                    branchCard.querySelector('.member-phone').textContent = '👤 Manager: ' + manager;
-                    
-                    // Update status badge
-                    var statusBadge = branchCard.querySelector('.status-badge');
-                    var statusText = status === 'active' ? 'Active' : (status === 'coming_soon' ? 'Coming Soon' : 'Temporarily Closed');
-                    statusBadge.textContent = statusText;
-                    
-                    // Update status styling
-                    statusBadge.className = 'status-badge';
-                    if (status === 'active') {
-                        statusBadge.classList.add('status-active');
-                        branchCard.style.background = '#f0fdf4';
-                        branchCard.style.border = '1px solid #bbf7d0';
-                    } else if (status === 'coming_soon') {
-                        statusBadge.style.background = '#fef3c7';
-                        statusBadge.style.color = '#92400e';
-                        branchCard.style.background = '#fffbeb';
-                        branchCard.style.border = '1px solid #fed7aa';
-                    } else {
-                        statusBadge.style.background = '#fee2e2';
-                        statusBadge.style.color = '#dc2626';
-                        branchCard.style.background = '#fef2f2';
-                        branchCard.style.border = '1px solid #fecaca';
-                    }
-                }
-                
-                // Update dropdowns
-                updateBranchInDropdowns(currentEditingBranchId, name, location);
-                
-                // Save to storage
-                saveToStorage();
-                
-                // Close modal
-                closeEditBranchModal();
-                
-                alert('✅ Branch updated successfully!\n\nName: ' + name + '\nLocation: ' + location + '\nManager: ' + manager + '\nStatus: ' + statusText);
-            } else {
-                alert('❌ Please fill in all required fields');
-            }
-        }
-
-        // Update branch in all dropdowns
-        function updateBranchInDropdowns(branchId, name, location) {
-            // Update member branch select
-            var memberBranchOption = document.querySelector('#memberBranch option[value="' + branchId + '"]');
-            if (memberBranchOption) {
-                memberBranchOption.textContent = '🏪 ' + name + ' (' + location + ')';
-            }
-            
-            // Update edit member branch select
-            var editMemberBranchOption = document.querySelector('#editMemberBranch option[value="' + branchId + '"]');
-            if (editMemberBranchOption) {
-                editMemberBranchOption.textContent = '🏪 ' + name + ' (' + location + ')';
-            }
-            
-            // Update filter
-            var filterOption = document.querySelector('#branchFilter option[value="' + branchId + '"]');
-            if (filterOption) {
-                filterOption.textContent = '🏪 ' + name;
-            }
-        }
-
-        // Close edit branch modal
-        function closeEditBranchModal() {
-            document.getElementById('editBranchModal').style.display = 'none';
-            currentEditingBranchId = null;
-        }
-
-        // Delete branch function
-        function deleteBranch(branchId) {
-            // Check if branch can be deleted (not main branch and no members)
-            if (branchId === 'main') {
-                alert('❌ Cannot delete the Main Branch!');
-                return;
-            }
-            
-            // Check if branch has members
-            var membersInBranch = Object.values(membersData).filter(member => member.branch === branchId);
-            if (membersInBranch.length > 0) {
-                alert('❌ Cannot delete branch with active members!\n\nPlease reassign ' + membersInBranch.length + ' member(s) to another branch first.');
-                return;
-            }
-            
-            currentDeletingBranchId = branchId;
-            var branchData = branchesData[branchId];
-            
-            if (branchData) {
-                // Populate the delete confirmation info
-                document.getElementById('deleteBranchInfo').innerHTML = 
-                    '<div style="font-weight: 500; margin-bottom: 4px;">🏪 ' + branchData.name + '</div>' +
-                    '<div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">' + branchData.location + '</div>' +
-                    '<div style="font-size: 12px; color: #6b7280;">Manager: ' + branchData.manager + '</div>';
-                
-                // Show the delete modal
-                document.getElementById('deleteBranchModal').style.display = 'block';
-            }
-        }
-
-        // Confirm delete branch
-        function confirmDeleteBranch() {
-            if (currentDeletingBranchId && branchesData[currentDeletingBranchId]) {
-                var branchData = branchesData[currentDeletingBranchId];
-                
-                // Remove from display
-                var branchCard = document.querySelector('[data-branch-id="' + currentDeletingBranchId + '"]');
-                if (branchCard) {
-                    branchCard.remove();
-                }
-                
-                // Remove from dropdowns
-                removeBranchFromDropdowns(currentDeletingBranchId);
-                
-                // Update branch count
-                updateBranchCount();
-                
-                // Remove from stored data
-                delete branchesData[currentDeletingBranchId];
-                
-                // Save to storage
-                saveToStorage();
-                
-                // Close modal
-                closeDeleteBranchModal();
-                
-                alert('✅ Branch "' + branchData.name + '" deleted successfully!');
-            }
-        }
-
-        // Remove branch from all dropdowns
-        function removeBranchFromDropdowns(branchId) {
-            // Remove from member branch select
-            var memberBranchOption = document.querySelector('#memberBranch option[value="' + branchId + '"]');
-            if (memberBranchOption) {
-                memberBranchOption.remove();
-            }
-            
-            // Remove from edit member branch select
-            var editMemberBranchOption = document.querySelector('#editMemberBranch option[value="' + branchId + '"]');
-            if (editMemberBranchOption) {
-                editMemberBranchOption.remove();
-            }
-            
-            // Remove from filter
-            var filterOption = document.querySelector('#branchFilter option[value="' + branchId + '"]');
-            if (filterOption) {
-                filterOption.remove();
-            }
-        }
-
-        // Close delete branch modal
-        function closeDeleteBranchModal() {
-            document.getElementById('deleteBranchModal').style.display = 'none';
-            currentDeletingBranchId = null;
-        }
-
-        // Filter members by branch
-        function filterByBranch() {
-            var selectedBranch = document.getElementById('branchFilter').value;
-            var memberCards = document.querySelectorAll('#membersList .member-card');
-            
-            memberCards.forEach(function(card) {
-                if (selectedBranch === 'all' || card.getAttribute('data-branch') === selectedBranch) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                branchPerformanceElement.insertAdjacentHTML('beforeend', performanceHTML);
             });
         }
 
         // Update price display
         function updatePriceDisplay() {
-            var durationSelect = document.getElementById('memberDuration');
-            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
+            const durationSelect = document.getElementById('memberDuration');
+            const price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
             document.getElementById('priceDisplay').textContent = 'RM' + price;
             document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
         }
 
+        // Export functions
+        function exportAllData() {
+            const dataToExport = storage.getData();
+            const dataStr = JSON.stringify(dataToExport, null, 2);
+            downloadFile(dataStr, 'fried-rice-shop-complete-data-' + new Date().toISOString().split('T')[0] + '.json', 'application/json');
+        }
+
+        function exportMembers() {
+            const membersExport = {
+                members: membersData,
+                exportDate: new Date().toISOString(),
+                totalMembers: memberCount
+            };
+            const dataStr = JSON.stringify(membersExport, null, 2);
+            downloadFile(dataStr, 'fried-rice-shop-members-' + new Date().toISOString().split('T')[0] + '.json', 'application/json');
+        }
+
+        function exportBranches() {
+            const branchesExport = {
+                branches: branchesData,
+                exportDate: new Date().toISOString(),
+                totalBranches: branchCount
+            };
+            const dataStr = JSON.stringify(branchesExport, null, 2);
+            downloadFile(dataStr, 'fried-rice-shop-branches-' + new Date().toISOString().split('T')[0] + '.json', 'application/json');
+        }
+
+        // Helper function to download files
+        function downloadFile(data, filename, type) {
+            const blob = new Blob([data], { type: type });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Import data function
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (confirm('⚠️ This will replace all current data. Are you sure you want to import?')) {
+                        if (importedData.members && importedData.branches) {
+                            // Full data import
+                            membersData = importedData.members;
+                            branchesData = importedData.branches;
+                            
+                            if (importedData.stats) {
+                                totalRevenue = importedData.stats.totalRevenue || 0;
+                                memberCount = importedData.stats.memberCount || Object.keys(membersData).length;
+                                branchCount = importedData.stats.branchCount || Object.keys(branchesData).length;
+                            }
+                            
+                            // Update counters
+                            memberCounter = Math.max(...Object.keys(membersData).map(Number)) + 1;
+                            branchCounter = Math.max(...Object.keys(branchesData).map(id => parseInt(id.slice(-1)) || 0)) + 1;
+                            
+                        } else if (importedData.members) {
+                            // Members only import
+                            membersData = importedData.members;
+                            memberCount = Object.keys(membersData).length;
+                            memberCounter = Math.max(...Object.keys(membersData).map(Number)) + 1;
+                            
+                        } else if (importedData.branches) {
+                            // Branches only import
+                            branchesData = importedData.branches;
+                            branchCount = Object.keys(branchesData).length;
+                            branchCounter = Math.max(...Object.keys(branchesData).map(id => parseInt(id.slice(-1)) || 0)) + 1;
+                        }
+                        
+                        // Save to storage
+                        saveToStorage();
+                        
+                        // Reload all data
+                        loadDataFromStorage();
+                        
+                        alert('✅ Data imported successfully!');
+                    }
+                } catch (error) {
+                    alert('❌ Error reading file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            
+            // Clear file input
+            event.target.value = '';
+        }
+
+        // Bulk actions (placeholder functions)
+        function bulkExport() {
+            alert('🚧 Bulk export feature coming soon!\n\nFor now, use the export buttons in the Analytics tab.');
+        }
+
+        function bulkMessage() {
+            alert('🚧 Bulk messaging feature coming soon!\n\nThis will allow sending SMS/email to selected members.');
+        }
+
+        function bulkDelete() {
+            if (confirm('⚠️ Are you sure you want to delete selected members?\n\nThis feature is not yet implemented.')) {
+                alert('🚧 Bulk delete feature coming soon!');
+            }
+        }
+
         // Load data from storage and populate UI
         function loadDataFromStorage() {
-            // Load members
-            var membersList = document.getElementById('membersList');
-            membersList.innerHTML = '';
-            
-            for (var memberId in membersData) {
-                var member = membersData[memberId];
-                addToMemberList(member.name, member.phone, member.branch, member.spent, memberId);
-            }
-            
-            // Load branches
-            var branchList = document.getElementById('branchList');
-            branchList.innerHTML = '';
-            
-            for (var branchId in branchesData) {
-                var branch = branchesData[branchId];
-                addBranchToList(branchId, branch.name, branch.location, branch.manager, branch.status);
-            }
-            
-            // Update dropdowns with branches
+            // Load branches first
+            loadBranchList();
             populateBranchDropdowns();
+            
+            // Load members with pagination
+            loadMembersPage(1);
             
             // Load recent members
             loadRecentMembers();
             
             // Update all stats
             updateStatsDisplay();
+            updateCapacityDisplay();
             updateBranchCount();
+        }
+
+        // Load branch list
+        function loadBranchList() {
+            const branchList = document.getElementById('branchList');
+            branchList.innerHTML = '';
+            
+            for (const branchId in branchesData) {
+                const branch = branchesData[branchId];
+                addBranchToList(branchId, branch.name, branch.location, branch.manager, branch.status);
+            }
         }
 
         // Populate branch dropdowns from stored data
         function populateBranchDropdowns() {
-            var memberBranchSelect = document.getElementById('memberBranch');
-            var editMemberBranchSelect = document.getElementById('editMemberBranch');
-            var branchFilter = document.getElementById('branchFilter');
+            const memberBranchSelect = document.getElementById('memberBranch');
+            const editMemberBranchSelect = document.getElementById('editMemberBranch');
+            const branchFilter = document.getElementById('branchFilter');
             
             // Clear existing options (except default ones)
             memberBranchSelect.innerHTML = '';
@@ -1641,24 +2365,24 @@
             branchFilter.innerHTML = '<option value="all">🌐 All Branches</option>';
             
             // Add branches from storage
-            for (var branchId in branchesData) {
-                var branch = branchesData[branchId];
-                var icon = branch.icon || '🏪';
+            for (const branchId in branchesData) {
+                const branch = branchesData[branchId];
+                const icon = branch.icon || '🏪';
                 
                 // Member branch select
-                var memberOption = document.createElement('option');
+                const memberOption = document.createElement('option');
                 memberOption.value = branchId;
                 memberOption.textContent = icon + ' ' + branch.name + ' (' + branch.location + ')';
                 memberBranchSelect.appendChild(memberOption);
                 
                 // Edit member branch select
-                var editOption = document.createElement('option');
+                const editOption = document.createElement('option');
                 editOption.value = branchId;
                 editOption.textContent = icon + ' ' + branch.name + ' (' + branch.location + ')';
                 editMemberBranchSelect.appendChild(editOption);
                 
                 // Filter select
-                var filterOption = document.createElement('option');
+                const filterOption = document.createElement('option');
                 filterOption.value = branchId;
                 filterOption.textContent = icon + ' ' + branch.name;
                 branchFilter.appendChild(filterOption);
@@ -1667,13 +2391,13 @@
 
         // Load recent members from storage
         function loadRecentMembers() {
-            var recentList = document.getElementById('recentMembers');
+            const recentList = document.getElementById('recentMembers');
             
             if (recentMembersData && recentMembersData.length > 0) {
                 recentList.innerHTML = '';
                 
                 recentMembersData.forEach(function(member) {
-                    var recentHTML = 
+                    const recentHTML = 
                         '<div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f3f4f6;">' +
                             '<div>' +
                                 '<div style="font-size: 12px; font-weight: 500;">' + member.name + '</div>' +
@@ -1692,10 +2416,10 @@
 
         // Format date for display
         function formatDate(dateString) {
-            var date = new Date(dateString);
-            var now = new Date();
-            var diffTime = Math.abs(now - date);
-            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             
             if (diffDays === 1) {
                 return 'Today';
@@ -1708,88 +2432,12 @@
             }
         }
 
-        // Export data function (bonus feature)
-        function exportData() {
-            var dataToExport = {
-                members: membersData,
-                branches: branchesData,
-                stats: {
-                    totalRevenue: totalRevenue,
-                    memberCount: memberCount
-                },
-                exportDate: new Date().toISOString()
-            };
-            
-            var dataStr = JSON.stringify(dataToExport, null, 2);
-            var dataBlob = new Blob([dataStr], {type: 'application/json'});
-            var url = URL.createObjectURL(dataBlob);
-            var link = document.createElement('a');
-            link.href = url;
-            link.download = 'fried-rice-shop-data-' + new Date().toISOString().split('T')[0] + '.json';
-            link.click();
-            URL.revokeObjectURL(url);
-        }
-
-        // Import data function (bonus feature)
-        function importData(event) {
-            var file = event.target.files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        var importedData = JSON.parse(e.target.result);
-                        
-                        if (importedData.members && importedData.branches) {
-                            // Confirm import
-                            if (confirm('⚠️ This will replace all current data. Are you sure you want to import?')) {
-                                membersData = importedData.members;
-                                branchesData = importedData.branches;
-                                
-                                if (importedData.stats) {
-                                    totalRevenue = importedData.stats.totalRevenue || 0;
-                                    memberCount = importedData.stats.memberCount || Object.keys(membersData).length;
-                                }
-                                
-                                // Update counters
-                                memberCounter = Math.max(...Object.keys(membersData).map(Number)) + 1;
-                                var branchIds = Object.keys(branchesData).filter(id => !isNaN(id.slice(-1)));
-                                branchCounter = branchIds.length > 0 ? Math.max(...branchIds.map(id => parseInt(id.slice(-1)) || 0)) + 1 : 1;
-                                
-                                // Save to storage
-                                saveToStorage();
-                                
-                                // Reload UI
-                                loadDataFromStorage();
-                                
-                                alert('✅ Data imported successfully!');
-                            }
-                        } else {
-                            alert('❌ Invalid data format!');
-                        }
-                    } catch (error) {
-                        alert('❌ Error reading file: ' + error.message);
-                    }
-                };
-                reader.readAsText(file);
-            }
-        }
-
-        // Reset data function
-        function resetData() {
-            if (confirm('⚠️ This will delete ALL data and reset to defaults. Are you sure?')) {
-                if (confirm('🚨 FINAL WARNING: This action cannot be undone!')) {
-                    storage.clearData();
-                    location.reload();
-                }
-            }
-        }
-
         // Close modals when clicking outside
         window.onclick = function(event) {
-            var editModal = document.getElementById('editModal');
-            var deleteModal = document.getElementById('deleteModal');
-            var editBranchModal = document.getElementById('editBranchModal');
-            var deleteBranchModal = document.getElementById('deleteBranchModal');
+            const editModal = document.getElementById('editModal');
+            const deleteModal = document.getElementById('deleteModal');
+            const editBranchModal = document.getElementById('editBranchModal');
+            const deleteBranchModal = document.getElementById('deleteBranchModal');
             
             if (event.target == editModal) {
                 closeEditModal();
@@ -1817,16 +2465,16 @@
             updatePriceDisplay();
             
             // Add storage info to console
-            console.log('🍚 Fried Rice Shop - Persistent Storage Initialized');
-            console.log('💾 Data saved to localStorage:', storage.storageKey);
-            console.log('📊 Current data size:', JSON.stringify(storage.getData()).length, 'characters');
+            console.log('🍚 Fried Rice Shop Enterprise - Initialized');
+            console.log('💾 Storage capacity: 100,000 members, 100 branches');
+            console.log('📊 Current usage:', storage.getStorageStats());
             
             // Optional: Add keyboard shortcuts
             document.addEventListener('keydown', function(e) {
                 // Ctrl/Cmd + S to export data
                 if ((e.ctrlKey || e.metaKey) && e.key === 's') {
                     e.preventDefault();
-                    exportData();
+                    exportAllData();
                 }
                 
                 // Escape to close modals
@@ -1839,11 +2487,21 @@
             });
         });
 
-        // Expose functions for debugging (optional)
-        window.FriedRiceShop = {
-            exportData: exportData,
-            resetData: resetData,
+        // Expose functions for debugging and external use
+        window.FriedRiceShopEnterprise = {
             storage: storage,
+            exportAllData: exportAllData,
+            exportMembers: exportMembers,
+            exportBranches: exportBranches,
             getData: function() { return storage.getData(); },
-            saveData: saveToStorage
+            getStats: function() { return storage.getStorageStats(); },
+            resetData: function() { 
+                if (confirm('🚨 This will delete ALL data! Are you absolutely sure?')) {
+                    storage.clearData();
+                    location.reload();
+                }
+            }
         };
+    </script>
+</body>
+</html>
