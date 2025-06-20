@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ec4899">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Fried Rice Shop">
+    <meta name="description" content="Membership Management System for Fried Rice Shop">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZyaWVkIFJpY2UgU2hvcCAtIE1lbWJlcnNoaXAiLAogICJzaG9ydF9uYW1lIjogIkZyaWVkUmljZSIsCiAgImRlc2NyaXB0aW9uIjogIk1lbWJlcnNoaXAgTWFuYWdlbWVudCBTeXN0ZW0iLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZkZjJmOCIsCiAgInRoZW1lX2NvbG9yIjogIiNlYzQ4OTkiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUIzYVdSMGFEMGlNVEk0SWlCb1pXbG5hSFE5SWpFeU9DSWdkbWxsZDBKdmVEMGlNQ0F3SURFME5DQXhORFFpSUdacGJHdzlJaU5sWXpRNE9Ua2lQZzA4ZEdWNGRDQjRQU0kzTWlJZ2VUMGlOekFpSUdadmJuUXRjMmw2WlQwaU16UWlJR1pwYkd3OUluZG9hWFJsSWo0NFVERmlPakZzYVdObFBDOTBaWGgwUGcwOEwzTjJaejQ9IiwKICAgICAgInNpemVzIjogIjE0NHgxNDQiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0sCiAgImxhbmciOiAiZW4iCn0=">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDE0NCAxNDQiIGZpbGw9IiNlYzQ4OTkiPg08dGV4dCB4PSI3MiIgeT0iNzAiIGZvbnQtc2l6ZT0iMzQiIGZpbGw9IndoaXRlIj7wn42hPC90ZXh0Pg08L3N2Zz4=">
+    
     <title>Fried Rice Shop - Mobile</title>
     <style>
         * {
@@ -1329,6 +1341,37 @@
         // Update price when duration changes
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
+            
+            // Register Service Worker for PWA
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgZnVuY3Rpb24oZXZlbnQpIHsKICBldmVudC53YWl0VW50aWwoc2VsZi5za2lwV2FpdGluZygpKTsKfSk7CgpzZWxmLmFkZEV2ZW50TGlzdGVuZXIoJ2ZldGNoJywgZnVuY3Rpb24oZXZlbnQpIHsKICBldmVudC5yZXNwb25kV2l0aChmZXRjaChldmVudC5yZXF1ZXN0KSk7Cn0pOw==')
+                .then(function(registration) {
+                    console.log('PWA: Service Worker registered');
+                })
+                .catch(function(error) {
+                    console.log('PWA: Service Worker registration failed');
+                });
+            }
+            
+            // Show install prompt for PWA
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                
+                // Show install button after 3 seconds
+                setTimeout(() => {
+                    if (confirm('📱 Install Fried Rice Shop as a mobile app?\n\nThis will add it to your home screen for quick access like a native app!')) {
+                        deferredPrompt.prompt();
+                        deferredPrompt.userChoice.then((choiceResult) => {
+                            if (choiceResult.outcome === 'accepted') {
+                                console.log('PWA: App installed');
+                            }
+                            deferredPrompt = null;
+                        });
+                    }
+                }, 3000);
+            });
         });
 
         function toggleEdit(memberId) {
