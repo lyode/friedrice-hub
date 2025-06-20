@@ -7,10 +7,10 @@
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#ec4899">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Fried Rice Shop">
-    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Fried%20Rice%20Shop%20-%20Membership%22%2C%22short_name%22%3A%22FriedRice%22%2C%22description%22%3A%22Membership%20Management%20System%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23fdf2f8%22%2C%22theme_color%22%3A%22%23ec4899%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage/svg%2Bxml%3Bcharset%3Dutf-8%2C%253Csvg%2520xmlns%253D%2522http%253A//www.w3.org/2000/svg%2522%2520width%253D%2522144%2522%2520height%253D%2522144%2522%2520viewBox%253D%25220%25200%2520144%2520144%2522%2520fill%253D%2522%2523ec4899%2522%253E%253Ctext%2520x%253D%252272%2522%2520y%253D%252280%2522%2520font-size%253D%252260%2522%2520text-anchor%253D%2522middle%2522%2520fill%253D%2522white%2522%253E%25F0%259F%258D%25A1%253C/text%253E%253C/svg%253E%22%2C%22sizes%22%3A%22144x144%22%2C%22type%22%3A%22image/svg%2Bxml%22%7D%5D%7D">
+    <meta name="apple-mobile-web-app-title" content="1+1.5 Club">
+    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%221%2B1.5%20Club%20-%20Membership%22%2C%22short_name%22%3A%221%2B1.5Club%22%2C%22description%22%3A%22Membership%20Management%20System%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23fdf2f8%22%2C%22theme_color%22%3A%22%23ec4899%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage/svg%2Bxml%3Bcharset%3Dutf-8%2C%253Csvg%2520xmlns%253D%2522http%253A//www.w3.org/2000/svg%2522%2520width%253D%2522144%2522%2520height%253D%2522144%2522%2520viewBox%253D%25220%25200%2520144%2520144%2522%2520fill%253D%2522%2523ec4899%2522%253E%253Ctext%2520x%253D%252272%2522%2520y%253D%252280%2522%2520font-size%253D%252260%2522%2520text-anchor%253D%2522middle%2522%2520fill%253D%2522white%2522%253E%25E2%259C%25A8%253C/text%253E%253C/svg%253E%22%2C%22sizes%22%3A%22144x144%22%2C%22type%22%3A%22image/svg%2Bxml%22%7D%5D%7D">
     
-    <title>Fried Rice Shop - Enterprise</title>
+    <title>1+1.5 Club - Enterprise</title>
     <style>
         * {
             margin: 0;
@@ -887,8 +887,8 @@
         <div class="header-top">
             <button class="menu-toggle" onclick="togglePanel()">☰</button>
             <div>
-                <h1>🍚 Fried Rice Shop</h1>
-                <p>Enterprise Membership System</p>
+                <h1>✨ 1+1.5 Club</h1>
+                <p>Premium Membership System</p>
             </div>
             <div style="position: relative;">
                 <button class="menu-toggle" onclick="showNotifications()">🔔</button>
@@ -907,10 +907,10 @@
             </div>
             <div class="stat-card" onclick="showTab('branches')">
                 <div class="stat-number" id="totalBranches">2</div>
-                <div class="stat-label">Branches</div>
+                <div class="stat-label">Locations</div>
             </div>
             <div class="stat-card" onclick="showTab('stats')">
-                <div class="stat-number" id="totalRevenue">RM980</div>
+                <div class="stat-number" id="totalRevenue">RM1,480</div>
                 <div class="stat-label">Revenue</div>
             </div>
         </div>
@@ -929,7 +929,7 @@
             </button>
             <button class="nav-item" onclick="navigateToTab('branches')">
                 <div class="nav-icon">🏪</div>
-                <div class="nav-label">Branches</div>
+                <div class="nav-label">Locations</div>
                 <div class="nav-badge" id="branchBadge">2</div>
             </button>
             <button class="nav-item" onclick="navigateToTab('list')">
@@ -979,8 +979,8 @@
                     <span id="capacityDisplay">3 / 100,000 members</span>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
-                    <span>🏪 Branches:</span>
-                    <span id="branchCapacityDisplay">2 / 100 branches</span>
+                    <span>🏪 Locations:</span>
+                    <span id="branchCapacityDisplay">2 / 100 locations</span>
                 </div>
             </div>
             
@@ -991,16 +991,16 @@
             
             <div class="card slide-in">
                 <div class="form-group">
-                    <label class="form-label">Branch *</label>
+                    <label class="form-label">Location *</label>
                     <select class="form-input" id="memberBranch" style="padding: 12px; font-size: 14px;">
-                        <option value="main">🏪 Main Branch (Shah Alam)</option>
-                        <option value="kl">🏢 KL Branch (Coming Soon)</option>
+                        <option value="main">🏪 Main Location (Shah Alam)</option>
+                        <option value="kl">🏢 KL Location (Coming Soon)</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Name *</label>
-                    <input type="text" class="form-input" id="memberName" placeholder="Customer name">
+                    <input type="text" class="form-input" id="memberName" placeholder="Member name">
                 </div>
 
                 <div class="form-group">
@@ -1010,42 +1010,43 @@
 
                 <div class="form-group">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-input" id="memberEmail" placeholder="customer@email.com">
+                    <input type="email" class="form-input" id="memberEmail" placeholder="member@email.com">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Membership Plan *</label>
                     <select class="form-input" id="memberDuration" style="padding: 12px; font-size: 14px;">
-                        <option value="1" data-price="30">1 Month - RM30</option>
-                        <option value="3" data-price="80">3 Months - RM80 (Save RM10)</option>
-                        <option value="6" data-price="150">6 Months - RM150 (Save RM30)</option>
-                        <option value="12" data-price="250" selected>12 Months - RM250 (Save RM110) ⭐ Popular</option>
-                        <option value="18" data-price="375">18 Months - RM375 (Save RM165)</option>
-                        <option value="24" data-price="480">24 Months - RM480 (Save RM240)</option>
-                        <option value="36" data-price="650">36 Months - RM650 (Save RM430) 💎 VIP</option>
+                        <option value="1" data-price="49">1 Month - RM49</option>
+                        <option value="3" data-price="139">3 Months - RM139 (Save RM8)</option>
+                        <option value="6" data-price="269">6 Months - RM269 (Save RM25)</option>
+                        <option value="12" data-price="499" selected>12 Months - RM499 (Save RM89) ⭐ Popular</option>
+                        <option value="18" data-price="719">18 Months - RM719 (Save RM163)</option>
+                        <option value="24" data-price="899">24 Months - RM899 (Save RM277)</option>
+                        <option value="36" data-price="1299">36 Months - RM1,299 (Save RM465) 💎 VIP</option>
                     </select>
                     <div style="font-size: 11px; color: #6b7280; margin-top: 4px; display: flex; justify-content: space-between;">
                         <span>💡 Longer plans = Better savings</span>
-                        <span id="priceDisplay" style="font-weight: bold; color: #ec4899;">RM250</span>
+                        <span id="priceDisplay" style="font-weight: bold; color: #ec4899;">RM499</span>
                     </div>
                 </div>
 
-                <button class="btn btn-primary" onclick="addMember()" id="addMemberBtn">Add Member - RM250</button>
+                <button class="btn btn-primary" onclick="addMember()" id="addMemberBtn">Add Member - RM499</button>
             </div>
 
             <div class="info-box">
-                <div class="info-title">💰 Enterprise Membership Pricing</div>
+                <div class="info-title">💎 1+1.5 Club Membership Benefits</div>
                 <div class="info-list">
                     <strong>Best Value Plans:</strong><br>
-                    • 12 months: RM250 (Save RM110)<br>
-                    • 24 months: RM480 (Save RM240)<br>
-                    • 36 months: RM650 (Save RM430) 💎<br><br>
+                    • 12 months: RM499 (Save RM89)<br>
+                    • 24 months: RM899 (Save RM277)<br>
+                    • 36 months: RM1,299 (Save RM465) 💎<br><br>
                     <strong>Member Benefits:</strong><br>
-                    • 10% discount on all dishes<br>
-                    • Earn 1 point per RM1 spent<br>
-                    • Birthday special + free meal<br>
-                    • Priority seating & VIP treatment<br>
-                    • Mobile app exclusive deals
+                    • 15% discount on all services<br>
+                    • Earn 2 points per RM1 spent<br>
+                    • Birthday special + exclusive perks<br>
+                    • Priority booking & VIP treatment<br>
+                    • Mobile app exclusive deals<br>
+                    • Monthly member-only events
                 </div>
             </div>
         </div>
@@ -1054,24 +1055,24 @@
         <div id="branches" class="section">
             <div class="page-title">
                 <span class="emoji">🏪</span>
-                <span>Branch Management</span>
+                <span>Location Management</span>
             </div>
             
             <div class="capacity-info">
-                <div>🏪 <strong id="branchCount">2</strong> / 100 branches allocated</div>
+                <div>🏪 <strong id="branchCount">2</strong> / 100 locations allocated</div>
                 <div style="margin-top: 4px; font-size: 10px;">Supports nationwide expansion</div>
             </div>
             
             <div class="card slide-in">
-                <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Add New Branch</h3>
+                <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Add New Location</h3>
                 
                 <div class="form-group">
-                    <label class="form-label">Branch Name *</label>
-                    <input type="text" class="form-input" id="branchName" placeholder="e.g., Subang Branch">
+                    <label class="form-label">Location Name *</label>
+                    <input type="text" class="form-input" id="branchName" placeholder="e.g., Subang Location">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Location *</label>
+                    <label class="form-label">City *</label>
                     <input type="text" class="form-input" id="branchLocation" placeholder="e.g., Subang Jaya">
                 </div>
 
@@ -1090,14 +1091,14 @@
                     <textarea class="form-input" id="branchAddress" placeholder="Full address" rows="3"></textarea>
                 </div>
 
-                <button class="btn btn-primary" onclick="addBranch()">🏪 Add Branch</button>
+                <button class="btn btn-primary" onclick="addBranch()">🏪 Add Location</button>
             </div>
 
             <div class="card fade-in">
-                <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: #1f2937;" id="branchListHeader">Active Branches (2)</h3>
+                <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: #1f2937;" id="branchListHeader">Active Locations (2)</h3>
                 
                 <div class="search-box">
-                    <input type="text" class="search-input" id="branchSearch" placeholder="🔍 Search branches..." onkeyup="searchBranches()">
+                    <input type="text" class="search-input" id="branchSearch" placeholder="🔍 Search locations..." onkeyup="searchBranches()">
                 </div>
                 
                 <div id="branchList">
@@ -1119,11 +1120,11 @@
             
             <div class="card slide-in" style="margin-bottom: 16px;">
                 <div class="form-group" style="margin-bottom: 8px;">
-                    <label class="form-label">Filter by Branch</label>
+                    <label class="form-label">Filter by Location</label>
                     <select class="form-input" id="branchFilter" onchange="filterByBranch()" style="padding: 12px; font-size: 14px;">
-                        <option value="all">🌐 All Branches</option>
-                        <option value="main">🏪 Main Branch</option>
-                        <option value="kl">🏢 KL Branch</option>
+                        <option value="all">🌐 All Locations</option>
+                        <option value="main">🏪 Main Location</option>
+                        <option value="kl">🏢 KL Location</option>
                     </select>
                 </div>
                 
@@ -1212,7 +1213,7 @@
             <div class="metric-card metric-blue slide-in">
                 <div>
                     <div class="metric-label">Total Revenue</div>
-                    <div class="metric-value" id="statsRevenue">RM980</div>
+                    <div class="metric-value" id="statsRevenue">RM1,480</div>
                 </div>
                 <div class="metric-icon">📈</div>
             </div>
@@ -1228,13 +1229,13 @@
             <div class="metric-card metric-purple slide-in">
                 <div>
                     <div class="metric-label">Average Spent</div>
-                    <div class="metric-value" id="avgSpent">RM327</div>
+                    <div class="metric-value" id="avgSpent">RM493</div>
                 </div>
                 <div class="metric-icon">💳</div>
             </div>
 
             <div class="card fade-in">
-                <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Branch Performance</h3>
+                <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Location Performance</h3>
                 <div id="branchPerformance">
                     <!-- Branch stats will be loaded here -->
                 </div>
@@ -1253,7 +1254,7 @@
                 <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Data Management</h3>
                 <button class="btn btn-primary export-btn" onclick="exportAllData()">📊 Export All Data</button>
                 <button class="btn btn-primary export-btn" onclick="exportMembers()">👥 Export Members</button>
-                <button class="btn btn-primary export-btn" onclick="exportBranches()">🏪 Export Branches</button>
+                <button class="btn btn-primary export-btn" onclick="exportBranches()">🏪 Export Locations</button>
                 <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
                 <button class="btn btn-primary export-btn" onclick="document.getElementById('importFile').click()">📥 Import Data</button>
             </div>
@@ -1322,7 +1323,7 @@
         </button>
     </div>
 
-    <!-- All Modals (same as before) -->
+    <!-- All Modals -->
     <!-- Edit Member Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
@@ -1333,7 +1334,7 @@
             
             <div class="form-group">
                 <label class="form-label">Name *</label>
-                <input type="text" class="form-input" id="editMemberName" placeholder="Customer name">
+                <input type="text" class="form-input" id="editMemberName" placeholder="Member name">
             </div>
 
             <div class="form-group">
@@ -1343,14 +1344,14 @@
 
             <div class="form-group">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-input" id="editMemberEmail" placeholder="customer@email.com">
+                <input type="email" class="form-input" id="editMemberEmail" placeholder="member@email.com">
             </div>
 
             <div class="form-group">
-                <label class="form-label">Branch *</label>
+                <label class="form-label">Location *</label>
                 <select class="form-input" id="editMemberBranch" style="padding: 12px; font-size: 14px;">
-                    <option value="main">🏪 Main Branch (Shah Alam)</option>
-                    <option value="kl">🏢 KL Branch (Coming Soon)</option>
+                    <option value="main">🏪 Main Location (Shah Alam)</option>
+                    <option value="kl">🏢 KL Location (Coming Soon)</option>
                 </select>
             </div>
 
@@ -1388,18 +1389,18 @@
     <div id="editBranchModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">🏪 Edit Branch</h3>
+                <h3 class="modal-title">🏪 Edit Location</h3>
                 <span class="close" onclick="closeEditBranchModal()">&times;</span>
             </div>
             
             <div class="form-group">
-                <label class="form-label">Branch Name *</label>
-                <input type="text" class="form-input" id="editBranchName" placeholder="Branch name">
+                <label class="form-label">Location Name *</label>
+                <input type="text" class="form-input" id="editBranchName" placeholder="Location name">
             </div>
 
             <div class="form-group">
-                <label class="form-label">Location *</label>
-                <input type="text" class="form-input" id="editBranchLocation" placeholder="Location">
+                <label class="form-label">City *</label>
+                <input type="text" class="form-input" id="editBranchLocation" placeholder="City">
             </div>
 
             <div class="form-group">
@@ -1437,17 +1438,17 @@
     <div id="deleteBranchModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">🗑️ Delete Branch</h3>
+                <h3 class="modal-title">🗑️ Delete Location</h3>
                 <span class="close" onclick="closeDeleteBranchModal()">&times;</span>
             </div>
             
             <p style="margin-bottom: 16px; color: #6b7280; font-size: 14px;">
-                Are you sure you want to delete this branch? This action cannot be undone.
+                Are you sure you want to delete this location? This action cannot be undone.
             </p>
             
             <div class="alert-warning" style="margin-bottom: 16px;">
                 <span>⚠️</span>
-                <span class="alert-text">All members in this branch will need to be reassigned!</span>
+                <span class="alert-text">All members in this location will need to be reassigned!</span>
             </div>
             
             <div id="deleteBranchInfo" style="background: #fef2f2; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
@@ -1456,16 +1457,16 @@
 
             <div class="btn-row-modal">
                 <button class="btn btn-cancel" onclick="closeDeleteBranchModal()">Cancel</button>
-                <button class="btn btn-confirm-delete" onclick="confirmDeleteBranch()">Delete Branch</button>
+                <button class="btn btn-confirm-delete" onclick="confirmDeleteBranch()">Delete Location</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Enterprise Storage Management System (same as before)
+        // Enterprise Storage Management System
         class EnterpriseStorageManager {
             constructor() {
-                this.storageKey = 'friedRiceShopEnterpriseData';
+                this.storageKey = 'onePlusOneHalfClubEnterpriseData';
                 this.maxMembers = 100000;
                 this.maxBranches = 100;
                 this.compressionEnabled = true;
@@ -1481,8 +1482,8 @@
                                 phone: '+60123456789',
                                 email: 'sarah.chen@email.com',
                                 branch: 'main', 
-                                spent: 480,
-                                points: 450,
+                                spent: 499,
+                                points: 748,
                                 visits: 12,
                                 joinDate: new Date().toISOString(),
                                 status: 'active',
@@ -1493,8 +1494,8 @@
                                 phone: '+60198765432',
                                 email: 'ahmad.rahman@email.com', 
                                 branch: 'main', 
-                                spent: 320,
-                                points: 280,
+                                spent: 269,
+                                points: 538,
                                 visits: 8,
                                 joinDate: new Date().toISOString(),
                                 status: 'expiring',
@@ -1505,17 +1506,17 @@
                                 phone: '+60167890123',
                                 email: 'priya.sharma@email.com',
                                 branch: 'kl', 
-                                spent: 180,
-                                points: 150,
-                                visits: 5,
+                                spent: 712,
+                                points: 1424,
+                                visits: 15,
                                 joinDate: new Date().toISOString(),
                                 status: 'active',
-                                plan: 12
+                                plan: 18
                             }
                         },
                         branches: {
                             'main': { 
-                                name: 'Main Branch', 
+                                name: 'Main Location', 
                                 location: 'Shah Alam, Selangor', 
                                 manager: 'Sarah Lee',
                                 managerPhone: '+60123000001',
@@ -1524,7 +1525,7 @@
                                 icon: '🏪'
                             },
                             'kl': { 
-                                name: 'KL Branch', 
+                                name: 'KL Location', 
                                 location: 'Kuala Lumpur',
                                 manager: 'Ahmad Rahman',
                                 managerPhone: '+60123000002',
@@ -1538,7 +1539,7 @@
                             branchCounter: 1
                         },
                         stats: {
-                            totalRevenue: 980,
+                            totalRevenue: 1480,
                             memberCount: 3,
                             branchCount: 2
                         },
@@ -1777,7 +1778,7 @@
                             <h4 style="font-size: 14px; font-weight: 500; color: #1f2937; margin-bottom: 8px;">🚀 Getting Started</h4>
                             <ul style="font-size: 12px; color: #6b7280; margin-left: 16px; line-height: 1.6;">
                                 <li>Use the ➕ Add tab to register new members</li>
-                                <li>Manage branches in the 🏪 Branches section</li>
+                                <li>Manage locations in the 🏪 Locations section</li>
                                 <li>Search members using the 🔍 Search tab</li>
                                 <li>View analytics in the 📊 Stats section</li>
                             </ul>
@@ -2110,7 +2111,7 @@
                     email: email || '',
                     branch: branch, 
                     spent: price,
-                    points: Math.floor(price * 1.5),
+                    points: Math.floor(price * 2),
                     visits: 1,
                     joinDate: new Date().toISOString(),
                     status: 'active',
@@ -2143,13 +2144,36 @@
                 
                 // Re-enable button
                 addBtn.disabled = false;
-                addBtn.textContent = 'Add Member - RM250';
+                addBtn.textContent = 'Add Member - RM499';
                 
                 // Show success notification
                 showNotification(`✅ ${name} added successfully! RM${price} plan`, 'success');
                 
             } else {
                 showNotification('❌ Please fill in Name and Phone fields', 'error');
+            }
+        }
+
+        // Updated stats function
+        function updateStats(price) {
+            memberCount++;
+            totalRevenue += price;
+        }
+
+        // Add to recent members
+        function addToRecentMembers(name, phone, price) {
+            const recentMember = {
+                name: name,
+                phone: phone,
+                price: price,
+                timestamp: new Date().toISOString()
+            };
+            
+            recentMembersData.unshift(recentMember);
+            
+            // Keep only last 10 recent members
+            if (recentMembersData.length > 10) {
+                recentMembersData = recentMembersData.slice(0, 10);
             }
         }
 
@@ -2402,16 +2426,12 @@
             });
         }
 
-        // All other functions remain the same but with enhanced notifications...
-        // [Previous functions for edit, delete, branch management, etc. would continue here]
-        // [For brevity, I'll include the key remaining functions]
-
         function updateStatsDisplay() {
             document.getElementById('totalMembers').textContent = memberCount;
             document.getElementById('activeMembers').textContent = memberCount;
             document.getElementById('totalBranches').textContent = branchCount;
-            document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
-            document.getElementById('statsRevenue').textContent = 'RM' + totalRevenue;
+            document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue.toLocaleString();
+            document.getElementById('statsRevenue').textContent = 'RM' + totalRevenue.toLocaleString();
             document.getElementById('memberListHeader').textContent = 'All Members (' + memberCount + ')';
             
             const utilization = ((memberCount / storage.maxMembers) * 100).toFixed(3);
@@ -2423,7 +2443,7 @@
 
         function updateCapacityDisplay() {
             document.getElementById('capacityDisplay').textContent = memberCount + ' / 100,000 members';
-            document.getElementById('branchCapacityDisplay').textContent = branchCount + ' / 100 branches';
+            document.getElementById('branchCapacityDisplay').textContent = branchCount + ' / 100 locations';
             document.getElementById('branchCount').textContent = branchCount;
         }
 
@@ -2432,6 +2452,78 @@
             const price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
             document.getElementById('priceDisplay').textContent = 'RM' + price;
             document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
+        }
+
+        // Placeholder functions for the remaining features
+        function editMember(id) {
+            showNotification('Edit member feature coming soon!', 'info');
+        }
+
+        function deleteMember(id) {
+            showNotification('Delete member feature coming soon!', 'info');
+        }
+
+        function addBranch() {
+            showNotification('Add location feature coming soon!', 'info');
+        }
+
+        function loadBranchList() {
+            // Placeholder
+        }
+
+        function populateBranchDropdowns() {
+            // Placeholder
+        }
+
+        function loadRecentMembers() {
+            // Placeholder
+        }
+
+        function updateBranchCount() {
+            // Placeholder
+        }
+
+        function loadBranchPerformance() {
+            // Placeholder
+        }
+
+        function exportAllData() {
+            const data = storage.getData();
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = '1plus1half_club_backup_' + new Date().toISOString().split('T')[0] + '.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('📊 Data exported successfully!', 'success');
+        }
+
+        function exportMembers() {
+            showNotification('Export members feature coming soon!', 'info');
+        }
+
+        function exportBranches() {
+            showNotification('Export locations feature coming soon!', 'info');
+        }
+
+        function importData(event) {
+            showNotification('Import data feature coming soon!', 'info');
+        }
+
+        function bulkExport() {
+            showNotification('Bulk export feature coming soon!', 'info');
+        }
+
+        function bulkMessage() {
+            showNotification('Bulk message feature coming soon!', 'info');
+        }
+
+        function bulkDelete() {
+            showNotification('Bulk delete feature coming soon!', 'info');
         }
 
         // Initialize when page loads
@@ -2467,9 +2559,9 @@
                 }
             });
             
-            console.log('🍚 Fried Rice Shop Enterprise - Fixed Header + Sliding Panel Ready!');
+            console.log('✨ 1+1.5 Club Enterprise - Premium Membership System Ready!');
             console.log('📱 Enhanced mobile experience with swipe gestures');
-            console.log('💾 Storage capacity: 100,000 members, 100 branches');
+            console.log('💾 Storage capacity: 100,000 members, 100 locations');
         });
 
         // Load data and populate UI
@@ -2484,7 +2576,7 @@
         }
 
         // Expose enhanced API
-        window.FriedRiceShopEnterprise = {
+        window.OnePlusOneHalfClubEnterprise = {
             storage: storage,
             exportAllData: exportAllData,
             getData: function() { return storage.getData(); },
@@ -2493,10 +2585,6 @@
             togglePanel: togglePanel,
             resetData: resetToDefaults
         };
-
-        // Add remaining essential functions for completeness
-        // (editMember, deleteMember, addBranch, etc. would be included here with enhanced notifications)
-        // For space efficiency, these follow the same pattern as shown above
     </script>
 </body>
 </html>
