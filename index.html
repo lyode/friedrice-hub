@@ -1146,7 +1146,8 @@
                 
                 // Show success message
                 alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nExpires: ' + dueDateDisplay + '\n\nWelcome to our Fried Rice Club! 🍚');
-                
+                // Add member to the list display
+addMemberToDisplay(name, phone, branchSelect.value);
                 // Update stats (simple increment)
                 var totalElement = document.getElementById('totalMembers');
                 var activeElement = document.getElementById('activeMembers');
@@ -1163,7 +1164,91 @@
             } else {
                 alert('❌ Please fill in Name and Phone fields');
             }
-        }
+        }function addMember() {
+    // ... existing code stays here ...
+}  👈 This is the END of addMember
+
+👇 ADD THE NEW FUNCTION RIGHT HERE 👇
+
+function addMemberToDisplay(name, phone, branch) {
+    var membersList = document.getElementById('membersList');
+    var branchIcon = branch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
+    
+    var newMemberHTML = `
+        <div class="member-card" data-branch="${branch}">
+            <div class="member-header">
+                <div>
+                    <div class="member-name">${name}</div>
+                    <div class="member-id">M00${Math.floor(Math.random()*900)+100} • ${branchIcon}</div>
+                </div>
+                <span class="status-badge status-active">Active</span>
+            </div>
+            <div class="member-phone">📞 ${phone}</div>
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-value">⭐ 0</div>
+                    <div class="stat-label-small">Points</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1</div>
+                    <div class="stat-label-small">Visits</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">RM250</div>
+                    <div class="stat-label-small">Spent</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    membersList.insertAdjacentHTML('beforeend', newMemberHTML);
+}
+
+👆 END of new function
+
+// Your other functions continue here...function addMember() {
+    // ... existing code stays here ...
+}  👈 This is the END of addMember
+
+👇 ADD THE NEW FUNCTION RIGHT HERE 👇
+
+function addMemberToDisplay(name, phone, branch) {
+    var membersList = document.getElementById('membersList');
+    var branchIcon = branch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
+    
+    var newMemberHTML = `
+        <div class="member-card" data-branch="${branch}">
+            <div class="member-header">
+                <div>
+                    <div class="member-name">${name}</div>
+                    <div class="member-id">M00${Math.floor(Math.random()*900)+100} • ${branchIcon}</div>
+                </div>
+                <span class="status-badge status-active">Active</span>
+            </div>
+            <div class="member-phone">📞 ${phone}</div>
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-value">⭐ 0</div>
+                    <div class="stat-label-small">Points</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1</div>
+                    <div class="stat-label-small">Visits</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">RM250</div>
+                    <div class="stat-label-small">Spent</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    membersList.insertAdjacentHTML('beforeend', newMemberHTML);
+}
+
+👆 END of new function
+
+// Your other functions continue here...
 
         function addBranch() {
             var branchName = document.getElementById('branchName').value;
