@@ -1015,150 +1015,45 @@ function showTab(tabName) {
             }, 5000);
         });
     </script>
-    <script>
-        // Global counter for unique IDs
-        var memberCounter = 4;
-        var branchCounter = 3;
+    function showTab(tabName) {
+    var sections = document.querySelectorAll('.section');
+    sections.forEach(function(section) {
+        section.classList.remove('active');
+    });
+    
+    var tabs = document.querySelectorAll('.tab');
+    tabs.forEach(function(tab) {
+        tab.classList.remove('active');
+    });
+    
+    document.getElementById(tabName).classList.add('active');
+    event.target.closest('.tab').classList.add('active');
+}
 
-        // Test function
-        function testFunction() {
-            alert('JavaScript is working!');
-        }
+function addMember() {
+    var name = document.getElementById('memberName').value;
+    var phone = document.getElementById('memberPhone').value;
+    
+    if (name && phone) {
+        alert('Success! Member: ' + name + ', Phone: ' + phone);
+        
+        document.getElementById('memberName').value = '';
+        document.getElementById('memberPhone').value = '';
+    } else {
+        alert('Please fill in Name and Phone fields');
+    }
+}
 
-        function showTab(tabName) {
-            // Hide all sections
-            var sections = document.querySelectorAll('.section');
-            sections.forEach(function(section) {
-                section.classList.remove('active');
-            });
-            
-            // Remove active class from all tabs
-            var tabs = document.querySelectorAll('.tab');
-            tabs.forEach(function(tab) {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected section
-            document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to clicked tab
-            event.target.closest('.tab').classList.add('active');
-        }
+function updatePriceDisplay() {
+    var durationSelect = document.getElementById('memberDuration');
+    var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
+    document.getElementById('priceDisplay').textContent = 'RM' + price;
+    document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
+}
 
-        function addMember() {
-            alert('addMember function is working!');
-            
-            var name = document.getElementById('memberName').value;
-            var phone = document.getElementById('memberPhone').value;
-            var branchSelect = document.getElementById('memberBranch');
-            var branch = branchSelect.value;
-            var branchName = branchSelect.options[branchSelect.selectedIndex].text;
-            var durationSelect = document.getElementById('memberDuration');
-            var duration = parseInt(durationSelect.value);
-            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
-            
-            if (name && phone) {
-                // Calculate due date
-                var today = new Date();
-                var dueDate = new Date(today);
-                dueDate.setMonth(dueDate.getMonth() + duration);
-                var dueDateDisplay = dueDate.toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
-                });
-                
-                // Add member to list immediately
-                addMemberToList(name, phone, branch, branchName, parseInt(price));
-                
-                // Update stats
-                updateStats();
-                
-                // Clear form
-                document.getElementById('memberName').value = '';
-                document.getElementById('memberPhone').value = '';
-                document.getElementById('memberBranch').value = 'main';
-                document.getElementById('memberDuration').value = '12';
-                updatePriceDisplay();
-                
-                // Show success message
-                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nExpires: ' + dueDateDisplay + '\n\nWelcome to our Fried Rice Club! 🍚');
-                
-            } else {
-                alert('❌ Please fill in Name and Phone fields');
-            }
-        }
-
-        function addMemberToList(name, phone, branch, branchName, spent) {
-            var membersList = document.getElementById('membersList');
-            var branchIcon = branch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
-            
-            var memberCard = document.createElement('div');
-            memberCard.className = 'member-card';
-            memberCard.setAttribute('data-branch', branch);
-            
-            memberCard.innerHTML = 
-                '<div class="member-header">' +
-                    '<div>' +
-                        '<div class="member-name">' + name + '</div>' +
-                        '<div class="member-id">M' + String(memberCounter).padStart(3, '0') + ' • ' + branchIcon + '</div>' +
-                    '</div>' +
-                    '<span class="status-badge status-active">Active</span>' +
-                '</div>' +
-                '<div class="member-phone">📞 ' + phone + '</div>' +
-                '<div class="stats-row">' +
-                    '<div class="stat">' +
-                        '<div class="stat-value">⭐ 0</div>' +
-                        '<div class="stat-label-small">Points</div>' +
-                    '</div>' +
-                    '<div class="stat">' +
-                        '<div class="stat-value">1</div>' +
-                        '<div class="stat-label-small">Visits</div>' +
-                    '</div>' +
-                    '<div class="stat">' +
-                        '<div class="stat-value">RM' + spent + '</div>' +
-                        '<div class="stat-label-small">Spent</div>' +
-                    '</div>' +
-                '</div>';
-            
-            membersList.appendChild(memberCard);
-            memberCounter++;
-        }
-
-        function updateStats() {
-            var memberCards = document.querySelectorAll('#membersList .member-card');
-            var totalMembers = memberCards.length;
-            var activeMembers = totalMembers; // Simplified - assume all are active
-            var totalRevenue = 0;
-            
-            memberCards.forEach(function(card) {
-                var spentElements = card.querySelectorAll('.stat-value');
-                if (spentElements.length >= 3) {
-                    var spentText = spentElements[2].textContent;
-                    var spent = parseInt(spentText.replace('RM', ''));
-                    if (!isNaN(spent)) {
-                        totalRevenue += spent;
-                    }
-                }
-            });
-            
-            document.getElementById('totalMembers').textContent = totalMembers;
-            document.getElementById('activeMembers').textContent = activeMembers;
-            document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
-            document.getElementById('memberListHeader').textContent = 'All Members (' + totalMembers + ')';
-        }
-
-        function updatePriceDisplay() {
-            var durationSelect = document.getElementById('memberDuration');
-            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
-            document.getElementById('priceDisplay').textContent = 'RM' + price;
-            document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
-        }
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
+});
 </script>
 </body>
 </html>
