@@ -910,7 +910,7 @@
                 <div class="stat-label">Locations</div>
             </div>
             <div class="stat-card" onclick="showTab('stats')">
-                <div class="stat-number" id="totalRevenue">RM1,480</div>
+                <div class="stat-number" id="totalRevenue">RM980</div>
                 <div class="stat-label">Revenue</div>
             </div>
         </div>
@@ -1016,33 +1016,33 @@
                 <div class="form-group">
                     <label class="form-label">Membership Plan *</label>
                     <select class="form-input" id="memberDuration" style="padding: 12px; font-size: 14px;">
-                        <option value="1" data-price="49">1 Month - RM49</option>
-                        <option value="3" data-price="139">3 Months - RM139 (Save RM8)</option>
-                        <option value="6" data-price="269">6 Months - RM269 (Save RM25)</option>
-                        <option value="12" data-price="499" selected>12 Months - RM499 (Save RM89) ⭐ Popular</option>
-                        <option value="18" data-price="719">18 Months - RM719 (Save RM163)</option>
-                        <option value="24" data-price="899">24 Months - RM899 (Save RM277)</option>
-                        <option value="36" data-price="1299">36 Months - RM1,299 (Save RM465) 💎 VIP</option>
+                        <option value="1" data-price="30">1 Month - RM30</option>
+                        <option value="3" data-price="80">3 Months - RM80 (Save RM10)</option>
+                        <option value="6" data-price="150">6 Months - RM150 (Save RM30)</option>
+                        <option value="12" data-price="250" selected>12 Months - RM250 (Save RM110) ⭐ Popular</option>
+                        <option value="18" data-price="375">18 Months - RM375 (Save RM165)</option>
+                        <option value="24" data-price="480">24 Months - RM480 (Save RM240)</option>
+                        <option value="36" data-price="650">36 Months - RM650 (Save RM430) 💎 VIP</option>
                     </select>
                     <div style="font-size: 11px; color: #6b7280; margin-top: 4px; display: flex; justify-content: space-between;">
                         <span>💡 Longer plans = Better savings</span>
-                        <span id="priceDisplay" style="font-weight: bold; color: #ec4899;">RM499</span>
+                        <span id="priceDisplay" style="font-weight: bold; color: #ec4899;">RM250</span>
                     </div>
                 </div>
 
-                <button class="btn btn-primary" onclick="addMember()" id="addMemberBtn">Add Member - RM499</button>
+                <button class="btn btn-primary" onclick="addMember()" id="addMemberBtn">Add Member - RM250</button>
             </div>
 
             <div class="info-box">
                 <div class="info-title">💎 1+1.5 Club Membership Benefits</div>
                 <div class="info-list">
                     <strong>Best Value Plans:</strong><br>
-                    • 12 months: RM499 (Save RM89)<br>
-                    • 24 months: RM899 (Save RM277)<br>
-                    • 36 months: RM1,299 (Save RM465) 💎<br><br>
+                    • 12 months: RM250 (Save RM110)<br>
+                    • 24 months: RM480 (Save RM240)<br>
+                    • 36 months: RM650 (Save RM430) 💎<br><br>
                     <strong>Member Benefits:</strong><br>
                     • 15% discount on all services<br>
-                    • Earn 2 points per RM1 spent<br>
+                    • Earn 1 point per RM1 spent<br>
                     • Birthday special + exclusive perks<br>
                     • Priority booking & VIP treatment<br>
                     • Mobile app exclusive deals<br>
@@ -1213,7 +1213,7 @@
             <div class="metric-card metric-blue slide-in">
                 <div>
                     <div class="metric-label">Total Revenue</div>
-                    <div class="metric-value" id="statsRevenue">RM1,480</div>
+                    <div class="metric-value" id="statsRevenue">RM980</div>
                 </div>
                 <div class="metric-icon">📈</div>
             </div>
@@ -1229,7 +1229,7 @@
             <div class="metric-card metric-purple slide-in">
                 <div>
                     <div class="metric-label">Average Spent</div>
-                    <div class="metric-value" id="avgSpent">RM493</div>
+                    <div class="metric-value" id="avgSpent">RM327</div>
                 </div>
                 <div class="metric-icon">💳</div>
             </div>
@@ -1482,20 +1482,20 @@
                                 phone: '+60123456789',
                                 email: 'sarah.chen@email.com',
                                 branch: 'main', 
-                                spent: 499,
-                                points: 748,
+                                spent: 480,
+                                points: 720,
                                 visits: 12,
                                 joinDate: new Date().toISOString(),
                                 status: 'active',
-                                plan: 12
+                                plan: 24
                             },
                             2: { 
                                 name: 'Ahmad Rahman', 
                                 phone: '+60198765432',
                                 email: 'ahmad.rahman@email.com', 
                                 branch: 'main', 
-                                spent: 269,
-                                points: 538,
+                                spent: 320,
+                                points: 480,
                                 visits: 8,
                                 joinDate: new Date().toISOString(),
                                 status: 'expiring',
@@ -1506,12 +1506,12 @@
                                 phone: '+60167890123',
                                 email: 'priya.sharma@email.com',
                                 branch: 'kl', 
-                                spent: 712,
-                                points: 1424,
-                                visits: 15,
+                                spent: 180,
+                                points: 270,
+                                visits: 5,
                                 joinDate: new Date().toISOString(),
                                 status: 'active',
-                                plan: 18
+                                plan: 12
                             }
                         },
                         branches: {
@@ -1539,7 +1539,7 @@
                             branchCounter: 1
                         },
                         stats: {
-                            totalRevenue: 1480,
+                            totalRevenue: 980,
                             memberCount: 3,
                             branchCount: 2
                         },
@@ -2111,7 +2111,7 @@
                     email: email || '',
                     branch: branch, 
                     spent: price,
-                    points: Math.floor(price * 2),
+                    points: Math.floor(price * 1.5),
                     visits: 1,
                     joinDate: new Date().toISOString(),
                     status: 'active',
@@ -2144,7 +2144,7 @@
                 
                 // Re-enable button
                 addBtn.disabled = false;
-                addBtn.textContent = 'Add Member - RM499';
+                addBtn.textContent = 'Add Member - RM250';
                 
                 // Show success notification
                 showNotification(`✅ ${name} added successfully! RM${price} plan`, 'success');
