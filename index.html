@@ -1332,11 +1332,71 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Add member card to display
-        function addMemberToDisplay(member) {
-            var membersList = document.getElementById('list').querySelector('.content');
-            // Add member card HTML here - simplified for now
-            console.log('Added member to display:', member.name);
-        }
+        function addMember() {
+    var name = document.getElementById('memberName').value;
+    var phone = document.getElementById('memberPhone').value;
+    var branchSelect = document.getElementById('memberBranch');
+    var branch = branchSelect.value;
+    var branchName = branchSelect.options[branchSelect.selectedIndex].text;
+    var durationSelect = document.getElementById('memberDuration');
+    var duration = parseInt(durationSelect.value);
+    var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
+    
+    if (name && phone) {
+        // Calculate due date based on selected duration
+        var today = new Date();
+        var dueDate = new Date(today);
+        dueDate.setMonth(dueDate.getMonth() + duration);
+        var dueDateString = dueDate.toISOString().split('T')[0];
+        var dueDateDisplay = dueDate.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+        });
+        
+        // Create member object with unique ID
+        var newMemberId = 'member-' + Date.now();
+        var newMember = {
+            id: newMemberId,
+            name: name,
+            phone: phone,
+            branch: branch,
+            branchName: branchName,
+            duration: duration,
+            price: parseInt(price),
+            dueDate: dueDateString,
+            dueDateDisplay: dueDateDisplay,
+            points: 0,
+            visits: 1,
+            spent: parseInt(price),
+            dateAdded: new Date().toISOString()
+        };
+        
+        // Save to localStorage
+        var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
+        members.push(newMember);
+        localStorage.setItem('friedRiceMembers', JSON.stringify(members));
+        
+        // Clear form
+        document.getElementById('memberName').value = '';
+        document.getElementById('memberPhone').value = '';
+        document.getElementById('memberBranch').value = 'main';
+        document.getElementById('memberDuration').value = '12';
+        updatePriceDisplay();
+        
+        // Add to display immediately
+        addMemberCardToList(newMember);
+        
+        // Update stats
+        updateStatsDisplay();
+        
+        // Show success message
+        alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nExpires: ' + dueDateDisplay + '\n\nWelcome to our Fried Rice Club! 🍚');
+        
+    } else {
+        alert('❌ Please fill in Name and Phone fields');
+    }
+}
 
         // Update stats from saved data
         function updateStats() {
@@ -1349,7 +1409,119 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('activeMembers').textContent = activeMembers.length;
             document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
         }
+// Add member card to the member list display
+function addMemberCardToList(member) {
+    var membersList = document.querySelector('#list .content');
+    var branchIcon = member.branch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
+    
+    // Calculate days until expiry
+    var dueDate = new Date(member.dueDate);
+    var today = new Date();
+    var timeDiff = dueDate.getTime() - today.getTime();
+    var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    
+    var dueDateClass = '';
+    var dueDateText = '';
+    if (daysDiff < 0) {
+        dueDateText = '❌ Expired ' + Math.abs(daysDiff) + ' days ago';
+        dueDateClass = 'expired';
+    } else if (daysDiff <= 30) {
+        dueDateText = '⚠️ Expires: ' + member.dueDateDisplay + ' (' + daysDiff + ' days left)';
+        dueDateClass = 'expires-soon';
+    } else {
+        var monthsLeft = Math.floor(daysDiff / 30);
+        dueDateText = '📅 Expires: ' + member.dueDateDisplay + ' (' + monthsLeft + ' months left)';
+        dueDateClass = 'expires-later';
+    }
+    
+    var statusBadge = daysDiff <= 30 && daysDiff > 0 ? 'status-expiring">Expiring Soon' : 'status-active">Active';
+    
+    var memberCardHTML = `
+        <div class="member-card" id="${member.id}" data-branch="${member.branch}" data-due-date="${member.dueDate}">
+            <div class="member-header">
+                <div>
+                    <div class="member-name">${member.name}</div>
+                    <div class="member-id">${member.id.toUpperCase()} • ${branchIcon}</div>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <span class="status-badge ${statusBadge}</span>
+                    <button class="edit-toggle" onclick="toggleEdit('${member.id}')">✏️ Edit</button>
+                </div>
+            </div>
+            <div class="member-phone">📞 ${member.phone}</div>
+            <div class="due-date ${dueDateClass}">
+                ${dueDateText}
+            </div>
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-value">⭐ ${member.points}</div>
+                    <div class="stat-label-small">Points</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">${member.visits}</div>
+                    <div class="stat-label-small">Visits</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">RM${member.spent}</div>
+                    <div class="stat-label-small">Spent</div>
+                </div>
+            </div>
+            
+            <div class="edit-form" id="edit-${member.id}">
+                <input type="text" class="edit-input" id="edit-name-${member.id}" value="${member.name}" placeholder="Name">
+                <input type="tel" class="edit-input" id="edit-phone-${member.id}" value="${member.phone}" placeholder="Phone">
+                <input type="number" class="edit-input" id="edit-points-${member.id}" value="${member.points}" placeholder="Points">
+                <input type="date" class="edit-input" id="edit-due-date-${member.id}" value="${member.dueDate}">
+                <select class="edit-input" id="edit-branch-${member.id}">
+                    <option value="main" ${member.branch === 'main' ? 'selected' : ''}>🏪 Main Branch</option>
+                    <option value="kl" ${member.branch === 'kl' ? 'selected' : ''}>🏢 KL Branch</option>
+                </select>
+                <div class="edit-buttons">
+                    <button class="btn-save" onclick="saveMember('${member.id}')">💾 Save</button>
+                    <button class="btn-cancel" onclick="cancelEdit('${member.id}')">❌ Cancel</button>
+                    <button class="btn-delete" onclick="deleteMember('${member.id}', '${member.name}')">🗑️ Delete</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Find the filter card and insert after it
+    var filterCard = membersList.querySelector('.card');
+    filterCard.insertAdjacentHTML('afterend', memberCardHTML);
+}
 
+// Update stats display
+function updateStatsDisplay() {
+    var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
+    var now = new Date();
+    var activeMembers = members.filter(m => new Date(m.dueDate) > now);
+    var expiringMembers = members.filter(m => {
+        var dueDate = new Date(m.dueDate);
+        var daysDiff = Math.ceil((dueDate.getTime() - now.getTime()) / (1000 * 3600 * 24));
+        return daysDiff <= 30 && daysDiff > 0;
+    });
+    var totalRevenue = members.reduce((sum, m) => sum + m.spent, 0);
+    
+    document.getElementById('totalMembers').textContent = members.length;
+    document.getElementById('activeMembers').textContent = activeMembers.length;
+    document.getElementById('expiringCount').textContent = expiringMembers.length;
+    document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
+    
+    // Update member list header
+    var memberListHeader = document.querySelector('#list h2');
+    if (memberListHeader) {
+        memberListHeader.textContent = 'All Members (' + members.length + ')';
+    }
+}
+
+// Load all saved members when page loads
+function loadAllSavedMembers() {
+    var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
+    members.forEach(function(member) {
+        addMemberCardToList(member);
+    });
+    updateStatsDisplay();
+}
     </script>
 </body>
 </html>
