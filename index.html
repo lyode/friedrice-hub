@@ -1055,5 +1055,31 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
 });
 </script>
+function addMember() {
+    var name = document.getElementById('memberName').value;
+    var phone = document.getElementById('memberPhone').value;
+    var branchSelect = document.getElementById('memberBranch');
+    var branchName = branchSelect.options[branchSelect.selectedIndex].text;
+    var durationSelect = document.getElementById('memberDuration');
+    var duration = parseInt(durationSelect.value);
+    var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
+    
+    if (name && phone) {
+        // Clear form
+        document.getElementById('memberName').value = '';
+        document.getElementById('memberPhone').value = '';
+        
+        // Show success message
+        alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\n\nWelcome to our Fried Rice Club! 🍚');
+        
+        // Update stats (simple version)
+        var totalElement = document.getElementById('totalMembers');
+        var newTotal = parseInt(totalElement.textContent) + 1;
+        totalElement.textContent = newTotal;
+        
+    } else {
+        alert('❌ Please fill in Name and Phone fields');
+    }
+}
 </body>
 </html>
