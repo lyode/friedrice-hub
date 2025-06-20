@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-    <title>Fried Rice Shop - Mobile</title>
-
-<!-- PWA Manifest - Makes app installable -->
-<meta name="theme-color" content="#ec4899">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Fried Rice Shop">
-<link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Fried%20Rice%20Shop%20-%20Membership%22%2C%22short_name%22%3A%22FriedRice%22%2C%22description%22%3A%22Membership%20Management%20System%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23fdf2f8%22%2C%22theme_color%22%3A%22%23ec4899%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage/svg%2Bxml%3Bcharset%3Dutf-8%2C%253Csvg%2520xmlns%253D%2522http%253A//www.w3.org/2000/svg%2522%2520width%253D%2522144%2522%2520height%253D%2522144%2522%2520viewBox%253D%25220%25200%2520144%2520144%2522%2520fill%253D%2522%2523ec4899%2522%253E%253Ctext%2520x%253D%252272%2522%2520y%253D%252280%2522%2520font-size%253D%252260%2522%2520text-anchor%253D%2522middle%2522%2520fill%253D%2522white%2522%253E%25F0%259F%258D%25A1%253C/text%253E%253C/svg%253E%22%2C%22sizes%22%3A%22144x144%22%2C%22type%22%3A%22image/svg%2Bxml%22%7D%5D%7D">
-
-</head>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Fried Rice Shop - Mobile</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#ec4899">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Fried Rice Shop">
+    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Fried%20Rice%20Shop%20-%20Membership%22%2C%22short_name%22%3A%22FriedRice%22%2C%22description%22%3A%22Membership%20Management%20System%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23fdf2f8%22%2C%22theme_color%22%3A%22%23ec4899%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage/svg%2Bxml%3Bcharset%3Dutf-8%2C%253Csvg%2520xmlns%253D%2522http%253A//www.w3.org/2000/svg%2522%2520width%253D%2522144%2522%2520height%253D%2522144%2522%2520viewBox%253D%25220%25200%2520144%2520144%2522%2520fill%253D%2522%2523ec4899%2522%253E%253Ctext%2520x%253D%252272%2522%2520y%253D%252280%2522%2520font-size%253D%252260%2522%2520text-anchor%253D%2522middle%2522%2520fill%253D%2522white%2522%253E%25F0%259F%258D%25A1%253C/text%253E%253C/svg%253E%22%2C%22sizes%22%3A%22144x144%22%2C%22type%22%3A%22image/svg%2Bxml%22%7D%5D%7D">
+    
+    <title>Fried Rice Shop - Mobile</title>
     <style>
         * {
             margin: 0;
@@ -303,134 +301,6 @@
             margin-top: 8px;
         }
         
-        .edit-form {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: #fdf2f8;
-            border-radius: 6px;
-            border: 1px solid #f9a8d4;
-        }
-        
-        .edit-form.active {
-            display: block;
-        }
-        
-        .edit-input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
-        
-        .edit-input:focus {
-            outline: none;
-            border-color: #ec4899;
-            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.1);
-        }
-        
-        .edit-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-        }
-        
-        .btn-save {
-            background: #10b981;
-            color: white;
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        .btn-cancel {
-            background: #6b7280;
-            color: white;
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        .btn-delete {
-            background: #dc2626;
-            color: white;
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        .btn-delete:hover {
-            background: #b91c1c;
-        }
-        
-        .branch-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        
-        .branch-edit-form {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: #fdf2f8;
-            border-radius: 6px;
-            border: 1px solid #f9a8d4;
-        }
-        
-        .branch-edit-form.active {
-            display: block;
-        }
-        
-        .edit-toggle {
-            background: #ec4899;
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            margin-left: 8px;
-        }
-        
-        .due-date {
-            font-size: 11px;
-            margin-top: 4px;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-        
-        .due-date.expires-soon {
-            background: #fef3c7;
-            color: #92400e;
-            border: 1px solid #fbbf24;
-        }
-        
-        .due-date.expires-later {
-            background: #dcfce7;
-            color: #166534;
-            border: 1px solid #bbf7d0;
-        }
-        
-        .due-date.expired {
-            background: #fee2e2;
-            color: #dc2626;
-            border: 1px solid #fca5a5;
-        }
-        
         .info-box {
             background: #fdf2f8;
             border: 1px solid #f9a8d4;
@@ -594,84 +464,56 @@
 
             <!-- Branch List -->
             <div class="card">
-                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;">Active Branches (2)</h3>
+                <h3 style="font-size: 14px; font-weight: 500; margin-bottom: 12px; color: #1f2937;" id="branchListHeader">Active Branches (2)</h3>
                 
-                <div class="member-card" id="branch-main" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
-                    <div class="member-header">
-                        <div>
-                            <div class="member-name">🏪 Main Branch</div>
-                            <div class="member-id">Shah Alam, Selangor</div>
+                <div id="branchList">
+                    <div class="member-card" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
+                        <div class="member-header">
+                            <div>
+                                <div class="member-name">🏪 Main Branch</div>
+                                <div class="member-id">Shah Alam, Selangor</div>
+                            </div>
+                            <span class="status-badge status-active">Active</span>
                         </div>
-                        <span class="status-badge status-active">Active</span>
-                    </div>
-                    <div class="member-phone">👤 Manager: Sarah Lee</div>
-                    <div class="stats-row">
-                        <div class="stat">
-                            <div class="stat-value">2</div>
-                            <div class="stat-label-small">Members</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">RM800</div>
-                            <div class="stat-label-small">Revenue</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">85%</div>
-                            <div class="stat-label-small">Active Rate</div>
-                        </div>
-                    </div>
-                    
-                    <div class="branch-actions">
-                        <button class="btn-small btn-blue" onclick="editBranch('branch-main')">✏️ Edit</button>
-                        <button class="btn-small btn-delete" onclick="deleteBranch('branch-main', 'Main Branch')">🗑️ Delete</button>
-                    </div>
-                    
-                    <div class="branch-edit-form" id="edit-branch-main">
-                        <input type="text" class="edit-input" id="edit-branch-name-main" value="Main Branch" placeholder="Branch Name">
-                        <input type="text" class="edit-input" id="edit-branch-location-main" value="Shah Alam, Selangor" placeholder="Location">
-                        <input type="text" class="edit-input" id="edit-branch-manager-main" value="Sarah Lee" placeholder="Manager">
-                        <div class="edit-buttons">
-                            <button class="btn-save" onclick="saveBranch('branch-main')">💾 Save</button>
-                            <button class="btn-cancel" onclick="cancelBranchEdit('branch-main')">❌ Cancel</button>
+                        <div class="member-phone">👤 Manager: Sarah Lee</div>
+                        <div class="stats-row">
+                            <div class="stat">
+                                <div class="stat-value">2</div>
+                                <div class="stat-label-small">Members</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">RM800</div>
+                                <div class="stat-label-small">Revenue</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">85%</div>
+                                <div class="stat-label-small">Active Rate</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="member-card" id="branch-kl" style="background: #fffbeb; border: 1px solid #fed7aa;">
-                    <div class="member-header">
-                        <div>
-                            <div class="member-name">🏢 KL Branch</div>
-                            <div class="member-id">Kuala Lumpur</div>
+                    <div class="member-card" style="background: #fffbeb; border: 1px solid #fed7aa;">
+                        <div class="member-header">
+                            <div>
+                                <div class="member-name">🏢 KL Branch</div>
+                                <div class="member-id">Kuala Lumpur</div>
+                            </div>
+                            <span class="status-badge" style="background: #fef3c7; color: #92400e;">Coming Soon</span>
                         </div>
-                        <span class="status-badge" style="background: #fef3c7; color: #92400e;">Coming Soon</span>
-                    </div>
-                    <div class="member-phone">👤 Manager: Ahmad Rahman</div>
-                    <div class="stats-row">
-                        <div class="stat">
-                            <div class="stat-value">1</div>
-                            <div class="stat-label-small">Members</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">RM180</div>
-                            <div class="stat-label-small">Revenue</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">100%</div>
-                            <div class="stat-label-small">Active Rate</div>
-                        </div>
-                    </div>
-                    
-                    <div class="branch-actions">
-                        <button class="btn-small btn-blue" onclick="editBranch('branch-kl')">✏️ Edit</button>
-                        <button class="btn-small btn-delete" onclick="deleteBranch('branch-kl', 'KL Branch')">🗑️ Delete</button>
-                    </div>
-                    
-                    <div class="branch-edit-form" id="edit-branch-kl">
-                        <input type="text" class="edit-input" id="edit-branch-name-kl" value="KL Branch" placeholder="Branch Name">
-                        <input type="text" class="edit-input" id="edit-branch-location-kl" value="Kuala Lumpur" placeholder="Location">
-                        <input type="text" class="edit-input" id="edit-branch-manager-kl" value="Ahmad Rahman" placeholder="Manager">
-                        <div class="edit-buttons">
-                            <button class="btn-save" onclick="saveBranch('branch-kl')">💾 Save</button>
-                            <button class="btn-cancel" onclick="cancelBranchEdit('branch-kl')">❌ Cancel</button>
+                        <div class="member-phone">👤 Manager: Ahmad Rahman</div>
+                        <div class="stats-row">
+                            <div class="stat">
+                                <div class="stat-value">1</div>
+                                <div class="stat-label-small">Members</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">RM180</div>
+                                <div class="stat-label-small">Revenue</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">100%</div>
+                                <div class="stat-label-small">Active Rate</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -695,7 +537,7 @@
 
         <!-- Members List Section -->
         <div id="list" class="section">
-            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">All Members (3)</h2>
+            <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #1f2937;" id="memberListHeader">All Members (3)</h2>
             
             <!-- Branch Filter -->
             <div class="card" style="margin-bottom: 16px;">
@@ -709,143 +551,80 @@
                 </div>
             </div>
             
-            <div class="member-card" id="member-1" data-branch="main" data-due-date="2025-12-19">
-                <div class="member-header">
-                    <div>
-                        <div class="member-name">Sarah Chen</div>
-                        <div class="member-id">M001 • 🏪 Main Branch</div>
-                    </div>
-                    <div style="display: flex; align-items: center;">
+            <div id="membersList">
+                <!-- Sample members - these will be replaced by dynamic content -->
+                <div class="member-card" data-branch="main">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">Sarah Chen</div>
+                            <div class="member-id">M001 • 🏪 Main Branch</div>
+                        </div>
                         <span class="status-badge status-active">Active</span>
-                        <button class="edit-toggle" onclick="toggleEdit('member-1')">✏️ Edit</button>
+                    </div>
+                    <div class="member-phone">📞 +60123456789</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">⭐ 450</div>
+                            <div class="stat-label-small">Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label-small">Visits</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM480</div>
+                            <div class="stat-label-small">Spent</div>
+                        </div>
                     </div>
                 </div>
-                <div class="member-phone">📞 +60123456789</div>
-                <div class="due-date expires-later">
-                    📅 Expires: Dec 19, 2025 (6 months left)
-                </div>
-                <div class="stats-row">
-                    <div class="stat">
-                        <div class="stat-value">⭐ 450</div>
-                        <div class="stat-label-small">Points</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">12</div>
-                        <div class="stat-label-small">Visits</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">RM480</div>
-                        <div class="stat-label-small">Spent</div>
-                    </div>
-                </div>
-                
-                <div class="edit-form" id="edit-member-1">
-                    <input type="text" class="edit-input" id="edit-name-1" value="Sarah Chen" placeholder="Name">
-                    <input type="tel" class="edit-input" id="edit-phone-1" value="+60123456789" placeholder="Phone">
-                    <input type="number" class="edit-input" id="edit-points-1" value="450" placeholder="Points">
-                    <input type="date" class="edit-input" id="edit-due-date-1" value="2025-12-19">
-                    <select class="edit-input" id="edit-branch-1">
-                        <option value="main" selected>🏪 Main Branch</option>
-                        <option value="kl">🏢 KL Branch</option>
-                    </select>
-                    <div class="edit-buttons">
-                        <button class="btn-save" onclick="saveMember('member-1')">💾 Save</button>
-                        <button class="btn-cancel" onclick="cancelEdit('member-1')">❌ Cancel</button>
-                        <button class="btn-delete" onclick="deleteMember('member-1', 'Sarah Chen')">🗑️ Delete</button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="member-card" id="member-2" data-branch="main" data-due-date="2025-07-04">
-                <div class="member-header">
-                    <div>
-                        <div class="member-name">Ahmad Rahman</div>
-                        <div class="member-id">M002 • 🏪 Main Branch</div>
-                    </div>
-                    <div style="display: flex; align-items: center;">
+                <div class="member-card" data-branch="main">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">Ahmad Rahman</div>
+                            <div class="member-id">M002 • 🏪 Main Branch</div>
+                        </div>
                         <span class="status-badge status-expiring">Expiring Soon</span>
-                        <button class="edit-toggle" onclick="toggleEdit('member-2')">✏️ Edit</button>
+                    </div>
+                    <div class="member-phone">📞 +60198765432</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">⭐ 280</div>
+                            <div class="stat-label-small">Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label-small">Visits</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM320</div>
+                            <div class="stat-label-small">Spent</div>
+                        </div>
                     </div>
                 </div>
-                <div class="member-phone">📞 +60198765432</div>
-                <div class="due-date expires-soon">
-                    ⚠️ Expires: Jul 4, 2025 (15 days left)
-                </div>
-                <div class="stats-row">
-                    <div class="stat">
-                        <div class="stat-value">⭐ 280</div>
-                        <div class="stat-label-small">Points</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">8</div>
-                        <div class="stat-label-small">Visits</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">RM320</div>
-                        <div class="stat-label-small">Spent</div>
-                    </div>
-                </div>
-                
-                <div class="edit-form" id="edit-member-2">
-                    <input type="text" class="edit-input" id="edit-name-2" value="Ahmad Rahman" placeholder="Name">
-                    <input type="tel" class="edit-input" id="edit-phone-2" value="+60198765432" placeholder="Phone">
-                    <input type="number" class="edit-input" id="edit-points-2" value="280" placeholder="Points">
-                    <input type="date" class="edit-input" id="edit-due-date-2" value="2025-07-04">
-                    <select class="edit-input" id="edit-branch-2">
-                        <option value="main" selected>🏪 Main Branch</option>
-                        <option value="kl">🏢 KL Branch</option>
-                    </select>
-                    <div class="edit-buttons">
-                        <button class="btn-save" onclick="saveMember('member-2')">💾 Save</button>
-                        <button class="btn-cancel" onclick="cancelEdit('member-2')">❌ Cancel</button>
-                        <button class="btn-delete" onclick="deleteMember('member-2', 'Ahmad Rahman')">🗑️ Delete</button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="member-card" id="member-3" data-branch="kl" data-due-date="2026-01-15">
-                <div class="member-header">
-                    <div>
-                        <div class="member-name">Priya Sharma</div>
-                        <div class="member-id">M003 • 🏢 KL Branch</div>
-                    </div>
-                    <div style="display: flex; align-items: center;">
+                <div class="member-card" data-branch="kl">
+                    <div class="member-header">
+                        <div>
+                            <div class="member-name">Priya Sharma</div>
+                            <div class="member-id">M003 • 🏢 KL Branch</div>
+                        </div>
                         <span class="status-badge status-active">Active</span>
-                        <button class="edit-toggle" onclick="toggleEdit('member-3')">✏️ Edit</button>
                     </div>
-                </div>
-                <div class="member-phone">📞 +60167890123</div>
-                <div class="due-date expires-later">
-                    📅 Expires: Jan 15, 2026 (7 months left)
-                </div>
-                <div class="stats-row">
-                    <div class="stat">
-                        <div class="stat-value">⭐ 150</div>
-                        <div class="stat-label-small">Points</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">5</div>
-                        <div class="stat-label-small">Visits</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-value">RM180</div>
-                        <div class="stat-label-small">Spent</div>
-                    </div>
-                </div>
-                
-                <div class="edit-form" id="edit-member-3">
-                    <input type="text" class="edit-input" id="edit-name-3" value="Priya Sharma" placeholder="Name">
-                    <input type="tel" class="edit-input" id="edit-phone-3" value="+60167890123" placeholder="Phone">
-                    <input type="number" class="edit-input" id="edit-points-3" value="150" placeholder="Points">
-                    <input type="date" class="edit-input" id="edit-due-date-3" value="2026-01-15">
-                    <select class="edit-input" id="edit-branch-3">
-                        <option value="main">🏪 Main Branch</option>
-                        <option value="kl" selected>🏢 KL Branch</option>
-                    </select>
-                    <div class="edit-buttons">
-                        <button class="btn-save" onclick="saveMember('member-3')">💾 Save</button>
-                        <button class="btn-cancel" onclick="cancelEdit('member-3')">❌ Cancel</button>
-                        <button class="btn-delete" onclick="deleteMember('member-3', 'Priya Sharma')">🗑️ Delete</button>
+                    <div class="member-phone">📞 +60167890123</div>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-value">⭐ 150</div>
+                            <div class="stat-label-small">Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label-small">Visits</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">RM180</div>
+                            <div class="stat-label-small">Spent</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -979,6 +758,10 @@
     </div>
 
     <script>
+        // Global counter for unique IDs
+        var memberCounter = 4;
+        var branchCounter = 3;
+
         function showTab(tabName) {
             // Hide all sections
             var sections = document.querySelectorAll('.section');
@@ -1000,107 +783,185 @@
         }
 
         function addMember() {
-    // ... keep existing code until stats update ...
-    
-    // Create member object
-    var newMember = {
-        id: 'member-' + Date.now(),
-        name: name,
-        phone: phone,
-        branch: branch,
-        branchName: branchName,
-        duration: duration,
-        price: price,
-        dueDate: dueDateString,
-        points: 0,
-        visits: 0,
-        spent: parseInt(price),
-        dateAdded: new Date().toISOString()
-    };
-    
-    // Save to localStorage
-    var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
-    members.push(newMember);
-    localStorage.setItem('friedRiceMembers', JSON.stringify(members));
-    
-    // Update stats
-    var totalElement = document.getElementById('totalMembers');
-    var activeElement = document.getElementById('activeMembers');
-    var revenueElement = document.getElementById('totalRevenue');
-    
-    totalElement.textContent = members.length;
-    activeElement.textContent = members.filter(m => new Date(m.dueDate) > new Date()).length;
-    revenueElement.textContent = 'RM' + members.reduce((sum, m) => sum + m.spent, 0);
-    
-    // Add member card to display
-    addMemberToDisplay(newMember);
-}           } else {
+            var name = document.getElementById('memberName').value;
+            var phone = document.getElementById('memberPhone').value;
+            var branchSelect = document.getElementById('memberBranch');
+            var branch = branchSelect.value;
+            var branchName = branchSelect.options[branchSelect.selectedIndex].text;
+            var durationSelect = document.getElementById('memberDuration');
+            var duration = parseInt(durationSelect.value);
+            var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
+            
+            if (name && phone) {
+                // Calculate due date
+                var today = new Date();
+                var dueDate = new Date(today);
+                dueDate.setMonth(dueDate.getMonth() + duration);
+                var dueDateDisplay = dueDate.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                
+                // Add member to list immediately
+                addMemberToList(name, phone, branch, branchName, parseInt(price));
+                
+                // Update stats
+                updateStats();
+                
+                // Clear form
+                document.getElementById('memberName').value = '';
+                document.getElementById('memberPhone').value = '';
+                document.getElementById('memberBranch').value = 'main';
+                document.getElementById('memberDuration').value = '12';
+                updatePriceDisplay();
+                
+                // Show success message
+                alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nExpires: ' + dueDateDisplay + '\n\nWelcome to our Fried Rice Club! 🍚');
+                
+            } else {
                 alert('❌ Please fill in Name and Phone fields');
             }
         }
 
-      function addBranch() {
-    var branchName = document.getElementById('branchName').value;
-    var branchLocation = document.getElementById('branchLocation').value;
-    var branchManager = document.getElementById('branchManager').value || 'TBD';
-    
-    if (branchName && branchLocation) {
-        // Create branch object with unique ID
-        var branchId = branchName.toLowerCase().replace(/\s+/g, '');
-        var newBranch = {
-            id: 'branch-' + branchId,
-            code: branchId,
-            name: branchName,
-            location: branchLocation,
-            manager: branchManager,
-            dateAdded: new Date().toISOString(),
-            members: 0,
-            revenue: 0,
-            activeRate: 100
-        };
-        
-        // Save to localStorage
-        var branches = JSON.parse(localStorage.getItem('friedRiceBranches') || '[]');
-        branches.push(newBranch);
-        localStorage.setItem('friedRiceBranches', JSON.stringify(branches));
-        
-        // Add to branch dropdown in add member form immediately
-        var memberBranchSelect = document.getElementById('memberBranch');
-        var newOption = document.createElement('option');
-        newOption.value = branchId;
-        newOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
-        memberBranchSelect.appendChild(newOption);
-        
-        // Add to branch filter dropdown
-        var branchFilter = document.getElementById('branchFilter');
-        var filterOption = document.createElement('option');
-        filterOption.value = branchId;
-        filterOption.textContent = '🏪 ' + branchName;
-        branchFilter.appendChild(filterOption);
-        
-        // Add to branch list display immediately
-        addBranchCardToList(newBranch);
-        
-        // Update branch count in header
-        updateBranchListHeader();
-        
-        // Clear form
-        document.getElementById('branchName').value = '';
-        document.getElementById('branchLocation').value = '';
-        document.getElementById('branchManager').value = '';
-        
-        // Show success message
-        alert('✅ Branch added successfully!\n\nBranch: ' + branchName + '\nLocation: ' + branchLocation + '\nManager: ' + branchManager + '\n\nReady to accept new members! 🏪');
-    } else {
-        alert('❌ Please fill in Branch Name and Location fields');
-    }
-}
+        function addMemberToList(name, phone, branch, branchName, spent) {
+            var membersList = document.getElementById('membersList');
+            var branchIcon = branch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
+            
+            var memberCard = document.createElement('div');
+            memberCard.className = 'member-card';
+            memberCard.setAttribute('data-branch', branch);
+            
+            memberCard.innerHTML = `
+                <div class="member-header">
+                    <div>
+                        <div class="member-name">${name}</div>
+                        <div class="member-id">M${String(memberCounter).padStart(3, '0')} • ${branchIcon}</div>
+                    </div>
+                    <span class="status-badge status-active">Active</span>
+                </div>
+                <div class="member-phone">📞 ${phone}</div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value">⭐ 0</div>
+                        <div class="stat-label-small">Points</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label-small">Visits</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">RM${spent}</div>
+                        <div class="stat-label-small">Spent</div>
+                    </div>
+                </div>
+            `;
+            
+            membersList.appendChild(memberCard);
+            memberCounter++;
+        }
+
+        function addBranch() {
+            var branchName = document.getElementById('branchName').value;
+            var branchLocation = document.getElementById('branchLocation').value;
+            var branchManager = document.getElementById('branchManager').value || 'TBD';
+            
+            if (branchName && branchLocation) {
+                // Add to dropdown
+                var branchId = branchName.toLowerCase().replace(/\s+/g, '');
+                var memberBranchSelect = document.getElementById('memberBranch');
+                var newOption = document.createElement('option');
+                newOption.value = branchId;
+                newOption.textContent = '🏪 ' + branchName + ' (' + branchLocation + ')';
+                memberBranchSelect.appendChild(newOption);
+                
+                // Add to filter dropdown
+                var branchFilter = document.getElementById('branchFilter');
+                var filterOption = document.createElement('option');
+                filterOption.value = branchId;
+                filterOption.textContent = '🏪 ' + branchName;
+                branchFilter.appendChild(filterOption);
+                
+                // Add to branch list
+                addBranchToList(branchName, branchLocation, branchManager);
+                
+                // Update branch count
+                updateBranchCount();
+                
+                // Clear form
+                document.getElementById('branchName').value = '';
+                document.getElementById('branchLocation').value = '';
+                document.getElementById('branchManager').value = '';
+                
+                alert('✅ Branch added successfully!\n\nBranch: ' + branchName + '\nLocation: ' + branchLocation + '\nManager: ' + branchManager + '\n\nReady to accept new members! 🏪');
+            } else {
+                alert('❌ Please fill in Branch Name and Location fields');
             }
+        }
+
+        function addBranchToList(name, location, manager) {
+            var branchList = document.getElementById('branchList');
+            
+            var branchCard = document.createElement('div');
+            branchCard.className = 'member-card';
+            branchCard.style.cssText = 'background: #f0fdf4; border: 1px solid #bbf7d0;';
+            
+            branchCard.innerHTML = `
+                <div class="member-header">
+                    <div>
+                        <div class="member-name">🏪 ${name}</div>
+                        <div class="member-id">${location}</div>
+                    </div>
+                    <span class="status-badge status-active">Active</span>
+                </div>
+                <div class="member-phone">👤 Manager: ${manager}</div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label-small">Members</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">RM0</div>
+                        <div class="stat-label-small">Revenue</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label-small">Active Rate</div>
+                    </div>
+                </div>
+            `;
+            
+            branchList.appendChild(branchCard);
+            branchCounter++;
+        }
+
+        function updateStats() {
+            var memberCards = document.querySelectorAll('#membersList .member-card');
+            var totalMembers = memberCards.length;
+            var activeMembers = totalMembers; // Simplified - assume all are active
+            var totalRevenue = 0;
+            
+            memberCards.forEach(function(card) {
+                var spentText = card.querySelector('.stat-value:last-child').textContent;
+                var spent = parseInt(spentText.replace('RM', ''));
+                totalRevenue += spent;
+            });
+            
+            document.getElementById('totalMembers').textContent = totalMembers;
+            document.getElementById('activeMembers').textContent = activeMembers;
+            document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
+            document.getElementById('memberListHeader').textContent = 'All Members (' + totalMembers + ')';
+        }
+
+        function updateBranchCount() {
+            var branchCards = document.querySelectorAll('#branchList .member-card');
+            var totalBranches = branchCards.length;
+            document.getElementById('branchListHeader').textContent = 'Active Branches (' + totalBranches + ')';
         }
 
         function filterByBranch() {
             var selectedBranch = document.getElementById('branchFilter').value;
-            var memberCards = document.querySelectorAll('.member-card[data-branch]');
+            var memberCards = document.querySelectorAll('#membersList .member-card');
             
             memberCards.forEach(function(card) {
                 if (selectedBranch === 'all' || card.getAttribute('data-branch') === selectedBranch) {
@@ -1118,560 +979,32 @@
             document.getElementById('addMemberBtn').textContent = 'Add Member - RM' + price;
         }
 
-   // Update price when duration changes
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
-    loadAllSavedMembers();
-    loadAllSavedBranches(); // Add this line; // Use the new function name    
-    // Register service worker for PWA (Simple & Safe)
-    if ('serviceWorker' in navigator) {
-        var swCode = 'self.addEventListener("install", function(e) { e.waitUntil(self.skipWaiting()); }); self.addEventListener("fetch", function(e) { e.respondWith(fetch(e.request)); });';
-        var blob = new Blob([swCode], {type: 'application/javascript'});
-        var swUrl = URL.createObjectURL(blob);
-        
-        navigator.serviceWorker.register(swUrl).then(function() {
-            console.log('PWA: Service Worker registered successfully');
-        }).catch(function() {
-            console.log('PWA: Service Worker registration failed');
-        });
-    }
-    
-    // Show install prompt after 5 seconds
-    setTimeout(function() {
-        if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
-            console.log('PWA: Already installed');
-        } else {
-            var shouldInstall = confirm('📱 Install Fried Rice Shop as an app?\n\nAdd to your home screen for quick access like a native app!');
-            if (shouldInstall) {
-                alert('👆 Look for the install button in your browser or use:\n\niPhone: Share → Add to Home Screen\nAndroid: Menu → Install App\nDesktop: Install icon in address bar');
-            }
-        }
-    }, 5000);
-});
-        function toggleEdit(memberId) {
-            var editForm = document.getElementById('edit-' + memberId);
-            var isActive = editForm.classList.contains('active');
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
             
-            // Close all other edit forms first
-            var allEditForms = document.querySelectorAll('.edit-form');
-            allEditForms.forEach(function(form) {
-                form.classList.remove('active');
-            });
-            
-            // Toggle current form
-            if (!isActive) {
-                editForm.classList.add('active');
-            }
-        }
-
-        function saveMember(memberId) {
-            var memberNumber = memberId.split('-')[1];
-            var newName = document.getElementById('edit-name-' + memberNumber).value;
-            var newPhone = document.getElementById('edit-phone-' + memberNumber).value;
-            var newPoints = document.getElementById('edit-points-' + memberNumber).value;
-            var newDueDate = document.getElementById('edit-due-date-' + memberNumber).value;
-            var newBranch = document.getElementById('edit-branch-' + memberNumber).value;
-            
-            if (newName && newPhone && newPoints && newDueDate) {
-                // Update the display
-                var memberCard = document.getElementById(memberId);
-                memberCard.querySelector('.member-name').textContent = newName;
-                memberCard.querySelector('.member-phone').textContent = '📞 ' + newPhone;
-                memberCard.querySelector('.stat-value').textContent = '⭐ ' + newPoints;
+            // Simple PWA service worker
+            if ('serviceWorker' in navigator) {
+                var swCode = 'self.addEventListener("install", function(e) { e.waitUntil(self.skipWaiting()); }); self.addEventListener("fetch", function(e) { e.respondWith(fetch(e.request)); });';
+                var blob = new Blob([swCode], {type: 'application/javascript'});
+                var swUrl = URL.createObjectURL(blob);
                 
-                // Update branch info
-                var branchIcon = newBranch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
-                memberCard.querySelector('.member-id').textContent = memberCard.querySelector('.member-id').textContent.split(' • ')[0] + ' • ' + branchIcon;
-                memberCard.setAttribute('data-branch', newBranch);
-                memberCard.setAttribute('data-due-date', newDueDate);
-                
-                // Update due date display
-                var dueDate = new Date(newDueDate);
-                var today = new Date();
-                var timeDiff = dueDate.getTime() - today.getTime();
-                var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                var dueDateDisplay = dueDate.toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
+                navigator.serviceWorker.register(swUrl).then(function() {
+                    console.log('PWA: Service Worker registered');
+                }).catch(function() {
+                    console.log('PWA: Service Worker failed');
                 });
-                
-                var dueDateElement = memberCard.querySelector('.due-date');
-                var timeLeftText = '';
-                var className = '';
-                
-                if (daysDiff < 0) {
-                    timeLeftText = '❌ Expired ' + Math.abs(daysDiff) + ' days ago';
-                    className = 'expired';
-                } else if (daysDiff <= 30) {
-                    timeLeftText = '⚠️ Expires: ' + dueDateDisplay + ' (' + daysDiff + ' days left)';
-                    className = 'expires-soon';
-                } else {
-                    var monthsLeft = Math.floor(daysDiff / 30);
-                    timeLeftText = '📅 Expires: ' + dueDateDisplay + ' (' + monthsLeft + ' months left)';
-                    className = 'expires-later';
+            }
+            
+            // Install prompt after 5 seconds
+            setTimeout(function() {
+                if (!window.matchMedia('(display-mode: standalone)').matches) {
+                    if (confirm('📱 Install Fried Rice Shop as an app?\n\nAdd to your home screen for quick access!')) {
+                        alert('👆 Look for install button in browser or:\n\niPhone: Share → Add to Home Screen\nAndroid: Menu → Install App');
+                    }
                 }
-                
-                dueDateElement.textContent = timeLeftText;
-                dueDateElement.className = 'due-date ' + className;
-                
-                // Hide edit form
-                document.getElementById('edit-' + memberId).classList.remove('active');
-                
-                // Show success message
-                alert('✅ Member updated successfully!\n\nName: ' + newName + '\nPhone: ' + newPhone + '\nPoints: ' + newPoints + '\nBranch: ' + branchIcon + '\nExpires: ' + dueDateDisplay);
-            } else {
-                alert('❌ Please fill in all fields');
-            }
-        }
-
-        function cancelEdit(memberId) {
-            // Reset form values to original
-            var memberNumber = memberId.split('-')[1];
-            var memberCard = document.getElementById(memberId);
-            var originalName = memberCard.querySelector('.member-name').textContent;
-            var originalPhone = memberCard.querySelector('.member-phone').textContent.replace('📞 ', '');
-            var originalPoints = memberCard.querySelector('.stat-value').textContent.replace('⭐ ', '');
-            var originalBranch = memberCard.getAttribute('data-branch');
-            var originalDueDate = memberCard.getAttribute('data-due-date');
-            
-            document.getElementById('edit-name-' + memberNumber).value = originalName;
-            document.getElementById('edit-phone-' + memberNumber).value = originalPhone;
-            document.getElementById('edit-points-' + memberNumber).value = originalPoints;
-            document.getElementById('edit-branch-' + memberNumber).value = originalBranch;
-            document.getElementById('edit-due-date-' + memberNumber).value = originalDueDate;
-            
-            // Hide edit form
-            document.getElementById('edit-' + memberId).classList.remove('active');
-        }
-
-        function deleteMember(memberId, memberName) {
-            if (confirm('⚠️ Are you sure you want to delete member "' + memberName + '"?\n\nThis action cannot be undone and will:\n• Remove all member data\n• Delete membership history\n• Cancel any active benefits\n\nClick OK to confirm deletion.')) {
-                // Remove the member card from display
-                var memberCard = document.getElementById(memberId);
-                memberCard.remove();
-                
-                // Update stats
-                var totalElement = document.getElementById('totalMembers');
-                var activeElement = document.getElementById('activeMembers');
-                
-                var total = parseInt(totalElement.textContent) - 1;
-                var active = parseInt(activeElement.textContent) - 1;
-                
-                totalElement.textContent = total;
-                activeElement.textContent = active;
-                
-                // Show success message
-                alert('✅ Member "' + memberName + '" has been deleted successfully.\n\nMembership data and history have been removed from the system.');
-            }
-        }
-
-        function editBranch(branchId) {
-            var editForm = document.getElementById('edit-' + branchId);
-            var isActive = editForm.classList.contains('active');
-            
-            // Close all other edit forms first
-            var allBranchEditForms = document.querySelectorAll('.branch-edit-form');
-            allBranchEditForms.forEach(function(form) {
-                form.classList.remove('active');
-            });
-            
-            // Toggle current form
-            if (!isActive) {
-                editForm.classList.add('active');
-            }
-        }
-
-        function saveBranch(branchId) {
-            var branchCode = branchId.split('-')[1];
-            var newName = document.getElementById('edit-branch-name-' + branchCode).value;
-            var newLocation = document.getElementById('edit-branch-location-' + branchCode).value;
-            var newManager = document.getElementById('edit-branch-manager-' + branchCode).value;
-            
-            if (newName && newLocation && newManager) {
-                // Update the display
-                var branchCard = document.getElementById(branchId);
-                var icon = branchCode === 'main' ? '🏪' : '🏢';
-                branchCard.querySelector('.member-name').textContent = icon + ' ' + newName;
-                branchCard.querySelector('.member-id').textContent = newLocation;
-                branchCard.querySelector('.member-phone').textContent = '👤 Manager: ' + newManager;
-                
-                // Hide edit form
-                document.getElementById('edit-' + branchId).classList.remove('active');
-                
-                // Show success message
-                alert('✅ Branch updated successfully!\n\nName: ' + newName + '\nLocation: ' + newLocation + '\nManager: ' + newManager);
-            } else {
-                alert('❌ Please fill in all fields');
-            }
-        }
-
-        function cancelBranchEdit(branchId) {
-            // Reset form values to original
-            var branchCode = branchId.split('-')[1];
-            var branchCard = document.getElementById(branchId);
-            var originalName = branchCard.querySelector('.member-name').textContent.replace(/🏪|🏢/, '').trim();
-            var originalLocation = branchCard.querySelector('.member-id').textContent;
-            var originalManager = branchCard.querySelector('.member-phone').textContent.replace('👤 Manager: ', '');
-            
-            document.getElementById('edit-branch-name-' + branchCode).value = originalName;
-            document.getElementById('edit-branch-location-' + branchCode).value = originalLocation;
-            document.getElementById('edit-branch-manager-' + branchCode).value = originalManager;
-            
-            // Hide edit form
-            document.getElementById('edit-' + branchId).classList.remove('active');
-        }
-
-        function deleteBranch(branchId, branchName) {
-            // Check if branch has members
-            var branchCode = branchId.split('-')[1];
-            var membersInBranch = document.querySelectorAll('.member-card[data-branch="' + branchCode + '"]');
-            
-            if (membersInBranch.length > 0) {
-                alert('❌ Cannot delete branch "' + branchName + '"!\n\nThis branch has ' + membersInBranch.length + ' active member(s).\n\nPlease transfer or remove all members before deleting the branch.');
-                return;
-            }
-            
-            if (confirm('⚠️ Are you sure you want to delete branch "' + branchName + '"?\n\nThis action cannot be undone and will:\n• Remove branch from all dropdowns\n• Delete branch statistics\n• Cannot be recovered\n\nClick OK to confirm deletion.')) {
-                // Remove the branch card from display
-                var branchCard = document.getElementById(branchId);
-                branchCard.remove();
-                
-                // Remove from branch dropdowns
-                var branchSelects = document.querySelectorAll('#memberBranch, #branchFilter, [id^="edit-branch-"]');
-                branchSelects.forEach(function(select) {
-                    var options = select.querySelectorAll('option[value="' + branchCode + '"]');
-                    options.forEach(function(option) {
-                        option.remove();
-                    });
-                });
-                
-                // Show success message
-                alert('✅ Branch "' + branchName + '" has been deleted successfully.\n\nBranch data has been removed from the system.');
-            }
-        }
-  function deleteBranch(branchId, branchName) {
-            // ... existing deleteBranch code ...
-        }
-
-        // 👇 ADD THESE NEW FUNCTIONS HERE 👇
-        
-        // Load saved members when page loads
-        function loadSavedMembers() {
-            var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
-            members.forEach(function(member) {
-                addMemberToDisplay(member);
-            });
-            updateStats();
-        }
-
-        // Add member card to display
-        function addMember() {
-    var name = document.getElementById('memberName').value;
-    var phone = document.getElementById('memberPhone').value;
-    var branchSelect = document.getElementById('memberBranch');
-    var branch = branchSelect.value;
-    var branchName = branchSelect.options[branchSelect.selectedIndex].text;
-    var durationSelect = document.getElementById('memberDuration');
-    var duration = parseInt(durationSelect.value);
-    var price = durationSelect.options[durationSelect.selectedIndex].getAttribute('data-price');
-    
-    if (name && phone) {
-        // Calculate due date based on selected duration
-        var today = new Date();
-        var dueDate = new Date(today);
-        dueDate.setMonth(dueDate.getMonth() + duration);
-        var dueDateString = dueDate.toISOString().split('T')[0];
-        var dueDateDisplay = dueDate.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
+            }, 5000);
         });
-        
-        // Create member object with unique ID
-        var newMemberId = 'member-' + Date.now();
-        var newMember = {
-            id: newMemberId,
-            name: name,
-            phone: phone,
-            branch: branch,
-            branchName: branchName,
-            duration: duration,
-            price: parseInt(price),
-            dueDate: dueDateString,
-            dueDateDisplay: dueDateDisplay,
-            points: 0,
-            visits: 1,
-            spent: parseInt(price),
-            dateAdded: new Date().toISOString()
-        };
-        
-        // Save to localStorage
-        var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
-        members.push(newMember);
-        localStorage.setItem('friedRiceMembers', JSON.stringify(members));
-        
-        // Clear form
-        document.getElementById('memberName').value = '';
-        document.getElementById('memberPhone').value = '';
-        document.getElementById('memberBranch').value = 'main';
-        document.getElementById('memberDuration').value = '12';
-        updatePriceDisplay();
-        
-        // Add to display immediately
-        addMemberCardToList(newMember);
-        
-        // Update stats
-        updateStatsDisplay();
-        
-        // Show success message
-        alert('✅ Membership activated successfully!\n\nMember: ' + name + '\nPhone: ' + phone + '\nBranch: ' + branchName + '\nPlan: ' + duration + ' months\nPrice: RM' + price + '\nExpires: ' + dueDateDisplay + '\n\nWelcome to our Fried Rice Club! 🍚');
-        
-    } else {
-        alert('❌ Please fill in Name and Phone fields');
-    }
-}
-
-        // Update stats from saved data
-        function updateStats() {
-            var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
-            var now = new Date();
-            var activeMembers = members.filter(m => new Date(m.dueDate) > now);
-            var totalRevenue = members.reduce((sum, m) => sum + m.spent, 0);
-            
-            document.getElementById('totalMembers').textContent = members.length;
-            document.getElementById('activeMembers').textContent = activeMembers.length;
-            document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
-        }
-// Add member card to the member list display
-function addMemberCardToList(member) {
-    var membersList = document.querySelector('#list .content');
-    var branchIcon = member.branch === 'main' ? '🏪 Main Branch' : '🏢 KL Branch';
-    
-    // Calculate days until expiry
-    var dueDate = new Date(member.dueDate);
-    var today = new Date();
-    var timeDiff = dueDate.getTime() - today.getTime();
-    var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    
-    var dueDateClass = '';
-    var dueDateText = '';
-    if (daysDiff < 0) {
-        dueDateText = '❌ Expired ' + Math.abs(daysDiff) + ' days ago';
-        dueDateClass = 'expired';
-    } else if (daysDiff <= 30) {
-        dueDateText = '⚠️ Expires: ' + member.dueDateDisplay + ' (' + daysDiff + ' days left)';
-        dueDateClass = 'expires-soon';
-    } else {
-        var monthsLeft = Math.floor(daysDiff / 30);
-        dueDateText = '📅 Expires: ' + member.dueDateDisplay + ' (' + monthsLeft + ' months left)';
-        dueDateClass = 'expires-later';
-    }
-    
-    var statusBadge = daysDiff <= 30 && daysDiff > 0 ? 'status-expiring">Expiring Soon' : 'status-active">Active';
-    
-    var memberCardHTML = `
-        <div class="member-card" id="${member.id}" data-branch="${member.branch}" data-due-date="${member.dueDate}">
-            <div class="member-header">
-                <div>
-                    <div class="member-name">${member.name}</div>
-                    <div class="member-id">${member.id.toUpperCase()} • ${branchIcon}</div>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <span class="status-badge ${statusBadge}</span>
-                    <button class="edit-toggle" onclick="toggleEdit('${member.id}')">✏️ Edit</button>
-                </div>
-            </div>
-            <div class="member-phone">📞 ${member.phone}</div>
-            <div class="due-date ${dueDateClass}">
-                ${dueDateText}
-            </div>
-            <div class="stats-row">
-                <div class="stat">
-                    <div class="stat-value">⭐ ${member.points}</div>
-                    <div class="stat-label-small">Points</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">${member.visits}</div>
-                    <div class="stat-label-small">Visits</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">RM${member.spent}</div>
-                    <div class="stat-label-small">Spent</div>
-                </div>
-            </div>
-            
-            <div class="edit-form" id="edit-${member.id}">
-                <input type="text" class="edit-input" id="edit-name-${member.id}" value="${member.name}" placeholder="Name">
-                <input type="tel" class="edit-input" id="edit-phone-${member.id}" value="${member.phone}" placeholder="Phone">
-                <input type="number" class="edit-input" id="edit-points-${member.id}" value="${member.points}" placeholder="Points">
-                <input type="date" class="edit-input" id="edit-due-date-${member.id}" value="${member.dueDate}">
-                <select class="edit-input" id="edit-branch-${member.id}">
-                    <option value="main" ${member.branch === 'main' ? 'selected' : ''}>🏪 Main Branch</option>
-                    <option value="kl" ${member.branch === 'kl' ? 'selected' : ''}>🏢 KL Branch</option>
-                </select>
-                <div class="edit-buttons">
-                    <button class="btn-save" onclick="saveMember('${member.id}')">💾 Save</button>
-                    <button class="btn-cancel" onclick="cancelEdit('${member.id}')">❌ Cancel</button>
-                    <button class="btn-delete" onclick="deleteMember('${member.id}', '${member.name}')">🗑️ Delete</button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Find the filter card and insert after it
-    var filterCard = membersList.querySelector('.card');
-    filterCard.insertAdjacentHTML('afterend', memberCardHTML);
-    // Update branch stats when new member is added
-updateBranchStats();
-}
-
-// Update stats display
-function updateStatsDisplay() {
-    var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
-    var now = new Date();
-    var activeMembers = members.filter(m => new Date(m.dueDate) > now);
-    var expiringMembers = members.filter(m => {
-        var dueDate = new Date(m.dueDate);
-        var daysDiff = Math.ceil((dueDate.getTime() - now.getTime()) / (1000 * 3600 * 24));
-        return daysDiff <= 30 && daysDiff > 0;
-    });
-    var totalRevenue = members.reduce((sum, m) => sum + m.spent, 0);
-    
-    document.getElementById('totalMembers').textContent = members.length;
-    document.getElementById('activeMembers').textContent = activeMembers.length;
-    document.getElementById('expiringCount').textContent = expiringMembers.length;
-    document.getElementById('totalRevenue').textContent = 'RM' + totalRevenue;
-    
-    // Update member list header
-    var memberListHeader = document.querySelector('#list h2');
-    if (memberListHeader) {
-        memberListHeader.textContent = 'All Members (' + members.length + ')';
-    }
-}
-
-// Load all saved members when page loads
-function loadAllSavedMembers() {
-    var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
-    members.forEach(function(member) {
-        addMemberCardToList(member);
-    });
-    updateStatsDisplay();
-}
-   // Add branch card to the branch list display
-function addBranchCardToList(branch) {
-    var branchList = document.querySelector('#branches .card:last-of-type');
-    var icon = '🏪';
-    
-    var branchCardHTML = `
-        <div class="member-card" id="${branch.id}" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
-            <div class="member-header">
-                <div>
-                    <div class="member-name">${icon} ${branch.name}</div>
-                    <div class="member-id">${branch.location}</div>
-                </div>
-                <span class="status-badge status-active">Active</span>
-            </div>
-            <div class="member-phone">👤 Manager: ${branch.manager}</div>
-            <div class="stats-row">
-                <div class="stat">
-                    <div class="stat-value">${branch.members}</div>
-                    <div class="stat-label-small">Members</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">RM${branch.revenue}</div>
-                    <div class="stat-label-small">Revenue</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">${branch.activeRate}%</div>
-                    <div class="stat-label-small">Active Rate</div>
-                </div>
-            </div>
-            
-            <div class="branch-actions">
-                <button class="btn-small btn-blue" onclick="editBranch('${branch.id}')">✏️ Edit</button>
-                <button class="btn-small btn-delete" onclick="deleteBranch('${branch.id}', '${branch.name}')">🗑️ Delete</button>
-            </div>
-            
-            <div class="branch-edit-form" id="edit-${branch.id}">
-                <input type="text" class="edit-input" id="edit-branch-name-${branch.code}" value="${branch.name}" placeholder="Branch Name">
-                <input type="text" class="edit-input" id="edit-branch-location-${branch.code}" value="${branch.location}" placeholder="Location">
-                <input type="text" class="edit-input" id="edit-branch-manager-${branch.code}" value="${branch.manager}" placeholder="Manager">
-                <div class="edit-buttons">
-                    <button class="btn-save" onclick="saveBranch('${branch.id}')">💾 Save</button>
-                    <button class="btn-cancel" onclick="cancelBranchEdit('${branch.id}')">❌ Cancel</button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    branchList.insertAdjacentHTML('afterend', branchCardHTML);
-}
-
-// Update branch list header count
-function updateBranchListHeader() {
-    var branches = JSON.parse(localStorage.getItem('friedRiceBranches') || '[]');
-    var defaultBranches = 2; // Main and KL branches
-    var totalBranches = defaultBranches + branches.length;
-    
-    var branchHeader = document.querySelector('#branches .card h3');
-    if (branchHeader) {
-        branchHeader.textContent = 'Active Branches (' + totalBranches + ')';
-    }
-}
-
-// Load all saved branches when page loads
-function loadAllSavedBranches() {
-    var branches = JSON.parse(localStorage.getItem('friedRiceBranches') || '[]');
-    branches.forEach(function(branch) {
-        // Add to dropdowns
-        var memberBranchSelect = document.getElementById('memberBranch');
-        var newOption = document.createElement('option');
-        newOption.value = branch.code;
-        newOption.textContent = '🏪 ' + branch.name + ' (' + branch.location + ')';
-        memberBranchSelect.appendChild(newOption);
-        
-        var branchFilter = document.getElementById('branchFilter');
-        var filterOption = document.createElement('option');
-        filterOption.value = branch.code;
-        filterOption.textContent = '🏪 ' + branch.name;
-        branchFilter.appendChild(filterOption);
-        
-        // Add to display
-        addBranchCardToList(branch);
-    });
-    
-    updateBranchListHeader();
-}
-
-// Update branch statistics based on members
-function updateBranchStats() {
-    var members = JSON.parse(localStorage.getItem('friedRiceMembers') || '[]');
-    var branches = JSON.parse(localStorage.getItem('friedRiceBranches') || '[]');
-    
-    // Update custom branch stats
-    branches.forEach(function(branch) {
-        var branchMembers = members.filter(m => m.branch === branch.code);
-        var branchRevenue = branchMembers.reduce((sum, m) => sum + m.spent, 0);
-        
-        branch.members = branchMembers.length;
-        branch.revenue = branchRevenue;
-        branch.activeRate = branchMembers.length > 0 ? 100 : 100; // Simplified
-        
-        // Update display
-        var branchCard = document.getElementById(branch.id);
-        if (branchCard) {
-            var stats = branchCard.querySelectorAll('.stat-value');
-            if (stats[0]) stats[0].textContent = branch.members;
-            if (stats[1]) stats[1].textContent = 'RM' + branch.revenue;
-            if (stats[2]) stats[2].textContent = branch.activeRate + '%';
-        }
-    });
-    
-    // Save updated branch stats
-    localStorage.setItem('friedRiceBranches', JSON.stringify(branches));
-}
     </script>
 </body>
 </html>
-   
