@@ -1088,7 +1088,7 @@
    // Update price when duration changes
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('memberDuration').addEventListener('change', updatePriceDisplay);
-    
+    loadAllSavedMembers(); // Use the new function name    
     // Register service worker for PWA (Simple & Safe)
     if ('serviceWorker' in navigator) {
         var swCode = 'self.addEventListener("install", function(e) { e.waitUntil(self.skipWaiting()); }); self.addEventListener("fetch", function(e) { e.respondWith(fetch(e.request)); });';
